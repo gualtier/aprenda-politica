@@ -1,0 +1,130 @@
+<h2>Orientação do Organograma</h2>
+<p class="subtitle">Como os níveis se organizam na tela — duas abordagens</p>
+
+<div class="split">
+
+  <!-- Opção A: Vertical (top-down) -->
+  <div class="mockup" data-choice="vertical" onclick="toggleSelect(this)" style="cursor:pointer">
+    <div class="mockup-header">A — Vertical (top-down)</div>
+    <div class="mockup-body" style="background:#f9f9f7;padding:14px;min-height:320px">
+
+      <!-- Federal -->
+      <div style="text-align:center;margin-bottom:6px">
+        <div style="display:inline-block;background:#e8f0ff;border:1px solid #aabfe8;border-radius:4px;padding:2px 10px;font-size:9px;font-weight:700;color:#2255aa;text-transform:uppercase">Federal</div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:6px;margin-bottom:3px">
+        <div style="background:white;border:2px solid #2255aa;border-radius:8px;padding:7px 10px;text-align:center;min-width:70px">
+          <div style="font-size:9px;font-weight:700;color:#111">Presidente</div>
+          <div style="font-size:8px;color:#2255aa">Lula • PT</div>
+        </div>
+        <div style="background:white;border:1px solid #4477cc;border-radius:8px;padding:7px 10px;text-align:center;min-width:70px">
+          <div style="font-size:9px;font-weight:700;color:#111">10 Dep. Fed.</div>
+          <div style="font-size:8px;color:#4477cc">ES</div>
+        </div>
+        <div style="background:white;border:1px solid #4477cc;border-radius:8px;padding:7px 10px;text-align:center;min-width:70px">
+          <div style="font-size:9px;font-weight:700;color:#111">3 Senadores</div>
+          <div style="font-size:8px;color:#4477cc">ES</div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin:4px 0"><div style="border-left:2px dashed #ccc;height:16px;display:inline-block"></div></div>
+
+      <!-- Estadual -->
+      <div style="text-align:center;margin-bottom:6px">
+        <div style="display:inline-block;background:#e8f5ed;border:1px solid #7dc498;border-radius:4px;padding:2px 10px;font-size:9px;font-weight:700;color:#007a30;text-transform:uppercase">Estadual • ES</div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:6px;margin-bottom:3px">
+        <div style="background:white;border:2px solid #009c3b;border-radius:8px;padding:7px 10px;text-align:center;min-width:80px">
+          <div style="font-size:9px;font-weight:700;color:#111">Governador</div>
+          <div style="font-size:8px;color:#009c3b">Casagrande</div>
+        </div>
+        <div style="background:white;border:1px solid #44aa66;border-radius:8px;padding:7px 10px;text-align:center;min-width:70px">
+          <div style="font-size:9px;font-weight:700;color:#111">30 Dep. Est.</div>
+          <div style="font-size:8px;color:#44aa66">ALES</div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin:4px 0"><div style="border-left:2px dashed #ccc;height:16px;display:inline-block"></div></div>
+
+      <!-- Municipal -->
+      <div style="text-align:center;margin-bottom:6px">
+        <div style="display:inline-block;background:#fff8e8;border:1px solid #e8c060;border-radius:4px;padding:2px 10px;font-size:9px;font-weight:700;color:#996600;text-transform:uppercase">Municipal • Vitória</div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:6px">
+        <div style="background:white;border:2px solid #cc9900;border-radius:8px;padding:7px 10px;text-align:center;min-width:80px">
+          <div style="font-size:9px;font-weight:700;color:#111">Prefeito</div>
+          <div style="font-size:8px;color:#cc9900">Pazolini</div>
+        </div>
+        <div style="background:white;border:1px solid #ddaa22;border-radius:8px;padding:7px 10px;text-align:center;min-width:70px">
+          <div style="font-size:9px;font-weight:700;color:#111">26 Vereadores</div>
+          <div style="font-size:8px;color:#ddaa22">CM-VIX</div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:10px 14px;font-size:11px;color:#555">
+      <strong>Tradicional:</strong> poder desce de cima para baixo. Intuitivo, funciona bem em desktop e mobile. Rola verticalmente ao expandir.
+    </div>
+  </div>
+
+  <!-- Opção B: Horizontal (left-right) -->
+  <div class="mockup" data-choice="horizontal" onclick="toggleSelect(this)" style="cursor:pointer">
+    <div class="mockup-header">B — Horizontal (left-right)</div>
+    <div class="mockup-body" style="background:#f9f9f7;padding:14px;min-height:320px;display:flex;gap:8px;align-items:stretch">
+
+      <!-- Federal -->
+      <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+        <div style="text-align:center"><div style="display:inline-block;background:#e8f0ff;border:1px solid #aabfe8;border-radius:4px;padding:2px 8px;font-size:8px;font-weight:700;color:#2255aa;text-transform:uppercase">Federal</div></div>
+        <div style="background:white;border:2px solid #2255aa;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:#111">Presidente</div>
+          <div style="font-size:8px;color:#2255aa">Lula • PT</div>
+        </div>
+        <div style="background:white;border:1px solid #4477cc;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:#111">10 Dep. Fed.</div>
+          <div style="font-size:8px;color:#4477cc">ES</div>
+        </div>
+        <div style="background:white;border:1px solid #4477cc;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:#111">3 Senadores</div>
+          <div style="font-size:8px;color:#4477cc">ES</div>
+        </div>
+      </div>
+
+      <!-- Seta -->
+      <div style="display:flex;align-items:center;color:#ccc;font-size:18px">›</div>
+
+      <!-- Estadual -->
+      <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+        <div style="text-align:center"><div style="display:inline-block;background:#e8f5ed;border:1px solid #7dc498;border-radius:4px;padding:2px 8px;font-size:8px;font-weight:700;color:#007a30;text-transform:uppercase">Estadual</div></div>
+        <div style="background:white;border:2px solid #009c3b;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:#111">Governador</div>
+          <div style="font-size:8px;color:#009c3b">Casagrande</div>
+        </div>
+        <div style="background:white;border:1px solid #44aa66;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:#111">30 Dep. Est.</div>
+          <div style="font-size:8px;color:#44aa66">ALES</div>
+        </div>
+      </div>
+
+      <!-- Seta -->
+      <div style="display:flex;align-items:center;color:#ccc;font-size:18px">›</div>
+
+      <!-- Municipal -->
+      <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+        <div style="text-align:center"><div style="display:inline-block;background:#fff8e8;border:1px solid #e8c060;border-radius:4px;padding:2px 8px;font-size:8px;font-weight:700;color:#996600;text-transform:uppercase">Municipal</div></div>
+        <div style="background:white;border:2px solid #cc9900;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:#111">Prefeito</div>
+          <div style="font-size:8px;color:#cc9900">Pazolini</div>
+        </div>
+        <div style="background:white;border:1px solid #ddaa22;border-radius:8px;padding:8px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:#111">26 Vereadores</div>
+          <div style="font-size:8px;color:#ddaa22">CM-VIX</div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:10px 14px;font-size:11px;color:#555">
+      <strong>Cinematográfico:</strong> poder cresce da esquerda para a direita. Excelente em desktop, mas problemático no mobile — requer scroll horizontal.
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center;color:#888;margin-top:12px;font-size:12px">Minha rec: <strong>A (vertical)</strong> — mais acessível no mobile, mais fácil de expandir cargos individuais ao clicar.</p>

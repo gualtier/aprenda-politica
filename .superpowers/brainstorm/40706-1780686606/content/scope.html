@@ -1,0 +1,96 @@
+<h2>Aprenda Política — Escopo do Projeto</h2>
+<p class="subtitle">Esse projeto tem múltiplos subsistemas. Qual deles você quer construir primeiro?</p>
+
+<div class="options" data-multiselect style="display:none"></div>
+
+<div class="cards">
+  <div class="card" data-choice="organograma" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#1a3a5c 0%,#2e6da4 100%);display:flex;align-items:center;justify-content:center;height:120px;border-radius:8px 8px 0 0;">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <rect x="30" y="4" width="20" height="12" rx="2" fill="white" opacity="0.9"/>
+        <rect x="5" y="28" width="20" height="12" rx="2" fill="white" opacity="0.7"/>
+        <rect x="30" y="28" width="20" height="12" rx="2" fill="white" opacity="0.7"/>
+        <rect x="55" y="28" width="20" height="12" rx="2" fill="white" opacity="0.7"/>
+        <rect x="5" y="52" width="20" height="12" rx="2" fill="white" opacity="0.5"/>
+        <rect x="30" y="52" width="20" height="12" rx="2" fill="white" opacity="0.5"/>
+        <rect x="55" y="52" width="20" height="12" rx="2" fill="white" opacity="0.5"/>
+        <line x1="40" y1="16" x2="40" y2="28" stroke="white" stroke-width="1.5" opacity="0.6"/>
+        <line x1="15" y1="28" x2="40" y2="22" stroke="white" stroke-width="1.5" opacity="0.6"/>
+        <line x1="65" y1="28" x2="40" y2="22" stroke="white" stroke-width="1.5" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>🗺️ Organograma Interativo</h3>
+      <p>Hierarquia visual dos cargos: Presidente → Governadores → Prefeitos → Vereadores. Clicável, com detalhes de cada cargo e titular.</p>
+      <div style="margin-top:8px">
+        <span style="background:#e8f4fd;color:#1a6ea8;padding:3px 8px;border-radius:12px;font-size:12px;margin-right:4px">MVP forte</span>
+        <span style="background:#e8f4fd;color:#1a6ea8;padding:3px 8px;border-radius:12px;font-size:12px">Diferencial</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="perfis" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#2d5016 0%,#4a8c28 100%);display:flex;align-items:center;justify-content:center;height:120px;border-radius:8px 8px 0 0;">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <circle cx="40" cy="28" r="16" fill="white" opacity="0.85"/>
+        <path d="M10 68c0-16.57 13.43-30 30-30s30 13.43 30 30" stroke="white" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.7"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>👤 Perfis de Políticos</h3>
+      <p>Página de cada político com dados oficiais: votações, patrimônio, mandatos, propostas de lei, e notícias relacionadas.</p>
+      <div style="margin-top:8px">
+        <span style="background:#e8f4ec;color:#2d6b12;padding:3px 8px;border-radius:12px;font-size:12px;margin-right:4px">Alto valor SEO</span>
+        <span style="background:#e8f4ec;color:#2d6b12;padding:3px 8px;border-radius:12px;font-size:12px">Dados abertos</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="educacional" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#5c1a3a 0%,#a42e6d 100%);display:flex;align-items:center;justify-content:center;height:120px;border-radius:8px 8px 0 0;">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <rect x="20" y="15" width="40" height="50" rx="4" fill="white" opacity="0.85"/>
+        <line x1="28" y1="27" x2="52" y2="27" stroke="#a42e6d" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="28" y1="35" x2="52" y2="35" stroke="#a42e6d" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="28" y1="43" x2="44" y2="43" stroke="#a42e6d" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>📚 Conteúdo Educacional</h3>
+      <p>"Como funciona o Congresso?", "O que faz um vereador?", "Como é aprovada uma lei?" — Guias simples para cidadãos comuns.</p>
+      <div style="margin-top:8px">
+        <span style="background:#fde8f2;color:#8a1a50;padding:3px 8px;border-radius:12px;font-size:12px;margin-right:4px">Base de conteúdo</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="noticias" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#5c3a0a 0%,#a46828 100%);display:flex;align-items:center;justify-content:center;height:120px;border-radius:8px 8px 0 0;">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+        <rect x="12" y="20" width="56" height="40" rx="4" fill="white" opacity="0.85"/>
+        <rect x="20" y="28" width="20" height="14" rx="2" fill="#a46828" opacity="0.5"/>
+        <line x1="44" y1="30" x2="60" y2="30" stroke="#a46828" stroke-width="2" stroke-linecap="round"/>
+        <line x1="44" y1="36" x2="60" y2="36" stroke="#a46828" stroke-width="2" stroke-linecap="round"/>
+        <line x1="20" y1="48" x2="60" y2="48" stroke="#a46828" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+        <line x1="20" y1="54" x2="48" y2="54" stroke="#a46828" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="card-body">
+      <h3>📰 Agregador de Notícias</h3>
+      <p>Notícias contextualizadas por político, município e tema. Integração com fontes jornalísticas e fontes oficiais (Diário Oficial).</p>
+      <div style="margin-top:8px">
+        <span style="background:#fdf0e8;color:#8a4a10;padding:3px 8px;border-radius:12px;font-size:12px;margin-right:4px">SEO / AEO</span>
+        <span style="background:#fdf0e8;color:#8a4a10;padding:3px 8px;border-radius:12px;font-size:12px">Requer backend</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="text-align:center;color:#888;margin-top:16px;font-size:13px">Clique nos cards para selecionar qual subsistema priorizar no MVP. Pode selecionar múltiplos.</p>
+
+<script>
+// Override toggleSelect to allow multi-select on cards
+document.querySelectorAll('.card').forEach(card => {
+  card.onclick = function() { toggleSelect(this); };
+});
+</script>

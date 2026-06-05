@@ -1,0 +1,116 @@
+<h2>Organograma — Mockup de Vitória/ES</h2>
+<p class="subtitle">Como a hierarquia aparece na tela. Clique nos nós para expandir (simulado).</p>
+
+<div style="background:#f9f9f7;border-radius:12px;padding:20px;margin-bottom:16px;overflow-x:auto">
+
+  <!-- Barra de contexto -->
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:12px">
+    <span style="color:#009c3b;font-weight:700;cursor:pointer">🇧🇷 Brasil</span>
+    <span style="color:#aaa">›</span>
+    <span style="color:#009c3b;font-weight:700;cursor:pointer">Espírito Santo</span>
+    <span style="color:#aaa">›</span>
+    <span style="color:#111;font-weight:700">Vitória</span>
+    <div style="flex:1"></div>
+    <div style="background:white;border:1px solid #ddd;padding:4px 10px;border-radius:20px;color:#555;font-size:11px">🔍 Buscar</div>
+  </div>
+
+  <!-- NÍVEL FEDERAL -->
+  <div style="text-align:center;margin-bottom:6px">
+    <div style="display:inline-block;background:#e8f0ff;border:1px solid #aabfe8;border-radius:4px;padding:2px 12px;font-size:10px;font-weight:700;color:#2255aa;text-transform:uppercase;letter-spacing:1px">Federal</div>
+  </div>
+
+  <div style="display:flex;justify-content:center;gap:12px;margin-bottom:4px;flex-wrap:wrap">
+    <!-- Presidente -->
+    <div class="org-node" onclick="this.classList.toggle('expanded')" style="background:white;border:2px solid #2255aa;border-radius:10px;padding:10px 14px;text-align:center;cursor:pointer;min-width:110px;transition:all 0.2s;box-shadow:0 2px 6px rgba(34,85,170,0.1)">
+      <div style="width:36px;height:36px;border-radius:50%;background:#e8f0ff;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:18px">👤</div>
+      <div style="font-size:11px;font-weight:700;color:#111">Lula</div>
+      <div style="font-size:9px;color:#555;margin-top:2px">Presidente</div>
+      <div style="font-size:9px;color:#2255aa;margin-top:2px">PT • Federal</div>
+    </div>
+    <!-- Deputados Federais (ES) -->
+    <div style="background:white;border:2px solid #4477cc;border-radius:10px;padding:10px 14px;text-align:center;cursor:pointer;min-width:110px;box-shadow:0 2px 6px rgba(34,85,170,0.08)">
+      <div style="width:36px;height:36px;border-radius:50%;background:#e8f0ff;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#2255aa">10</div>
+      <div style="font-size:11px;font-weight:700;color:#111">Dep. Federais</div>
+      <div style="font-size:9px;color:#555;margin-top:2px">ES no Congresso</div>
+      <div style="font-size:9px;color:#4477cc;margin-top:2px">Câmara Federal</div>
+    </div>
+    <!-- Senadores (ES) -->
+    <div style="background:white;border:2px solid #4477cc;border-radius:10px;padding:10px 14px;text-align:center;cursor:pointer;min-width:110px;box-shadow:0 2px 6px rgba(34,85,170,0.08)">
+      <div style="width:36px;height:36px;border-radius:50%;background:#e8f0ff;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#2255aa">3</div>
+      <div style="font-size:11px;font-weight:700;color:#111">Senadores</div>
+      <div style="font-size:9px;color:#555;margin-top:2px">ES no Senado</div>
+      <div style="font-size:9px;color:#4477cc;margin-top:2px">Senado Federal</div>
+    </div>
+  </div>
+
+  <!-- Conector -->
+  <div style="display:flex;justify-content:center;margin-bottom:4px">
+    <div style="width:1px;height:20px;background:#ccc;border-left:2px dashed #ccc"></div>
+  </div>
+
+  <!-- NÍVEL ESTADUAL -->
+  <div style="text-align:center;margin-bottom:6px">
+    <div style="display:inline-block;background:#e8f5ed;border:1px solid #7dc498;border-radius:4px;padding:2px 12px;font-size:10px;font-weight:700;color:#007a30;text-transform:uppercase;letter-spacing:1px">Estadual — Espírito Santo</div>
+  </div>
+
+  <div style="display:flex;justify-content:center;gap:12px;margin-bottom:4px;flex-wrap:wrap">
+    <!-- Governador -->
+    <div style="background:white;border:2px solid #009c3b;border-radius:10px;padding:10px 14px;text-align:center;cursor:pointer;min-width:110px;box-shadow:0 2px 6px rgba(0,156,59,0.1)">
+      <div style="width:36px;height:36px;border-radius:50%;background:#e8f5ed;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:18px">👤</div>
+      <div style="font-size:11px;font-weight:700;color:#111">Renato Casagrande</div>
+      <div style="font-size:9px;color:#555;margin-top:2px">Governador ES</div>
+      <div style="font-size:9px;color:#009c3b;margin-top:2px">PSB • Estadual</div>
+    </div>
+    <!-- Deputados Estaduais -->
+    <div style="background:white;border:2px solid #44aa66;border-radius:10px;padding:10px 14px;text-align:center;cursor:pointer;min-width:110px;box-shadow:0 2px 6px rgba(0,156,59,0.08)">
+      <div style="width:36px;height:36px;border-radius:50%;background:#e8f5ed;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#007a30">30</div>
+      <div style="font-size:11px;font-weight:700;color:#111">Dep. Estaduais</div>
+      <div style="font-size:9px;color:#555;margin-top:2px">Assembleia Leg.</div>
+      <div style="font-size:9px;color:#44aa66;margin-top:2px">ALES • ES</div>
+    </div>
+  </div>
+
+  <!-- Conector -->
+  <div style="display:flex;justify-content:center;margin-bottom:4px">
+    <div style="width:1px;height:20px;border-left:2px dashed #ccc"></div>
+  </div>
+
+  <!-- NÍVEL MUNICIPAL -->
+  <div style="text-align:center;margin-bottom:6px">
+    <div style="display:inline-block;background:#fff8e8;border:1px solid #e8c060;border-radius:4px;padding:2px 12px;font-size:10px;font-weight:700;color:#996600;text-transform:uppercase;letter-spacing:1px">Municipal — Vitória</div>
+  </div>
+
+  <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap">
+    <!-- Prefeito -->
+    <div style="background:white;border:2px solid #cc9900;border-radius:10px;padding:10px 14px;text-align:center;cursor:pointer;min-width:110px;box-shadow:0 2px 6px rgba(204,153,0,0.15)">
+      <div style="width:36px;height:36px;border-radius:50%;background:#fff8e8;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:18px">👤</div>
+      <div style="font-size:11px;font-weight:700;color:#111">Lorenzo Pazolini</div>
+      <div style="font-size:9px;color:#555;margin-top:2px">Prefeito de Vitória</div>
+      <div style="font-size:9px;color:#cc9900;margin-top:2px">Republicanos • Municipal</div>
+    </div>
+    <!-- Vereadores -->
+    <div style="background:white;border:2px solid #ddaa22;border-radius:10px;padding:10px 14px;text-align:center;cursor:pointer;min-width:110px;box-shadow:0 2px 6px rgba(204,153,0,0.1)">
+      <div style="width:36px;height:36px;border-radius:50%;background:#fff8e8;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#996600">26</div>
+      <div style="font-size:11px;font-weight:700;color:#111">Vereadores</div>
+      <div style="font-size:9px;color:#555;margin-top:2px">Câmara Municipal</div>
+      <div style="font-size:9px;color:#ddaa22;margin-top:2px">CM-VIX • Vitória</div>
+    </div>
+    <!-- Secretarias -->
+    <div style="background:white;border:2px dashed #ddd;border-radius:10px;padding:10px 14px;text-align:center;cursor:pointer;min-width:110px;opacity:0.7">
+      <div style="width:36px;height:36px;border-radius:50%;background:#f5f5f5;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#888">12</div>
+      <div style="font-size:11px;font-weight:700;color:#555">Secretarias</div>
+      <div style="font-size:9px;color:#888;margin-top:2px">Executivo municipal</div>
+      <div style="font-size:9px;color:#aaa;margin-top:2px">v2 →</div>
+    </div>
+  </div>
+</div>
+
+<!-- Legenda -->
+<div style="display:flex;gap:12px;justify-content:center;font-size:11px;flex-wrap:wrap;margin-bottom:12px">
+  <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:3px;background:#2255aa"></div> Federal</div>
+  <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:3px;background:#009c3b"></div> Estadual</div>
+  <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:3px;background:#cc9900"></div> Municipal</div>
+  <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:3px;background:#ddd;border:1px dashed #aaa"></div> v2 (fora do MVP)</div>
+</div>
+
+<p style="text-align:center;color:#888;font-size:12px">Na versão real: nós são clicáveis → abre painel lateral com foto, partido, mandato, votações e notícias do político.</p>

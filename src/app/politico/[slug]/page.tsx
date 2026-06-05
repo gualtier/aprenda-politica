@@ -16,7 +16,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     .eq('slug', params.slug)
     .single()
   if (!data) return {}
-  const pos = data.position as any
+  type PositionData = { name: string }
+  const pos = data.position as PositionData | null
   return { title: `${data.name} — ${pos?.name ?? ''} — Aprenda Política` }
 }
 

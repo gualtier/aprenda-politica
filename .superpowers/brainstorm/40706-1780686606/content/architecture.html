@@ -1,0 +1,101 @@
+<h2>Arquitetura — Aprenda Política</h2>
+<p class="subtitle">Stack e fluxo de dados do MVP</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">
+
+  <!-- Camada 1: Frontend -->
+  <div style="background:#f7faf8;border:2px solid #009c3b;border-radius:10px;padding:14px">
+    <div style="color:#007a30;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Frontend</div>
+    <div style="font-weight:700;font-size:14px;color:#111;margin-bottom:6px">Next.js 14</div>
+    <div style="font-size:11px;color:#555;line-height:1.6">
+      App Router + ISR<br>
+      PWA (Workbox)<br>
+      React Flow (organograma)<br>
+      Leaflet (mapa)<br>
+      Tailwind CSS
+    </div>
+    <div style="margin-top:8px;background:#e8f5ed;border-radius:4px;padding:6px;font-size:10px;color:#007a30">
+      Deploy: <strong>Vercel</strong>
+    </div>
+  </div>
+
+  <!-- Camada 2: Backend / API -->
+  <div style="background:#f0f4ff;border:2px solid #2255cc;border-radius:10px;padding:14px">
+    <div style="color:#2255cc;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Backend</div>
+    <div style="font-weight:700;font-size:14px;color:#111;margin-bottom:6px">Supabase</div>
+    <div style="font-size:11px;color:#555;line-height:1.6">
+      PostgreSQL (dados)<br>
+      Edge Functions (API)<br>
+      Storage (fotos)<br>
+      Row Level Security<br>
+      Realtime (opcional)
+    </div>
+    <div style="margin-top:8px;background:#e8edff;border-radius:4px;padding:6px;font-size:10px;color:#2255cc">
+      Cache: <strong>Redis via Upstash</strong>
+    </div>
+  </div>
+
+  <!-- Camada 3: Fontes de dados -->
+  <div style="background:#fff8f0;border:2px solid #cc6600;border-radius:10px;padding:14px">
+    <div style="color:#cc6600;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Dados Públicos</div>
+    <div style="font-size:11px;color:#555;line-height:1.8">
+      🏛 Câmara dos Dep. API<br>
+      🏛 Senado Federal API<br>
+      🗳 TSE Dados Abertos<br>
+      🗺 IBGE API<br>
+      📰 Scraping (ALES, CM-VIX)
+    </div>
+    <div style="margin-top:8px;background:#fff0e0;border-radius:4px;padding:6px;font-size:10px;color:#cc6600">
+      Sync: <strong>cron jobs (diário)</strong>
+    </div>
+  </div>
+</div>
+
+<!-- Fluxo de dados -->
+<div style="background:#fafafa;border:1px solid #e0e0e0;border-radius:10px;padding:14px;margin-bottom:16px">
+  <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">Fluxo de dados</div>
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:11px">
+    <div style="background:#fff0e0;border:1px solid #cc6600;padding:5px 10px;border-radius:6px;color:#cc6600;font-weight:600">APIs Gov.</div>
+    <span style="color:#aaa">──→</span>
+    <div style="background:#e8edff;border:1px solid #2255cc;padding:5px 10px;border-radius:6px;color:#2255cc;font-weight:600">Cron Job</div>
+    <span style="color:#aaa">──→</span>
+    <div style="background:#e8edff;border:1px solid #2255cc;padding:5px 10px;border-radius:6px;color:#2255cc;font-weight:600">Supabase DB</div>
+    <span style="color:#aaa">──→</span>
+    <div style="background:#e8edff;border:1px solid #2255cc;padding:5px 10px;border-radius:6px;color:#2255cc;font-weight:600">Edge API</div>
+    <span style="color:#aaa">──→</span>
+    <div style="background:#f0fff5;border:1px solid #009c3b;padding:5px 10px;border-radius:6px;color:#007a30;font-weight:600">Next.js ISR</div>
+    <span style="color:#aaa">──→</span>
+    <div style="background:#f0fff5;border:1px solid #009c3b;padding:5px 10px;border-radius:6px;color:#007a30;font-weight:600">Usuário</div>
+  </div>
+</div>
+
+<!-- Páginas principais -->
+<div style="background:#fafafa;border:1px solid #e0e0e0;border-radius:10px;padding:14px">
+  <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px">Páginas (rotas Next.js)</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:11px">
+    <div style="padding:6px 10px;background:white;border-radius:6px;border:1px solid #ddd">
+      <code style="color:#009c3b;font-weight:700">/</code>
+      <span style="color:#555"> — Home: busca + mapa</span>
+    </div>
+    <div style="padding:6px 10px;background:white;border-radius:6px;border:1px solid #ddd">
+      <code style="color:#009c3b;font-weight:700">/[estado]</code>
+      <span style="color:#555"> — Ex: /espirito-santo</span>
+    </div>
+    <div style="padding:6px 10px;background:white;border-radius:6px;border:1px solid #ddd">
+      <code style="color:#009c3b;font-weight:700">/[estado]/[municipio]</code>
+      <span style="color:#555"> — Organograma completo</span>
+    </div>
+    <div style="padding:6px 10px;background:white;border-radius:6px;border:1px solid #ddd">
+      <code style="color:#009c3b;font-weight:700">/politico/[slug]</code>
+      <span style="color:#555"> — Perfil do político</span>
+    </div>
+    <div style="padding:6px 10px;background:white;border-radius:6px;border:1px solid #ddd">
+      <code style="color:#009c3b;font-weight:700">/cargo/[cargo]</code>
+      <span style="color:#555"> — "O que faz um prefeito?"</span>
+    </div>
+    <div style="padding:6px 10px;background:white;border-radius:6px;border:1px solid #ddd">
+      <code style="color:#009c3b;font-weight:700">/api/*</code>
+      <span style="color:#555"> — Supabase Edge Functions</span>
+    </div>
+  </div>
+</div>

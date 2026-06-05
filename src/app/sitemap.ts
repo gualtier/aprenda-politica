@@ -9,8 +9,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .from('municipalities')
     .select('slug, state:states(slug)')
 
-  const municipalityUrls: MetadataRoute.Sitemap = (municipalities ?? []).map((m) => ({
-    url: `${BASE}/${(m.state as any)?.slug}/${m.slug}`,
+  type MunicipalityData = { slug: string; state: { slug: string } | null }
+  const municipalityUrls: MetadataRoute.Sitemap = (municipalities as MunicipalityData[] ?? []).map((m) => ({
+    url: `${BASE}/${m.state?.slug}/${m.slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: 0.8,

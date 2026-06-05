@@ -1,0 +1,103 @@
+<h2>Como o Organograma funciona?</h2>
+<p class="subtitle">Três abordagens para a navegação principal — como o usuário chega aos dados.</p>
+
+<div class="cards">
+
+  <!-- Opção A: Drill-down hierárquico -->
+  <div class="card" data-choice="drill-down" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f1923;padding:16px;border-radius:8px 8px 0 0;height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px">
+      <!-- Level 1: Federal -->
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="background:#2e6da4;color:white;padding:5px 14px;border-radius:6px;font-size:12px;font-weight:600">🇧🇷 Federal</div>
+      </div>
+      <div style="width:1px;height:10px;background:#444"></div>
+      <!-- Level 2: Estadual -->
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="background:#1a5c2a;color:white;padding:5px 14px;border-radius:6px;font-size:12px;font-weight:600">🏛 Espírito Santo</div>
+      </div>
+      <div style="width:1px;height:10px;background:#444"></div>
+      <!-- Level 3: Municipal -->
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="background:#7c3a00;color:white;padding:5px 14px;border-radius:6px;font-size:12px;font-weight:600">🏙 Vitória</div>
+        <div style="background:#333;color:#888;padding:5px 14px;border-radius:6px;font-size:12px">Vila Velha</div>
+        <div style="background:#333;color:#888;padding:5px 14px;border-radius:6px;font-size:12px">Serra</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Drill-down por nível</h3>
+      <p>Usuário começa no topo (Federal) e vai descendo: escolhe o estado, depois o município. Como um funil.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>Prós</h4><ul><li>Educativo — ensina a hierarquia</li><li>Simples de implementar</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Muitos cliques para chegar ao município</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Opção B: Mapa + org chart -->
+  <div class="card" data-choice="mapa" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f1923;padding:16px;border-radius:8px 8px 0 0;height:160px;display:flex;gap:12px">
+      <!-- Mapa simulado -->
+      <div style="flex:1;background:#1a2a3a;border-radius:6px;display:flex;align-items:center;justify-content:center;position:relative">
+        <svg viewBox="0 0 80 90" width="70" height="80" fill="none">
+          <path d="M20,10 L60,8 L70,30 L65,50 L55,60 L40,70 L25,65 L15,50 L10,30 Z" fill="#2e4a6a" stroke="#4a8cc4" stroke-width="1.5"/>
+          <path d="M30,30 L50,28 L55,45 L45,55 L30,50 L22,40 Z" fill="#3a6ea4" stroke="#5aa0d4" stroke-width="1" opacity="0.8"/>
+          <circle cx="40" cy="40" r="5" fill="#4aaeff" opacity="0.9"/>
+          <circle cx="25" cy="35" r="3" fill="#4aff88" opacity="0.6"/>
+          <circle cx="52" cy="45" r="3" fill="#4aff88" opacity="0.6"/>
+        </svg>
+        <div style="position:absolute;top:8px;left:8px;color:#4aaeff;font-size:10px;font-weight:600">ES</div>
+      </div>
+      <!-- Sidebar org -->
+      <div style="flex:1;display:flex;flex-direction:column;gap:6px;justify-content:center">
+        <div style="background:#2e6da4;color:white;padding:4px 10px;border-radius:4px;font-size:11px">Gov. ES</div>
+        <div style="margin-left:12px;background:#1a5c2a;color:white;padding:4px 10px;border-radius:4px;font-size:11px">Prefeito Vitória</div>
+        <div style="margin-left:24px;background:#444;color:#aaa;padding:3px 8px;border-radius:4px;font-size:10px">Câmara (26)</div>
+        <div style="margin-left:24px;background:#444;color:#aaa;padding:3px 8px;border-radius:4px;font-size:10px">Secretarias</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Mapa + Hierarquia lateral</h3>
+      <p>Mapa interativo do Brasil. Clica no estado → clica no município → organograma aparece ao lado. Geográfico + hierárquico.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>Prós</h4><ul><li>Visualmente impactante</li><li>Intuitivo para encontrar sua cidade</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Mais complexo de construir</li><li>Mapa pesado no mobile</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Opção C: Search-first + contexto -->
+  <div class="card" data-choice="search" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0f1923;padding:16px;border-radius:8px 8px 0 0;height:160px;display:flex;flex-direction:column;gap:10px;justify-content:center">
+      <!-- Search bar -->
+      <div style="background:#1e2a38;border:1px solid #2e6da4;border-radius:8px;padding:8px 14px;display:flex;align-items:center;gap:8px">
+        <span style="color:#4a8cc4;font-size:16px">🔍</span>
+        <span style="color:#ccc;font-size:13px">Sua cidade, bairro ou político...</span>
+      </div>
+      <!-- Result card -->
+      <div style="background:#1e2a38;border-radius:8px;padding:10px;display:flex;gap:10px;align-items:center">
+        <div style="width:36px;height:36px;border-radius:50%;background:#2e6da4;display:flex;align-items:center;justify-content:center;color:white;font-size:18px">🏙</div>
+        <div>
+          <div style="color:white;font-size:12px;font-weight:600">Vitória — ES</div>
+          <div style="color:#888;font-size:11px">Prefeito · 26 vereadores · 3 dep. federais</div>
+        </div>
+      </div>
+      <!-- Mini org below -->
+      <div style="display:flex;gap:6px;justify-content:center">
+        <div style="background:#7c3a00;color:white;padding:3px 10px;border-radius:4px;font-size:10px">Executivo</div>
+        <div style="background:#1a5c2a;color:white;padding:3px 10px;border-radius:4px;font-size:10px">Legislativo</div>
+        <div style="background:#2e6da4;color:white;padding:3px 10px;border-radius:4px;font-size:10px">Federal</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Search-first + Contexto</h3>
+      <p>Busca inteligente no topo: digita sua cidade, bairro ou nome de político. O organograma aparece como contexto daquele resultado.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>Prós</h4><ul><li>Mais rápido para o usuário</li><li>Ótimo para SEO/AEO</li><li>Escala bem para 5.570 cidades</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Menos "educativo" visualmente</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center;color:#888;margin-top:12px;font-size:13px">Clique para selecionar. Pode combinar abordagens.</p>

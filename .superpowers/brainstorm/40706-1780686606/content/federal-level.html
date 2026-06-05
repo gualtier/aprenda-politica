@@ -1,0 +1,133 @@
+<h2>Nível Federal — Como organizar?</h2>
+<p class="subtitle">Presidente, Senadores e Deputados não têm hierarquia entre si — são poderes independentes. Como mostrar isso?</p>
+
+<div class="cards">
+
+  <!-- Opção A: Presidente acima (hierarquia de poder) -->
+  <div class="card" data-choice="presidente-topo" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f7f9ff;padding:14px;border-radius:8px 8px 0 0;min-height:180px">
+      <div style="text-align:center;margin-bottom:8px">
+        <div style="display:inline-block;background:#e8f0ff;border:1px solid #aabfe8;border-radius:4px;padding:2px 10px;font-size:9px;font-weight:700;color:#2255aa;text-transform:uppercase">Federal</div>
+      </div>
+      <!-- Presidente no topo -->
+      <div style="display:flex;justify-content:center;margin-bottom:6px">
+        <div style="background:white;border:2px solid #2255aa;border-radius:8px;padding:8px 16px;text-align:center">
+          <div style="font-size:10px;font-weight:700;color:#111">Presidente</div>
+          <div style="font-size:9px;color:#2255aa">Executivo Federal</div>
+        </div>
+      </div>
+      <!-- Conector -->
+      <div style="display:flex;justify-content:center;gap:48px;margin-bottom:4px">
+        <div style="border-left:1px dashed #ccc;height:12px"></div>
+        <div style="border-left:1px dashed #ccc;height:12px"></div>
+      </div>
+      <!-- Dep + Sen na mesma linha abaixo -->
+      <div style="display:flex;justify-content:center;gap:8px">
+        <div style="background:white;border:1px solid #4477cc;border-radius:8px;padding:8px 10px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:#111">10 Dep. Fed.</div>
+          <div style="font-size:8px;color:#4477cc">ES • Câmara</div>
+        </div>
+        <div style="background:white;border:1px solid #4477cc;border-radius:8px;padding:8px 10px;text-align:center">
+          <div style="font-size:9px;font-weight:700;color:#111">3 Senadores</div>
+          <div style="font-size:8px;color:#4477cc">ES • Senado</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Presidente no topo</h3>
+      <p>Presidente aparece acima dos legisladores. Mais simples visualmente, mas tecnicamente impreciso — o Congresso não é subordinado ao Presidente.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>Prós</h4><ul><li>Intuitivo para o leigo</li><li>Layout mais limpo</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Passa ideia errada de hierarquia</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Opção B: Poderes separados lado a lado -->
+  <div class="card" data-choice="poderes-separados" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f7f9ff;padding:14px;border-radius:8px 8px 0 0;min-height:180px">
+      <div style="text-align:center;margin-bottom:8px">
+        <div style="display:inline-block;background:#e8f0ff;border:1px solid #aabfe8;border-radius:4px;padding:2px 10px;font-size:9px;font-weight:700;color:#2255aa;text-transform:uppercase">Federal — 3 Poderes</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <!-- Executivo -->
+        <div style="flex:1;border:2px solid #2255aa;border-radius:8px;overflow:hidden">
+          <div style="background:#2255aa;color:white;text-align:center;padding:4px;font-size:9px;font-weight:700">⚡ Executivo</div>
+          <div style="padding:8px;text-align:center">
+            <div style="font-size:9px;font-weight:700;color:#111;margin-bottom:2px">Presidente</div>
+            <div style="font-size:8px;color:#555">+ Vice, Ministros</div>
+          </div>
+        </div>
+        <!-- Legislativo -->
+        <div style="flex:1;border:2px solid #4477cc;border-radius:8px;overflow:hidden">
+          <div style="background:#4477cc;color:white;text-align:center;padding:4px;font-size:9px;font-weight:700">📜 Legislativo</div>
+          <div style="padding:8px;text-align:center">
+            <div style="font-size:9px;font-weight:700;color:#111;margin-bottom:2px">10 Dep. Fed.</div>
+            <div style="font-size:8px;color:#555">3 Senadores ES</div>
+          </div>
+        </div>
+        <!-- Judiciário -->
+        <div style="flex:1;border:1px dashed #aaa;border-radius:8px;overflow:hidden;opacity:0.6">
+          <div style="background:#aaa;color:white;text-align:center;padding:4px;font-size:9px;font-weight:700">⚖️ Judiciário</div>
+          <div style="padding:8px;text-align:center">
+            <div style="font-size:9px;font-weight:700;color:#555;margin-bottom:2px">STF, STJ…</div>
+            <div style="font-size:8px;color:#888">v2 →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — 3 Poderes separados</h3>
+      <p>Executivo, Legislativo e Judiciário como colunas independentes no mesmo nível. Educativo e correto constitucionalmente.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>Prós</h4><ul><li>Ensina separação de poderes</li><li>Tecnicamente correto</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Mais complexo visualmente</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Opção C: Híbrido — Executivo destaque + Legislativo contextual -->
+  <div class="card" data-choice="hibrido" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f7f9ff;padding:14px;border-radius:8px 8px 0 0;min-height:180px">
+      <div style="text-align:center;margin-bottom:8px">
+        <div style="display:inline-block;background:#e8f0ff;border:1px solid #aabfe8;border-radius:4px;padding:2px 10px;font-size:9px;font-weight:700;color:#2255aa;text-transform:uppercase">Federal</div>
+      </div>
+      <!-- Executivo em destaque -->
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <div style="flex:2;background:white;border:2px solid #2255aa;border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:10px;font-weight:700;color:#111">Presidente</div>
+          <div style="font-size:9px;color:#2255aa;margin-bottom:4px">Executivo Federal</div>
+          <div style="font-size:8px;color:#888">Lula • PT</div>
+        </div>
+        <!-- Legislativo em card menor ao lado -->
+        <div style="flex:3;display:flex;flex-direction:column;gap:5px">
+          <div style="background:#f0f4ff;border:1px solid #4477cc;border-radius:6px;padding:6px 10px;display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:9px;font-weight:700;color:#111">Câmara Federal</div>
+              <div style="font-size:8px;color:#4477cc">10 dep. por ES</div>
+            </div>
+            <div style="background:#2255aa;color:white;border-radius:4px;padding:2px 6px;font-size:9px;font-weight:700">10</div>
+          </div>
+          <div style="background:#f0f4ff;border:1px solid #4477cc;border-radius:6px;padding:6px 10px;display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:9px;font-weight:700;color:#111">Senado Federal</div>
+              <div style="font-size:8px;color:#4477cc">3 sen. por ES</div>
+            </div>
+            <div style="background:#2255aa;color:white;border-radius:4px;padding:2px 6px;font-size:9px;font-weight:700">3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Executivo em destaque + Legislativo contextual</h3>
+      <p>Executivo (Presidente/Governador/Prefeito) como nó principal de cada nível, Legislativo como bloco de contexto ao lado. Foco no cargo que o cidadão mais conhece.</p>
+      <div class="pros-cons" style="margin-top:8px">
+        <div class="pros"><h4>Prós</h4><ul><li>Equilibra clareza e rigor</li><li>Escala bem em todos os níveis</li></ul></div>
+        <div class="cons"><h4>Contras</h4><ul><li>Executivo parece "maior"</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center;color:#888;margin-top:10px;font-size:12px">Minha rec: <strong>B (3 Poderes separados)</strong> — esse app se propõe a educar. Mostrar a separação de poderes é parte do aprendizado.</p>
