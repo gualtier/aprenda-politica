@@ -12,7 +12,7 @@ interface PoliticianNodeData {
 }
 
 export const PoliticianNode = memo(({ data }: NodeProps) => {
-  const { politician: p, borderColor = '#009c3b', onSelect } = data as PoliticianNodeData
+  const { politician: p, borderColor = '#009c3b', onSelect } = data as unknown as PoliticianNodeData
   return (
     <div
       className="bg-white rounded-xl shadow-sm cursor-pointer hover:shadow-md transition-shadow p-3 flex items-center gap-3 min-w-[160px] max-w-[200px]"

@@ -1,10 +1,11 @@
+import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
 import { Organogram } from '@/components/organogram/Organogram'
 import type { OrganogramData } from '@/types'
 
 vi.mock('@xyflow/react', () => ({
-  ReactFlow: ({ nodes, edges, children }: any) => (
+  ReactFlow: ({ nodes, children }: { nodes?: { id: string; data?: { label?: string } }[]; children?: React.ReactNode }) => (
     <div data-testid="react-flow">
       {nodes?.map((node: any) => (
         <div key={node.id} data-testid={`node-${node.id}`}>

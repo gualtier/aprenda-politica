@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { buildOrganogramFromRows } from '@/lib/supabase/queries'
 import type { Politician } from '@/types'
 
