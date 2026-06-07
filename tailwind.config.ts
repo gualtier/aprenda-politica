@@ -11,6 +11,19 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        /* Brand palette */
+        "verde-500": "#00A859",
+        "verde-600": "#009C3B",
+        "verde-700": "#007A30",
+        "verde-100": "#D7F0E2",
+        "verde-50":  "#E9F7EF",
+        "amarelo-500": "#FFCC00",
+        "amarelo-600": "#CC9900",
+        "amarelo-50":  "#FFFAE6",
+        /* Esfera accents */
+        "esfera-federal":   "#2255AA",
+        "esfera-estadual":  "#007A30",
+        "esfera-municipal": "#CC9900",
       },
     },
   },

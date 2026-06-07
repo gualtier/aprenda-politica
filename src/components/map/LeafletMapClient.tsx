@@ -17,9 +17,9 @@ export default function LeafletMapClient({ onStateClick }: BrazilMapClientProps)
   }, [])
 
   const stateStyle: PathOptions = {
-    fillColor: '#009c3b',
+    fillColor: '#00A859',
     fillOpacity: 0.08,
-    color: '#009c3b',
+    color: '#00A859',
     weight: 1,
   }
 

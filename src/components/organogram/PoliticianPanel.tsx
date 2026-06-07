@@ -12,10 +12,15 @@ interface PoliticianPanelProps {
 export function PoliticianPanel({ politician: p, onClose }: PoliticianPanelProps) {
   return (
     <aside
-      className="fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 flex flex-col animate-slide-in-right"
+      className="fixed bottom-0 left-0 right-0 md:bottom-auto md:top-0 md:right-0 md:left-auto md:h-full md:w-80 bg-white shadow-2xl z-50 flex flex-col animate-slide-in-right rounded-t-2xl md:rounded-none max-h-[85vh] md:max-h-full overflow-y-auto md:overflow-visible"
       role="complementary"
       aria-label="Detalhes do político"
     >
+      {/* Drag handle — mobile only */}
+      <div className="flex justify-center pt-3 pb-1 md:hidden">
+        <div className="w-10 h-1 rounded-full bg-gray-200" />
+      </div>
+
       <div className="flex items-center justify-between p-4 border-b">
         <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
           {p.position?.name}
@@ -61,7 +66,7 @@ export function PoliticianPanel({ politician: p, onClose }: PoliticianPanelProps
       <div className="p-4 border-t">
         <Link
           href={`/politico/${p.slug}`}
-          className="block w-full text-center bg-[#009c3b] text-white rounded-lg py-2 text-sm font-semibold hover:bg-[#007a30] transition-colors"
+          className="block w-full text-center bg-[#00A859] text-white rounded-lg py-2 text-sm font-semibold hover:bg-[#007a30] transition-colors"
         >
           Ver perfil completo →
         </Link>

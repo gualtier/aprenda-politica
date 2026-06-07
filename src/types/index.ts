@@ -21,6 +21,15 @@ export interface Party {
   name: string
   abbr: string
   color_hex: string
+  full_name?: string | null
+  slug?: string | null
+  ideology?: string | null
+  spectrum_position?: number | null
+  logo_url?: string | null
+  tse_number?: number | null
+  website?: string | null
+  foundation_year?: number | null
+  description?: string | null
 }
 
 export interface Position {
@@ -45,6 +54,12 @@ export interface Politician {
   municipality_id: number | null
   external_id: string | null
   source: string | null
+  bio?: string | null
+  proposals?: Array<{ title: string; description: string }> | null
+  spectrum_position?: number | null
+  occupation?: string | null
+  social_links?: Array<{ platform: string; url: string }> | null
+  government_plan_url?: string | null
   party?: Party
   position?: Position
   state?: State

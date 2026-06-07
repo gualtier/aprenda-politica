@@ -38,8 +38,8 @@ export function SearchBar() {
 
   return (
     <div className="relative w-full max-w-xl">
-      <div className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm focus-within:border-[#009c3b] focus-within:ring-1 focus-within:ring-[#009c3b]">
-        <span className="text-gray-400">🔍</span>
+      <div className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm focus-within:border-[#00A859] focus-within:ring-1 focus-within:ring-[#00A859]/30">
+        <svg className="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
         <input
           type="search"
           value={query}
@@ -60,7 +60,11 @@ export function SearchBar() {
                 onClick={() => handleSelect(r)}
                 className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors"
               >
-                <span className="text-lg">{r.type === 'municipality' ? '🏙' : '👤'}</span>
+                {r.type === 'municipality' ? (
+                  <svg className="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21h18M9 21V7l7-4v18M5 21V12l4-4"/><path d="M13 21v-4h3v4"/></svg>
+                ) : (
+                  <svg className="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+                )}
                 <div>
                   <div className="font-semibold text-sm text-gray-900">{r.name}</div>
                   <div className="text-xs text-gray-500">{r.subtitle}</div>

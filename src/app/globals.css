@@ -2,10 +2,151 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   Aprenda Política — Design Tokens
+   Brand palette, type scale, spacing, radii, shadows, motion.
+   ============================================================ */
+
+:root {
+  /* ---- Brand core palette ---- */
+  --preto-institucional: #111111;
+  --verde-brasil:        #00A859;
+  --amarelo-brasil:      #FFCC00;
+  --cinza-claro:         #F5F5F5;
+  --branco:              #FFFFFF;
+
+  /* ---- Verde scale (primary action) ---- */
+  --verde-700: #007A30;
+  --verde-600: #009C3B;
+  --verde-500: #00A859;
+  --verde-100: #D7F0E2;
+  --verde-50:  #E9F7EF;
+
+  /* ---- Amarelo scale ---- */
+  --amarelo-600: #CC9900;
+  --amarelo-500: #FFCC00;
+  --amarelo-100: #FFF3C7;
+  --amarelo-50:  #FFFAE6;
+
+  /* ---- Neutral / gray scale ---- */
+  --gray-900: #111827;
+  --gray-800: #1F2937;
+  --gray-700: #374151;
+  --gray-600: #4B5563;
+  --gray-500: #6B7280;
+  --gray-400: #9CA3AF;
+  --gray-300: #D1D5DB;
+  --gray-200: #E5E7EB;
+  --gray-100: #F3F4F6;
+  --gray-50:  #F9FAFB;
+
+  /* ---- Sphere / esfera accents ---- */
+  --esfera-federal:   #2255AA;
+  --esfera-estadual:  #007A30;
+  --esfera-municipal: #CC9900;
+
+  /* ---- Semantic aliases ---- */
+  --text-strong:   var(--gray-900);
+  --text-body:     var(--gray-700);
+  --text-muted:    var(--gray-500);
+  --text-subtle:   var(--gray-400);
+  --text-on-brand: var(--branco);
+  --surface-page:  var(--branco);
+  --surface-card:  var(--branco);
+  --surface-soft:  var(--gray-50);
+  --surface-muted: var(--cinza-claro);
+  --border-subtle: var(--gray-100);
+  --border-default:var(--gray-200);
+  --border-strong: var(--gray-300);
+  --accent:        var(--verde-500);
+  --accent-hover:  var(--verde-700);
+  --accent-soft:   var(--verde-50);
+  --accent-ring:   color-mix(in srgb, var(--verde-500) 30%, transparent);
+  --link:          var(--verde-600);
+  --focus-ring:    var(--verde-500);
+
+  /* ---- Typography ---- */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-widest: 0.12em;
+
+  /* ---- Spacing (4px base) ---- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---- Radii ---- */
+  --radius-xs:  4px;
+  --radius-sm:  6px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* ---- Container ---- */
+  --container-xl: 1152px;
+
+  /* ---- Shadows ---- */
+  --shadow-xs:    0 1px 2px rgba(17, 24, 39, 0.05);
+  --shadow-sm:    0 1px 3px rgba(17, 24, 39, 0.08), 0 1px 2px rgba(17, 24, 39, 0.04);
+  --shadow-md:    0 4px 12px rgba(17, 24, 39, 0.08);
+  --shadow-lg:    0 12px 28px rgba(17, 24, 39, 0.12);
+  --shadow-panel: 0 -8px 40px rgba(17, 24, 39, 0.18);
+
+  /* ---- Motion ---- */
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 250ms;
+}
+
 @keyframes slide-in-right {
   from { transform: translateX(100%); }
   to { transform: translateX(0); }
 }
+@keyframes slide-in-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
 .animate-slide-in-right {
-  animation: slide-in-right 0.2s ease-out;
+  animation: slide-in-right 0.25s ease-out;
+}
+@media (max-width: 767px) {
+  .animate-slide-in-right {
+    animation: slide-in-up 0.25s ease-out;
+  }
+}
+
+/* Home — interações com cor de tom dinâmico (--tone) sem JS */
+.region-pill {
+  border: 1px solid var(--border-default);
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+.region-pill:hover {
+  border-color: var(--tone);
+  background: color-mix(in srgb, var(--tone) 9%, #fff);
+  color: var(--tone);
+}
+.guide-card {
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-xs);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.guide-card:hover {
+  border-color: var(--tone);
+  box-shadow: var(--shadow-sm);
 }

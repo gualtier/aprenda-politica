@@ -54,10 +54,11 @@ export async function getOrganogramData(
     municipality = data
   }
 
+  // include federal politicians (state_id IS NULL, e.g. president) alongside state politicians
   const query = supabase
     .from('politicians')
     .select('*, party:parties(*), position:positions(*), state:states(*), municipality:municipalities(*)')
-    .eq('state_id', state.id)
+    .or(`state_id.eq.${state.id},state_id.is.null`)
 
   if (municipality) {
     query.or(`municipality_id.is.null,municipality_id.eq.${municipality.id}`)

@@ -23,6 +23,22 @@ export default async function MunicipioPage({ params }: PageProps) {
   if (!data) notFound()
 
   const municipioName = data.municipality?.name ?? data.state.name
+  const population = data.municipality?.population
+
+  const prefeito = data.municipal?.executive[0] ?? null
+  const governador = data.estadual?.executive[0] ?? null
+  const vereadoresCount = data.municipal?.legislative.length ?? 0
+  const depFederaisCount = data.federal.legislative.camara.length
+  const depEstaduaisCount = data.estadual.legislative.length
+  const senadoresCount = data.federal.legislative.senado.length
+
+  const stats = [
+    population ? { label: 'Habitantes', value: population.toLocaleString('pt-BR') } : null,
+    vereadoresCount > 0 ? { label: 'Vereadores', value: vereadoresCount.toLocaleString('pt-BR') } : null,
+    depFederaisCount > 0 ? { label: 'Dep. Federais', value: depFederaisCount.toLocaleString('pt-BR') } : null,
+    depEstaduaisCount > 0 ? { label: 'Dep. Estaduais', value: depEstaduaisCount.toLocaleString('pt-BR') } : null,
+    senadoresCount > 0 ? { label: 'Senadores', value: senadoresCount.toLocaleString('pt-BR') } : null,
+  ].filter(Boolean) as { label: string; value: string }[]
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -34,19 +50,71 @@ export default async function MunicipioPage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 pt-6 pb-4">
         <Breadcrumb items={[
-          { label: '🇧🇷 Brasil', href: '/' },
+          { label: 'Brasil', href: '/' },
           { label: data.state.name, href: `/${params.estado}` },
           { label: municipioName },
         ]} />
 
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">{municipioName}</h1>
-          <p className="text-gray-500 mt-1">
-            Organograma político — poder executivo e legislativo
-          </p>
+        <div className="mt-3 mb-5">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{municipioName}</h1>
+          <p className="text-sm text-gray-500 mt-0.5">{data.state.name}</p>
         </div>
+
+        {/* Stats strip */}
+        {stats.length > 0 && (
+          <div className="flex flex-wrap gap-3 mb-5">
+            {stats.map(s => (
+              <div key={s.label} className="border border-gray-100 rounded-xl px-4 py-2.5 bg-gray-50 min-w-[90px]">
+                <div className="text-xl font-bold text-gray-900 tabular-nums">{s.value}</div>
+                <div className="text-xs text-gray-500">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Key executives */}
+        {(prefeito || governador) && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+            {prefeito && (
+              <div className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(204,153,0,0.12)' }}>
+                  <svg className="w-4 h-4" style={{ color: '#CC9900' }} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400 uppercase tracking-wide">Prefeito</div>
+                  <div className="text-sm font-semibold text-gray-800 leading-tight">
+                    {prefeito.name}
+                    {prefeito.party?.abbr && (
+                      <span className="font-normal text-gray-400"> · {prefeito.party.abbr}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {governador && (
+              <div className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(0,122,48,0.12)' }}>
+                  <svg className="w-4 h-4" style={{ color: '#007A30' }} fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400 uppercase tracking-wide">Governador</div>
+                  <div className="text-sm font-semibold text-gray-800 leading-tight">
+                    {governador.name}
+                    {governador.party?.abbr && (
+                      <span className="font-normal text-gray-400"> · {governador.party.abbr}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         <Organogram data={data} />
       </div>

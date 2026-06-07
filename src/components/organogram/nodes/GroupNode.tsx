@@ -12,7 +12,7 @@ interface GroupNodeData {
 }
 
 export const GroupNode = memo(({ data }: NodeProps) => {
-  const { politicians, label, borderColor = '#009c3b', onSelect } = data as unknown as GroupNodeData
+  const { politicians, label, borderColor = '#00A859', onSelect } = data as unknown as GroupNodeData
   return (
     <div
       className="bg-white rounded-xl shadow-sm p-3 min-w-[280px] max-w-[480px]"
