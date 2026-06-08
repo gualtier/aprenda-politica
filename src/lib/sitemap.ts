@@ -1,18 +1,15 @@
-import type { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
-import { SITE_URL } from '@/lib/site'
+import { SITE_URL } from './site'
 
-// Client direto (sem cookies) — o sitemap roda no build, fora de request scope
+export const POL_CHUNK = 40_000 // teto do protocolo é 50k URLs por arquivo
+
+export type SUrl = { loc: string; changefreq?: string; priority?: number }
+
+// Client direto (sem cookies) — sitemaps rodam fora de request scope no build
 function db() {
   return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
 }
 
-// Regenera o sitemap no máximo 1x/dia
-export const revalidate = 86400
-
-const POL_CHUNK = 40_000 // teto do protocolo é 50k URLs por arquivo
-
-// URLs estáticas + seção Aprenda (todas as páginas didáticas)
 const STATIC_PATHS = [
   '', '/estados', '/partidos', '/politicos', '/aprenda',
   '/aprenda/poderes', '/aprenda/poderes/executivo', '/aprenda/poderes/legislativo', '/aprenda/poderes/judiciario',
@@ -26,13 +23,8 @@ const STATIC_PATHS = [
   '/aprenda/impostos/ipva', '/aprenda/impostos/itcmd', '/aprenda/impostos/iptu', '/aprenda/impostos/iss', '/aprenda/impostos/itbi',
 ]
 
-// Supabase limita 1000 linhas por request — paginamos para cobrir um intervalo maior
-async function paginate(
-  table: 'politicians' | 'municipalities',
-  select: string,
-  from: number,
-  size: number,
-): Promise<Record<string, unknown>[]> {
+// Supabase limita 1000 linhas/request — paginamos para cobrir um intervalo maior
+async function paginate(table: 'politicians' | 'municipalities', select: string, from: number, size: number) {
   const supabase = db()
   const rows: Record<string, unknown>[] = []
   let offset = from
@@ -48,19 +40,15 @@ async function paginate(
   return rows
 }
 
-export async function generateSitemaps() {
-  const supabase = db()
-  const { count } = await supabase.from('politicians').select('id', { count: 'exact', head: true })
+/** Nº total de arquivos de sitemap: 0 (estático) + 1 (municípios) + N (políticos). */
+export async function chunkCount(): Promise<number> {
+  const { count } = await db().from('politicians').select('id', { count: 'exact', head: true })
   const polChunks = Math.max(1, Math.ceil((count ?? 0) / POL_CHUNK))
-  // id 0 = estático/aprenda/estados/partidos · id 1 = municípios · id 2.. = políticos
-  const ids = [{ id: 0 }, { id: 1 }]
-  for (let i = 0; i < polChunks; i++) ids.push({ id: 2 + i })
-  return ids
+  return 2 + polChunks
 }
 
-export default async function sitemap({ id }: { id: number }): Promise<MetadataRoute.Sitemap> {
-  const now = new Date()
-
+/** URLs de um arquivo de sitemap pelo índice. */
+export async function chunkUrls(id: number): Promise<SUrl[]> {
   // id 0 — estático + Aprenda + estados + partidos
   if (id === 0) {
     const supabase = db()
@@ -68,21 +56,18 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
       supabase.from('states').select('slug'),
       supabase.from('parties').select('abbr, slug'),
     ])
-    const staticUrls: MetadataRoute.Sitemap = STATIC_PATHS.map(p => ({
-      url: `${SITE_URL}${p}`,
-      lastModified: now,
-      changeFrequency: p.startsWith('/aprenda') ? 'monthly' : 'weekly',
+    const staticUrls: SUrl[] = STATIC_PATHS.map(p => ({
+      loc: `${SITE_URL}${p}`,
+      changefreq: p.startsWith('/aprenda') ? 'monthly' : 'weekly',
       priority: p === '' ? 1 : 0.7,
     }))
-    const stateUrls: MetadataRoute.Sitemap = (states ?? []).map((s: { slug: string }) => ({
-      url: `${SITE_URL}/${s.slug}`, lastModified: now, changeFrequency: 'weekly', priority: 0.7,
+    const stateUrls: SUrl[] = (states ?? []).map((s: { slug: string }) => ({
+      loc: `${SITE_URL}/${s.slug}`, changefreq: 'weekly', priority: 0.7,
     }))
-    const partyUrls: MetadataRoute.Sitemap = (parties ?? [])
-      .map((p: { abbr: string; slug: string | null }) => p.slug ?? p.abbr)
+    const partyUrls: SUrl[] = (parties ?? [])
+      .map((p: { abbr: string; slug: string | null }) => p.slug)
       .filter((s): s is string => Boolean(s))
-      .map(slug => ({
-        url: `${SITE_URL}/partidos/${slug}`, lastModified: now, changeFrequency: 'monthly' as const, priority: 0.5,
-      }))
+      .map(slug => ({ loc: `${SITE_URL}/partidos/${slug}`, changefreq: 'monthly', priority: 0.5 }))
     return [...staticUrls, ...stateUrls, ...partyUrls]
   }
 
@@ -92,19 +77,33 @@ export default async function sitemap({ id }: { id: number }): Promise<MetadataR
     return rows
       .map(m => {
         const state = m.state as { slug: string } | null
-        return {
-          url: `${SITE_URL}/${state?.slug}/${m.slug as string}`,
-          lastModified: now, changeFrequency: 'weekly' as const, priority: 0.8,
-        }
+        return { loc: `${SITE_URL}/${state?.slug}/${m.slug as string}`, changefreq: 'weekly', priority: 0.8 }
       })
-      .filter(u => !u.url.includes('/undefined/'))
+      .filter(u => !u.loc.includes('/undefined/'))
   }
 
   // id 2.. — políticos (chunked)
   const chunk = id - 2
   const rows = await paginate('politicians', 'slug', chunk * POL_CHUNK, POL_CHUNK)
-  return rows.map(p => ({
-    url: `${SITE_URL}/politico/${p.slug as string}`,
-    lastModified: now, changeFrequency: 'monthly' as const, priority: 0.6,
-  }))
+  return rows.map(p => ({ loc: `${SITE_URL}/politico/${p.slug as string}`, changefreq: 'monthly', priority: 0.6 }))
+}
+
+const escapeXml = (s: string) => s.replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&apos;', '"': '&quot;' }[c]!))
+
+export function urlsetXml(urls: SUrl[]): string {
+  const body = urls.map(u =>
+    `<url><loc>${escapeXml(u.loc)}</loc>` +
+    (u.changefreq ? `<changefreq>${u.changefreq}</changefreq>` : '') +
+    (u.priority != null ? `<priority>${u.priority}</priority>` : '') +
+    `</url>`
+  ).join('')
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${body}</urlset>`
+}
+
+export function indexXml(count: number): string {
+  const now = new Date().toISOString()
+  const items = Array.from({ length: count }, (_, i) =>
+    `<sitemap><loc>${SITE_URL}/sitemaps/${i}.xml</loc><lastmod>${now}</lastmod></sitemap>`
+  ).join('')
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${items}</sitemapindex>`
 }
