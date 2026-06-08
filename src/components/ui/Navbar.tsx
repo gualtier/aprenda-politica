@@ -48,6 +48,20 @@ const APRENDA_GROUPS: Group[] = [
       { href: '/aprenda/processo-legislativo/publicacao', label: '6. Publicação' },
     ],
   },
+  {
+    href: '/aprenda/impostos', label: 'Os Impostos',
+    children: [
+      { href: '/aprenda/impostos/ir', label: 'IR — Imposto de Renda' },
+      { href: '/aprenda/impostos/ipi', label: 'IPI — Industrializados' },
+      { href: '/aprenda/impostos/iof', label: 'IOF — Op. Financeiras' },
+      { href: '/aprenda/impostos/icms', label: 'ICMS — Mercadorias' },
+      { href: '/aprenda/impostos/ipva', label: 'IPVA — Veículos' },
+      { href: '/aprenda/impostos/itcmd', label: 'ITCMD — Herança' },
+      { href: '/aprenda/impostos/iptu', label: 'IPTU — Imóveis' },
+      { href: '/aprenda/impostos/iss', label: 'ISS — Serviços' },
+      { href: '/aprenda/impostos/itbi', label: 'ITBI — Compra de imóvel' },
+    ],
+  },
 ]
 
 const links: NavLink[] = [
@@ -134,9 +148,9 @@ export function Navbar() {
                   </Link>
 
                   <div className={`absolute top-full left-0 pt-2 ${menuOpen ? 'block' : 'hidden'}`}>
-                    <div className="grid grid-cols-2 gap-x-8 gap-y-4 bg-white border border-gray-100 rounded-2xl shadow-lg p-5 w-[520px]">
+                    <div className="columns-3 gap-7 bg-white border border-gray-100 rounded-2xl shadow-lg p-5 w-[620px]">
                       {item.groups.map(g => (
-                        <div key={g.href}>
+                        <div key={g.href} className="break-inside-avoid mb-5">
                           <Link href={g.href} className={`block text-sm font-bold mb-1.5 transition-colors ${pathname.startsWith(g.href) ? 'text-[#00A859]' : 'text-gray-900 hover:text-[#00A859]'}`}>
                             {g.label}
                           </Link>

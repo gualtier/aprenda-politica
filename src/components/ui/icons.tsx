@@ -217,3 +217,13 @@ export function IconSpark({ className, ...p }: IconProps) {
     </svg>
   )
 }
+
+/** Recibo / imposto */
+export function IconReceipt({ className, ...p }: IconProps) {
+  return (
+    <svg {...base(className)} {...p}>
+      <path d="M4 2v20l2.5-1.5L9 22l2.5-1.5L14 22l2.5-1.5L19 22V2l-2.5 1.5L14 2l-2.5 1.5L9 2 6.5 3.5 4 2z" />
+      <path d="M8 8h8M8 12h8M8 16h5" />
+    </svg>
+  )
+}

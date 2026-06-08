@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import type { ComponentType, SVGProps } from 'react'
-import { IconScale, IconBank, IconChair, IconScroll, IconBulb } from '@/components/ui/icons'
+import { IconScale, IconBank, IconChair, IconScroll, IconBulb, IconReceipt } from '@/components/ui/icons'
 
 export const metadata: Metadata = {
   title: 'Aprenda — Aprenda Política',
@@ -54,6 +54,15 @@ const topics: Topic[] = [
     color: 'bg-amber-50 border-amber-200 hover:border-amber-400',
     tag: 'bg-amber-100 text-amber-700',
     iconWrap: 'bg-amber-100 text-amber-700',
+  },
+  {
+    href: '/aprenda/impostos',
+    Icon: IconReceipt,
+    title: 'Os Impostos',
+    description: 'IR, ICMS, IPVA, IPTU, ISS e os outros — o que cada um é, quem cobra e para onde vai o dinheiro.',
+    color: 'bg-teal-50 border-teal-200 hover:border-teal-400',
+    tag: 'bg-teal-100 text-teal-700',
+    iconWrap: 'bg-teal-100 text-teal-700',
   },
 ]
 
