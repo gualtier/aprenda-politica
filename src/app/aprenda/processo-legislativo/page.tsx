@@ -116,9 +116,11 @@ export default function ProcessoLegislativoPage() {
 
         {/* Flow */}
         <div className="space-y-3 mb-10">
-          {steps.map((step, i) => (
+          {steps.map((step, i) => {
+            const slug = ['apresentacao', 'comissoes', 'plenario', 'casa-revisora', 'sancao', 'publicacao'][i]
+            return (
             <div key={step.n}>
-              <div className={`border-2 ${step.color} rounded-2xl p-5`}>
+              <Link href={`/aprenda/processo-legislativo/${slug}`} className={`block border-2 ${step.color} rounded-2xl p-5 hover:shadow-md transition-shadow group`}>
                 <div className="flex items-start gap-4">
                   <div className="shrink-0">
                     <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold ${step.badge}`}>
@@ -143,14 +145,19 @@ export default function ProcessoLegislativoPage() {
                     )}
                   </div>
                 </div>
-              </div>
+                <div className="mt-4 pl-[3.25rem] flex items-center gap-1.5 text-xs font-semibold text-gray-500 group-hover:text-gray-800">
+                  Ver esta etapa em detalhe
+                  <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                </div>
+              </Link>
               {i < steps.length - 1 && (
                 <div className="flex justify-start pl-[2.6rem]">
                   <div className="w-0.5 h-4 bg-gray-200" />
                 </div>
               )}
             </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Fast-track section */}
