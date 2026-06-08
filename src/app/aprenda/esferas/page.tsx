@@ -121,7 +121,7 @@ export default function EsferasPage() {
         {/* Spheres */}
         <div className="space-y-8">
           {spheres.map(s => (
-            <section key={s.key} className={`border-2 ${s.border} ${s.bg} rounded-2xl p-6`}>
+            <Link key={s.key} href={`/aprenda/esferas/${s.key}`} className={`block border-2 ${s.border} ${s.bg} rounded-2xl p-6 hover:shadow-md transition-shadow group`}>
               <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
                 <div className="flex items-center gap-3">
                   <span className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${s.accent}14`, color: s.accent }}>
@@ -153,7 +153,12 @@ export default function EsferasPage() {
                   ))}
                 </ul>
               </div>
-            </section>
+
+              <div className={`mt-5 pt-4 border-t ${s.border} flex items-center gap-1.5 text-sm font-semibold ${s.heading}`}>
+                Ver tudo sobre a {s.name}
+                <span className="transition-transform group-hover:translate-x-0.5">→</span>
+              </div>
+            </Link>
           ))}
         </div>
 
