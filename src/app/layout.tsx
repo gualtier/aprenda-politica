@@ -4,6 +4,8 @@ import { Navbar } from '@/components/ui/Navbar'
 import { Footer } from '@/components/ui/Footer'
 import { RegisterSW } from '@/components/pwa/RegisterSW'
 import { InstallPrompt } from '@/components/pwa/InstallPrompt'
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics'
+import { SITE_URL } from '@/lib/site'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -11,6 +13,7 @@ const inter = Inter({ subsets: ['latin'] })
 const SITE = 'Aprenda Política'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   applicationName: SITE,
   title: SITE,
   description: 'Entenda quem governa o Brasil. Dados reais. Linguagem simples.',
@@ -48,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <RegisterSW />
         <InstallPrompt />
+        <GoogleAnalytics />
       </body>
     </html>
   )
