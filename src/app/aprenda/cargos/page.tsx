@@ -184,7 +184,7 @@ export default function CargosPage() {
         {/* Role cards */}
         <div className="space-y-5">
           {roles.map(role => (
-            <section key={role.slug} className="border border-gray-200 rounded-2xl p-5">
+            <Link key={role.slug} href={`/aprenda/cargos/${role.slug}`} className="block border border-gray-200 rounded-2xl p-5 hover:border-gray-300 hover:shadow-md transition-all group">
               <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
                 <div className="flex items-center gap-3">
                   <span className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 bg-gray-50 text-gray-600">
@@ -230,11 +230,16 @@ export default function CargosPage() {
                 </div>
               </div>
 
-              <div className="mt-3 pt-3 border-t border-gray-100">
-                <span className="text-xs text-gray-400">Subsídio: </span>
-                <span className="text-xs font-semibold text-gray-700">{role.salary}</span>
+              <div className="mt-3 pt-3 border-t border-gray-100 flex items-center justify-between gap-2">
+                <span>
+                  <span className="text-xs text-gray-400">Subsídio: </span>
+                  <span className="text-xs font-semibold text-gray-700">{role.salary}</span>
+                </span>
+                <span className="text-xs font-semibold text-[#00A859] inline-flex items-center gap-1">
+                  Ver detalhes <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                </span>
               </div>
-            </section>
+            </Link>
           ))}
         </div>
 
