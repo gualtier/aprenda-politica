@@ -9,6 +9,17 @@ const nextConfig = {
       { protocol: 'https', hostname: 'upload.wikimedia.org' },
     ],
   },
+  async redirects() {
+    return [
+      // Canônico sem www — redireciona www → apex (301)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.aprendapolitica.com.br' }],
+        destination: 'https://aprendapolitica.com.br/:path*',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 export default nextConfig
