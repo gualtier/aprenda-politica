@@ -97,10 +97,19 @@ export default async function PoliticosPage({ searchParams }: PageProps) {
                     {p.position?.name ?? '—'}
                     {p.party?.abbr ? ` · ${p.party.abbr}` : ''}
                   </div>
-                  <div className="text-xs text-gray-400 truncate">
-                    {p.state?.abbr ?? ''}
-                    {p.municipality?.name ? ` · ${p.municipality.name}` : ''}
-                  </div>
+                  {p.state?.abbr && (
+                    <div className="text-xs text-gray-400 truncate flex items-center gap-1.5 mt-0.5">
+                      <img
+                        src={`/flags/states/${p.state.abbr}.svg`}
+                        alt={`Bandeira ${p.state.name ?? p.state.abbr}`}
+                        className="w-4 h-[11px] object-cover rounded-[2px] shadow-sm shrink-0"
+                      />
+                      <span className="truncate">
+                        {p.state.abbr}
+                        {p.municipality?.name ? ` · ${p.municipality.name}` : ''}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </Link>
             ))}
