@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import type { ComponentType, SVGProps } from 'react'
 import {
   IconPencil, IconSearch, IconVote, IconRefresh, IconCheckCircle, IconNewspaper,
-  IconCheck, IconArrow, IconSpark,
+  IconCheck, IconSpark,
 } from '@/components/ui/icons'
 
 type IconType = ComponentType<SVGProps<SVGSVGElement>>

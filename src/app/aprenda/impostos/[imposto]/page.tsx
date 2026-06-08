@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { IconCheck, IconArrow, IconBulb } from '@/components/ui/icons'
+import { IconBulb } from '@/components/ui/icons'
 
 type Item = { title: string; desc: string }
 type Sphere = 'Federal' | 'Estadual' | 'Municipal'
