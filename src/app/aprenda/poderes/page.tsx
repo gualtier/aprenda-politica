@@ -126,7 +126,7 @@ export default function PoderesPage() {
         {/* Powers */}
         <div className="space-y-8">
           {powers.map(p => (
-            <section key={p.key} className={`border-2 ${p.border} ${p.bg} rounded-2xl p-6`}>
+            <Link key={p.key} href={`/aprenda/poderes/${p.key}`} className={`block border-2 ${p.border} ${p.bg} rounded-2xl p-6 hover:shadow-md transition-shadow group`}>
               <div className="flex items-center gap-3 mb-3">
                 <span className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${p.iconWrap}`}>
                   <p.Icon className="w-6 h-6" />
@@ -164,7 +164,13 @@ export default function PoderesPage() {
                   </li>
                 ))}
               </ul>
-            </section>
+
+              {/* CTA */}
+              <div className={`mt-5 pt-4 border-t ${p.border} flex items-center gap-1.5 text-sm font-semibold ${p.heading}`}>
+                Ver tudo sobre o {p.name}
+                <span className="transition-transform group-hover:translate-x-0.5">→</span>
+              </div>
+            </Link>
           ))}
         </div>
 
