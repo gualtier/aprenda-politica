@@ -141,6 +141,41 @@ export function Organogram({ data }: OrganogramProps) {
   return (
     <>
       <div className="flex flex-col gap-4">
+        {/* Ordem local-primeiro: municipal → estadual → federal */}
+        {data.municipal && (
+          <SphereSection
+            color={COLORS.municipal}
+            sphereLabel="Esfera Municipal"
+            govLabel={`Prefeitura de ${data.municipality?.name}`}
+            tagline="Governo local"
+            executive={data.municipal.executive}
+            legGroups={[
+              {
+                label: 'Câmara Municipal',
+                description: `Vereadores eleitos para criar leis municipais e fiscalizar a prefeitura de ${data.municipality?.name}.`,
+                politicians: data.municipal.legislative,
+              },
+            ]}
+            onSelect={handleSelect}
+          />
+        )}
+
+        <SphereSection
+          color={COLORS.estadual}
+          sphereLabel="Esfera Estadual"
+          govLabel={`Governo do ${data.state.name}`}
+          tagline={data.state.abbr}
+          executive={data.estadual.executive}
+          legGroups={[
+            {
+              label: 'Assembleia Legislativa',
+              description: `Deputados estaduais eleitos para criar leis do ${data.state.name} e fiscalizar o governo estadual.`,
+              politicians: data.estadual.legislative,
+            },
+          ]}
+          onSelect={handleSelect}
+        />
+
         <SphereSection
           color={COLORS.federal}
           sphereLabel="Esfera Federal"
@@ -161,40 +196,6 @@ export function Organogram({ data }: OrganogramProps) {
           ]}
           onSelect={handleSelect}
         />
-
-        <SphereSection
-          color={COLORS.estadual}
-          sphereLabel="Esfera Estadual"
-          govLabel={`Governo do ${data.state.name}`}
-          tagline={data.state.abbr}
-          executive={data.estadual.executive}
-          legGroups={[
-            {
-              label: 'Assembleia Legislativa',
-              description: `Deputados estaduais eleitos para criar leis do ${data.state.name} e fiscalizar o governo estadual.`,
-              politicians: data.estadual.legislative,
-            },
-          ]}
-          onSelect={handleSelect}
-        />
-
-        {data.municipal && (
-          <SphereSection
-            color={COLORS.municipal}
-            sphereLabel="Esfera Municipal"
-            govLabel={`Prefeitura de ${data.municipality?.name}`}
-            tagline="Governo local"
-            executive={data.municipal.executive}
-            legGroups={[
-              {
-                label: 'Câmara Municipal',
-                description: `Vereadores eleitos para criar leis municipais e fiscalizar a prefeitura de ${data.municipality?.name}.`,
-                politicians: data.municipal.legislative,
-              },
-            ]}
-            onSelect={handleSelect}
-          />
-        )}
       </div>
 
       {selected && (
