@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { listPropositions, propositionFacets, formatPropositionLabel, SOURCE_SHORT, SOURCE_COLORS, typeInfo, statusTone } from '@/lib/propositions'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
-import { TOPICS } from '@/lib/topics'
+import { TOPICS, classifyTopics, getTopic } from '@/lib/topics'
 
 const fmtDate = (d: string | null) =>
   d ? new Date(d).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : null
@@ -90,7 +90,10 @@ export default async function ProposicoesPage({ searchParams }: PageProps) {
                   </span>
                 )}
                 {p.presented_on && <span>{fmtDate(p.presented_on)}</span>}
-                {(p.themes ?? []).slice(0, 2).map(t => <span key={t} className="text-gray-400 lowercase">#{t}</span>)}
+                {classifyTopics(p.title ?? '', p.summary ?? '', p.themes ?? []).slice(0, 2).map(s => {
+                  const tp = getTopic(s)
+                  return tp ? <span key={s} className="font-medium" style={{ color: tp.accent }}>{tp.emoji} {tp.label}</span> : null
+                })}
               </div>
             </Link>
           ))}
