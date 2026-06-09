@@ -7,6 +7,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'www.senado.leg.br' },
       { protocol: 'http', hostname: 'www.senado.leg.br' },
       { protocol: 'https', hostname: 'upload.wikimedia.org' },
+      { protocol: 'https', hostname: 'objectstorage.sa-saopaulo-1.oraclecloud.com' },
     ],
   },
   async redirects() {
