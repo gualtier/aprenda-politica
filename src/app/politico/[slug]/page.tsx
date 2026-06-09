@@ -319,7 +319,7 @@ export default async function PoliticoPage({ params }: PageProps) {
               href={politician.government_plan_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-4 py-3 rounded-xl border border-[#00A859]/30 bg-[#00A859]/5 text-verde-500 hover:bg-[#00A859]/10 transition-colors text-sm font-medium"
+              className="inline-flex items-center gap-2.5 px-4 py-3 rounded-xl border border-verde-500/30 bg-verde-500/5 text-verde-500 hover:bg-verde-500/10 transition-colors text-sm font-medium"
             >
               <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
@@ -364,7 +364,7 @@ export default async function PoliticoPage({ params }: PageProps) {
                 <Link
                   key={c.id}
                   href={`/politico/${c.slug}`}
-                  className="flex items-center gap-2 border border-gray-100 rounded-xl px-3 py-2 hover:border-[#00A859] hover:bg-[#00A859]/5 transition-colors"
+                  className="flex items-center gap-2 border border-gray-100 rounded-xl px-3 py-2 hover:border-verde-500 hover:bg-verde-500/5 transition-colors"
                 >
                   <Avatar name={c.name} photoUrl={c.photo_url} size={32} />
                   <div className="min-w-0">
@@ -392,7 +392,7 @@ export default async function PoliticoPage({ params }: PageProps) {
                 <Link
                   key={c.id}
                   href={`/politico/${c.slug}`}
-                  className="flex items-center gap-2 border border-gray-100 rounded-xl px-3 py-2 hover:border-[#00A859] hover:bg-[#00A859]/5 transition-colors"
+                  className="flex items-center gap-2 border border-gray-100 rounded-xl px-3 py-2 hover:border-verde-500 hover:bg-verde-500/5 transition-colors"
                 >
                   <Avatar name={c.name} photoUrl={c.photo_url} size={32} />
                   <div className="min-w-0">

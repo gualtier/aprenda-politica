@@ -136,8 +136,8 @@ export default async function EstadoPage({ params }: PageProps) {
         {/* Governor */}
         {governor && (
           <div className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3 mb-8 bg-white">
-            <div className="w-8 h-8 rounded-full bg-[#00A859]/10 flex items-center justify-center shrink-0">
-              <svg className="w-4 h-4 text-[#00A859]" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <div className="w-8 h-8 rounded-full bg-verde-500/10 flex items-center justify-center shrink-0">
+              <svg className="w-4 h-4 text-verde-500" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </div>
@@ -164,7 +164,7 @@ export default async function EstadoPage({ params }: PageProps) {
                 <Link
                   key={m.slug}
                   href={`/${params.estado}/${m.slug}`}
-                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:border-[#00A859] hover:text-[#00A859] transition-colors"
+                  className="border border-gray-200 rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:border-verde-500 hover:text-verde-500 transition-colors"
                 >
                   {m.name}
                 </Link>

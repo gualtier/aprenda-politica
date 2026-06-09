@@ -28,7 +28,7 @@ function Select({
         value={value}
         disabled={disabled}
         onChange={e => onChange(e.target.value)}
-        className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white text-gray-700 focus:outline-none focus:border-[#00A859] focus:ring-1 focus:ring-[#00A859]/30 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
+        className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white text-gray-700 focus:outline-none focus:border-verde-500 focus:ring-1 focus:ring-verde-500/30 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
       >
         <option value="">{placeholder}</option>
         {options.map(o => (
@@ -93,7 +93,7 @@ export function PoliticosFilters({ states, positions, parties, municipalities, c
       {hasFilters && (
         <button
           onClick={() => router.push('/politicos')}
-          className="mt-3 text-xs font-medium text-gray-500 hover:text-[#00A859] transition-colors"
+          className="mt-3 text-xs font-medium text-gray-500 hover:text-verde-500 transition-colors"
         >
           ✕ Limpar filtros
         </button>

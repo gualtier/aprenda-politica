@@ -16,7 +16,7 @@ export default function OfflinePage() {
         </p>
         <Link
           href="/"
-          className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-[#00A859] text-white text-sm font-semibold hover:bg-[#007A30] transition-colors"
+          className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-verde-500 text-white text-sm font-semibold hover:bg-verde-700 transition-colors"
         >
           Tentar novamente
         </Link>

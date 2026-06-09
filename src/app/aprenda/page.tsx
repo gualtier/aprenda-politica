@@ -75,7 +75,7 @@ export default function AprendaPage() {
           <span className="text-xs font-semibold uppercase tracking-widest text-gray-400">Educação política</span>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2 mb-3">
             Como funciona o poder<br />
-            <span className="text-[#00A859]">no Brasil?</span>
+            <span className="text-verde-500">no Brasil?</span>
           </h1>
           <p className="text-gray-500 text-lg max-w-xl">
             Guias visuais para entender o sistema político brasileiro — sem juridiquês, sem complicação.

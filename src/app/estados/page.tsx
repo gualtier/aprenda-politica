@@ -136,7 +136,7 @@ export default async function EstadosPage() {
                     <Link
                       key={s.slug}
                       href={`/${s.slug}`}
-                      className="group flex flex-col border border-gray-200 rounded-xl p-4 hover:border-[#00A859] hover:bg-[#00A859]/5 transition-colors"
+                      className="group flex flex-col border border-gray-200 rounded-xl p-4 hover:border-verde-500 hover:bg-verde-500/5 transition-colors"
                     >
                       <div className="flex items-start justify-between mb-3">
                         <img
@@ -149,7 +149,7 @@ export default async function EstadosPage() {
                         </span>
                       </div>
 
-                      <div className="font-semibold text-gray-900 group-hover:text-[#00A859] leading-tight">
+                      <div className="font-semibold text-gray-900 group-hover:text-verde-500 leading-tight">
                         {s.name}
                       </div>
                       <div className="text-xs text-gray-400 mt-0.5">{s.capital}</div>

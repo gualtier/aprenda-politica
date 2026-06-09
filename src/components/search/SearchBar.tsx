@@ -38,7 +38,7 @@ export function SearchBar() {
 
   return (
     <div className="relative w-full max-w-xl">
-      <div className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm focus-within:border-[#00A859] focus-within:ring-1 focus-within:ring-[#00A859]/30">
+      <div className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm focus-within:border-verde-500 focus-within:ring-1 focus-within:ring-verde-500/30">
         <svg className="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
         <input
           type="search"

@@ -124,7 +124,7 @@ export default function ImpostosPage() {
 
         {/* Reforma */}
         <section className="mb-10">
-          <div className="rounded-2xl p-5 border border-[#00A859]/30 bg-verde-50">
+          <div className="rounded-2xl p-5 border border-verde-500/30 bg-verde-50">
             <p className="text-xs font-semibold uppercase tracking-widest text-verde-700 mb-1.5">Atenção: está mudando</p>
             <p className="text-sm font-bold text-gray-900 mb-1.5">A Reforma Tributária</p>
             <p className="text-sm text-gray-700 leading-relaxed">

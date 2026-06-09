@@ -55,7 +55,7 @@ export default function HomePage() {
 
         <h1 className="text-[40px] sm:text-[56px] font-bold tracking-[-0.03em] leading-[1.04] m-0">
           Entenda o poder<br />
-          <span className="text-[#00A859]">na sua cidade.</span>
+          <span className="text-verde-500">na sua cidade.</span>
         </h1>
 
         <p className="text-lg sm:text-[19px] text-gray-500 m-0 max-w-[480px] leading-[1.55]">
@@ -141,13 +141,13 @@ export default function HomePage() {
             <Link
               key={s.abbr}
               href={`/${s.slug}`}
-              className="group flex flex-col border border-gray-200 rounded-xl p-3.5 hover:border-[#00A859] hover:bg-[#00A859]/5 transition-colors"
+              className="group flex flex-col border border-gray-200 rounded-xl p-3.5 hover:border-verde-500 hover:bg-verde-500/5 transition-colors"
             >
               <div className="flex items-center justify-between mb-3">
                 <img src={`/flags/states/${s.abbr}.svg`} alt={`Bandeira ${s.name}`} className="w-[46px] h-[31px] object-cover rounded shadow-sm shrink-0" />
                 <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-gray-200 text-gray-500">{s.abbr}</span>
               </div>
-              <div className="font-semibold text-sm text-gray-900 leading-tight group-hover:text-[#00A859]">{s.name}</div>
+              <div className="font-semibold text-sm text-gray-900 leading-tight group-hover:text-verde-500">{s.name}</div>
               <div className="text-xs text-gray-400 mt-0.5">{s.munis.toLocaleString('pt-BR')} municípios</div>
             </Link>
           ))}
@@ -160,7 +160,7 @@ export default function HomePage() {
           <div className="text-center mb-7">
             <Eyebrow className="text-verde-600">Educação política</Eyebrow>
             <h2 className="text-[30px] font-bold tracking-[-0.02em] text-gray-900 mt-2.5 mb-2">
-              Como funciona o poder <span className="text-[#00A859]">no Brasil?</span>
+              Como funciona o poder <span className="text-verde-500">no Brasil?</span>
             </h2>
             <p className="text-[15px] text-gray-500 m-0">Guias visuais, sem juridiquês, para entender o sistema político brasileiro.</p>
           </div>

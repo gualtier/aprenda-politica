@@ -186,7 +186,7 @@ export default function ProcessoLegislativoPage() {
             { n: '81', label: 'senadores que revisam na Casa Revisora' },
           ].map(stat => (
             <div key={stat.n} className="border border-gray-100 rounded-xl p-4 text-center bg-gray-50">
-              <p className="text-2xl font-bold text-[#00A859]">{stat.n}</p>
+              <p className="text-2xl font-bold text-verde-500">{stat.n}</p>
               <p className="text-xs text-gray-500 leading-snug mt-1">{stat.label}</p>
             </div>
           ))}
@@ -195,7 +195,7 @@ export default function ProcessoLegislativoPage() {
         {/* Nav */}
         <div className="mt-10 flex gap-3">
           <Link href="/aprenda/cargos" className="text-sm text-gray-500 hover:text-gray-700">← Os Cargos</Link>
-          <Link href="/aprenda" className="text-sm text-[#00A859] font-medium hover:underline">↑ Início do Aprenda</Link>
+          <Link href="/aprenda" className="text-sm text-verde-500 font-medium hover:underline">↑ Início do Aprenda</Link>
         </div>
       </div>
     </main>

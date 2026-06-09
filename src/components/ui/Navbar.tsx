@@ -130,7 +130,7 @@ export function Navbar() {
               const active = isActive(pathname, item.href)
               if (!item.groups) {
                 return (
-                  <Link key={item.href} href={item.href} className={`${linkBase} ${active ? 'bg-[#00A859]/10 text-[#00A859]' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}>
+                  <Link key={item.href} href={item.href} className={`${linkBase} ${active ? 'bg-verde-500/10 text-verde-500' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}>
                     {item.label}
                   </Link>
                 )
@@ -142,7 +142,7 @@ export function Navbar() {
                     href={item.href}
                     aria-haspopup="true"
                     aria-expanded={menuOpen}
-                    className={`${linkBase} inline-flex items-center gap-1 ${active ? 'bg-[#00A859]/10 text-[#00A859]' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}
+                    className={`${linkBase} inline-flex items-center gap-1 ${active ? 'bg-verde-500/10 text-verde-500' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}
                   >
                     {item.label}
                     <ChevronDown className={`w-3.5 h-3.5 transition-transform ${menuOpen ? 'rotate-180' : ''}`} />
@@ -152,7 +152,7 @@ export function Navbar() {
                     <div className="columns-3 gap-7 bg-white border border-gray-100 rounded-2xl shadow-lg p-5 w-[620px]">
                       {item.groups.map(g => (
                         <div key={g.href} className="break-inside-avoid mb-5">
-                          <Link href={g.href} className={`block text-sm font-bold mb-1.5 transition-colors ${pathname.startsWith(g.href) ? 'text-[#00A859]' : 'text-gray-900 hover:text-[#00A859]'}`}>
+                          <Link href={g.href} className={`block text-sm font-bold mb-1.5 transition-colors ${pathname.startsWith(g.href) ? 'text-verde-500' : 'text-gray-900 hover:text-verde-500'}`}>
                             {g.label}
                           </Link>
                           <ul className="space-y-0.5">
@@ -160,7 +160,7 @@ export function Navbar() {
                               const cActive = pathname === c.href
                               return (
                                 <li key={c.href}>
-                                  <Link href={c.href} className={`block text-[13px] py-0.5 transition-colors ${cActive ? 'text-[#00A859] font-medium' : 'text-gray-500 hover:text-gray-900'}`}>
+                                  <Link href={c.href} className={`block text-[13px] py-0.5 transition-colors ${cActive ? 'text-verde-500 font-medium' : 'text-gray-500 hover:text-gray-900'}`}>
                                     {c.label}
                                   </Link>
                                 </li>
@@ -222,7 +222,7 @@ export function Navbar() {
         <nav className="flex flex-col p-2 gap-0.5 overflow-y-auto">
           {links.map(item => {
             const active = isActive(pathname, item.href)
-            const itemCls = `px-3 py-2.5 rounded-lg text-[15px] font-medium transition-colors ${active ? 'bg-[#00A859]/10 text-[#00A859]' : 'text-gray-700 hover:bg-gray-50'}`
+            const itemCls = `px-3 py-2.5 rounded-lg text-[15px] font-medium transition-colors ${active ? 'bg-verde-500/10 text-verde-500' : 'text-gray-700 hover:bg-gray-50'}`
             if (!item.groups) {
               return (
                 <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className={itemCls}>
@@ -240,7 +240,7 @@ export function Navbar() {
                     return (
                       <div key={g.href}>
                         <div className="flex items-center">
-                          <Link href={g.href} onClick={() => setOpen(false)} className={`flex-1 px-2 py-2 rounded-lg text-[13.5px] font-medium transition-colors ${pathname.startsWith(g.href) ? 'text-[#00A859]' : 'text-gray-600 hover:bg-gray-50'}`}>
+                          <Link href={g.href} onClick={() => setOpen(false)} className={`flex-1 px-2 py-2 rounded-lg text-[13.5px] font-medium transition-colors ${pathname.startsWith(g.href) ? 'text-verde-500' : 'text-gray-600 hover:bg-gray-50'}`}>
                             {g.label}
                           </Link>
                           <button
@@ -262,7 +262,7 @@ export function Navbar() {
                                   key={c.href}
                                   href={c.href}
                                   onClick={() => setOpen(false)}
-                                  className={`block px-2 py-1.5 rounded-lg text-[13px] transition-colors ${cActive ? 'text-[#00A859] bg-[#00A859]/5' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800'}`}
+                                  className={`block px-2 py-1.5 rounded-lg text-[13px] transition-colors ${cActive ? 'text-verde-500 bg-verde-500/5' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-800'}`}
                                 >
                                   {c.label}
                                 </Link>

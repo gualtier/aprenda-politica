@@ -86,11 +86,11 @@ export default async function PoliticosPage({ searchParams }: PageProps) {
               <Link
                 key={p.id}
                 href={`/politico/${p.slug}`}
-                className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3 hover:border-[#00A859] hover:bg-[#00A859]/5 transition-colors group"
+                className="flex items-center gap-3 border border-gray-200 rounded-xl px-4 py-3 hover:border-verde-500 hover:bg-verde-500/5 transition-colors group"
               >
                 <Avatar name={p.name} photoUrl={p.photo_url} size={44} />
                 <div className="min-w-0">
-                  <div className="text-sm font-semibold text-gray-900 group-hover:text-[#00A859] truncate">
+                  <div className="text-sm font-semibold text-gray-900 group-hover:text-verde-500 truncate">
                     {p.name}
                   </div>
                   <div className="text-xs text-gray-500 truncate">

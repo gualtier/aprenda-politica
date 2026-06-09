@@ -18,9 +18,9 @@ const spheres = [
     name: 'Esfera Federal',
     scope: 'Todo o território nacional',
     capital: 'Brasília, DF',
-    border: 'border-[#2255AA]/40',
-    bg: 'bg-[#2255AA]/5',
-    heading: 'text-[#2255AA]',
+    border: 'border-esfera-federal/40',
+    bg: 'bg-esfera-federal/5',
+    heading: 'text-esfera-federal',
     competencies: [
       'Política externa e relações internacionais',
       'Defesa nacional e Forças Armadas',
@@ -46,9 +46,9 @@ const spheres = [
     name: 'Esfera Estadual',
     scope: 'Território do estado',
     capital: 'Capital do estado',
-    border: 'border-[#007A30]/40',
-    bg: 'bg-[#007A30]/5',
-    heading: 'text-[#007A30]',
+    border: 'border-verde-700/40',
+    bg: 'bg-verde-700/5',
+    heading: 'text-verde-700',
     competencies: [
       'Segurança pública (Polícia Militar e Civil)',
       'Educação estadual (escolas estaduais)',
@@ -73,9 +73,9 @@ const spheres = [
     name: 'Esfera Municipal',
     scope: 'Território do município',
     capital: 'Sede do município',
-    border: 'border-[#CC9900]/40',
-    bg: 'bg-[#CC9900]/5',
-    heading: 'text-[#CC9900]',
+    border: 'border-amarelo-600/40',
+    bg: 'bg-amarelo-600/5',
+    heading: 'text-amarelo-600',
     competencies: [
       'Educação infantil e fundamental (creches e escolas municipais)',
       'Atenção básica de saúde (UBSs, postos de saúde)',
@@ -199,7 +199,7 @@ export default function EsferasPage() {
         {/* Nav */}
         <div className="mt-10 flex gap-3">
           <Link href="/aprenda/poderes" className="text-sm text-gray-500 hover:text-gray-700">← Os Três Poderes</Link>
-          <Link href="/aprenda/cargos" className="text-sm text-[#00A859] font-medium hover:underline">Próximo: Os Cargos →</Link>
+          <Link href="/aprenda/cargos" className="text-sm text-verde-500 font-medium hover:underline">Próximo: Os Cargos →</Link>
         </div>
       </div>
     </main>

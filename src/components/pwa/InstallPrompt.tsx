@@ -105,7 +105,7 @@ export function InstallPrompt() {
             {!iosHint && (
               <button
                 onClick={install}
-                className="px-3.5 py-1.5 rounded-lg bg-[#00A859] text-white text-xs font-semibold hover:bg-[#007A30] transition-colors"
+                className="px-3.5 py-1.5 rounded-lg bg-verde-500 text-white text-xs font-semibold hover:bg-verde-700 transition-colors"
               >
                 Instalar
               </button>

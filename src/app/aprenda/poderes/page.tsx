@@ -197,7 +197,7 @@ export default function PoderesPage() {
         {/* Nav */}
         <div className="mt-10 flex gap-3">
           <Link href="/aprenda" className="text-sm text-gray-500 hover:text-gray-700">← Voltar para Aprenda</Link>
-          <Link href="/aprenda/esferas" className="text-sm text-[#00A859] font-medium hover:underline">Próximo: As Esferas →</Link>
+          <Link href="/aprenda/esferas" className="text-sm text-verde-500 font-medium hover:underline">Próximo: As Esferas →</Link>
         </div>
       </div>
     </main>

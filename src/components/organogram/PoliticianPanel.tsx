@@ -108,7 +108,7 @@ export function PoliticianPanel({ politician: p, onClose }: PoliticianPanelProps
             <ul className="space-y-1.5">
               {proposals.slice(0, 3).map((pr, i) => (
                 <li key={i} className="text-sm text-gray-600 flex items-start gap-1.5">
-                  <span className="text-[#00A859] mt-0.5 shrink-0">•</span>
+                  <span className="text-verde-500 mt-0.5 shrink-0">•</span>
                   <span className="line-clamp-1">{pr.title}</span>
                 </li>
               ))}
@@ -160,7 +160,7 @@ export function PoliticianPanel({ politician: p, onClose }: PoliticianPanelProps
       <div className="p-4 border-t shrink-0">
         <Link
           href={`/politico/${p.slug}`}
-          className="block w-full text-center bg-[#00A859] text-white rounded-lg py-2 text-sm font-semibold hover:bg-[#007a30] transition-colors"
+          className="block w-full text-center bg-verde-500 text-white rounded-lg py-2 text-sm font-semibold hover:bg-verde-700 transition-colors"
         >
           Ver perfil completo →
         </Link>

@@ -33,7 +33,7 @@ const roles: Role[] = [
     sphere: 'Federal',
     branch: 'Executivo',
     branchColor: 'bg-green-100 text-green-800',
-    sphereColor: 'bg-[#2255AA]/10 text-[#2255AA]',
+    sphereColor: 'bg-esfera-federal/10 text-esfera-federal',
     term: '4 anos',
     reelection: 'Uma vez consecutiva',
     count: '1',
@@ -49,7 +49,7 @@ const roles: Role[] = [
     sphere: 'Federal',
     branch: 'Legislativo',
     branchColor: 'bg-blue-100 text-blue-800',
-    sphereColor: 'bg-[#2255AA]/10 text-[#2255AA]',
+    sphereColor: 'bg-esfera-federal/10 text-esfera-federal',
     term: '8 anos',
     reelection: 'Sem limite',
     count: '81 (3 por estado)',
@@ -65,7 +65,7 @@ const roles: Role[] = [
     sphere: 'Federal',
     branch: 'Legislativo',
     branchColor: 'bg-blue-100 text-blue-800',
-    sphereColor: 'bg-[#2255AA]/10 text-[#2255AA]',
+    sphereColor: 'bg-esfera-federal/10 text-esfera-federal',
     term: '4 anos',
     reelection: 'Sem limite',
     count: '513 (proporcional por estado)',
@@ -81,7 +81,7 @@ const roles: Role[] = [
     sphere: 'Estadual',
     branch: 'Executivo',
     branchColor: 'bg-green-100 text-green-800',
-    sphereColor: 'bg-[#007A30]/10 text-[#007A30]',
+    sphereColor: 'bg-verde-700/10 text-verde-700',
     term: '4 anos',
     reelection: 'Uma vez consecutiva',
     count: '27 (um por estado + DF)',
@@ -97,7 +97,7 @@ const roles: Role[] = [
     sphere: 'Estadual',
     branch: 'Legislativo',
     branchColor: 'bg-blue-100 text-blue-800',
-    sphereColor: 'bg-[#007A30]/10 text-[#007A30]',
+    sphereColor: 'bg-verde-700/10 text-verde-700',
     term: '4 anos',
     reelection: 'Sem limite',
     count: 'Varia (mín. 24 por estado)',
@@ -113,7 +113,7 @@ const roles: Role[] = [
     sphere: 'Municipal',
     branch: 'Executivo',
     branchColor: 'bg-green-100 text-green-800',
-    sphereColor: 'bg-[#CC9900]/10 text-[#CC9900]',
+    sphereColor: 'bg-amarelo-600/10 text-amarelo-600',
     term: '4 anos',
     reelection: 'Uma vez consecutiva',
     count: '5.570 municípios',
@@ -129,7 +129,7 @@ const roles: Role[] = [
     sphere: 'Municipal',
     branch: 'Legislativo',
     branchColor: 'bg-blue-100 text-blue-800',
-    sphereColor: 'bg-[#CC9900]/10 text-[#CC9900]',
+    sphereColor: 'bg-amarelo-600/10 text-amarelo-600',
     term: '4 anos',
     reelection: 'Sem limite',
     count: '9 a 55 por câmara',
@@ -235,7 +235,7 @@ export default function CargosPage() {
                   <span className="text-xs text-gray-400">Subsídio: </span>
                   <span className="text-xs font-semibold text-gray-700">{role.salary}</span>
                 </span>
-                <span className="text-xs font-semibold text-[#00A859] inline-flex items-center gap-1">
+                <span className="text-xs font-semibold text-verde-500 inline-flex items-center gap-1">
                   Ver detalhes <span className="transition-transform group-hover:translate-x-0.5">→</span>
                 </span>
               </div>
@@ -246,7 +246,7 @@ export default function CargosPage() {
         {/* Nav */}
         <div className="mt-10 flex gap-3">
           <Link href="/aprenda/esferas" className="text-sm text-gray-500 hover:text-gray-700">← As Esferas</Link>
-          <Link href="/aprenda/processo-legislativo" className="text-sm text-[#00A859] font-medium hover:underline">Próximo: Como uma Lei é Criada →</Link>
+          <Link href="/aprenda/processo-legislativo" className="text-sm text-verde-500 font-medium hover:underline">Próximo: Como uma Lei é Criada →</Link>
         </div>
       </div>
     </main>
