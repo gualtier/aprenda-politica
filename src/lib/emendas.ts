@@ -15,9 +15,11 @@ export interface Emenda {
   uf: string | null
   valor_empenhado: number
   valor_pago: number
+  politician?: { slug: string; party: { abbr: string; color_hex: string | null } | null } | null
+  municipality?: { slug: string; name: string; state: { slug: string } | null } | null
 }
 
-const SELECT = 'id, codigo, ano, tipo, tipo_grupo, autor_nome, politician_id, funcao, subfuncao, localidade_raw, municipality_id, uf, valor_empenhado, valor_pago'
+const SELECT = 'id, codigo, ano, tipo, tipo_grupo, autor_nome, politician_id, funcao, subfuncao, localidade_raw, municipality_id, uf, valor_empenhado, valor_pago, politician:politicians(slug, party:parties(abbr, color_hex)), municipality:municipalities(slug, name, state:states(slug))'
 
 /** Valor em reais → "R$ 1,2 mi" / "R$ 10 mil" / "R$ 500". */
 export function formatMoney(reais: number): string {
@@ -32,6 +34,12 @@ const TIPO_GRUPO_LABEL: Record<string, string> = {
   individual: 'Individual', bancada: 'De bancada', comissao: 'De comissão', relator: 'De relator', outro: 'Outra',
 }
 export const tipoGrupoLabel = (g: string | null) => TIPO_GRUPO_LABEL[g ?? 'outro'] ?? 'Emenda'
+
+/** Cor de acento por tipo de emenda. */
+const TIPO_GRUPO_COLOR: Record<string, string> = {
+  individual: '#0D9488', bancada: '#2563EB', comissao: '#7c3aed', relator: '#CC9900', outro: '#6b7280',
+}
+export const tipoGrupoColor = (g: string | null) => TIPO_GRUPO_COLOR[g ?? 'outro'] ?? '#6b7280'
 
 /** funcao do orçamento → slug de tema (cross-link). */
 const FUNCAO_TEMA: Record<string, string> = {

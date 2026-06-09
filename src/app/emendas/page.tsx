@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { listEmendas, emendaFacets, formatMoney, tipoGrupoLabel } from '@/lib/emendas'
+import { listEmendas, emendaFacets, formatMoney, tipoGrupoLabel, tipoGrupoColor, funcaoToTema } from '@/lib/emendas'
 import { STATES } from '@/lib/states'
 
 export const metadata: Metadata = {
@@ -50,20 +50,44 @@ export default async function EmendasPage({ searchParams }: PageProps) {
         </form>
 
         <div className="space-y-3">
-          {items.map(e => (
-            <div key={e.id} className="border border-gray-200 rounded-xl p-4">
-              <div className="flex flex-wrap items-center gap-2 mb-1">
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-500 bg-gray-100 rounded px-1.5 py-0.5">{tipoGrupoLabel(e.tipo_grupo)} · {e.ano}</span>
-                {e.funcao && <span className="text-[10px] text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">{e.funcao}</span>}
-                <span className="ml-auto text-sm font-bold text-verde-600">{formatMoney(e.valor_pago)}<span className="text-[10px] text-gray-400 font-normal"> pago</span></span>
+          {items.map(e => {
+            const tc = tipoGrupoColor(e.tipo_grupo)
+            const tema = funcaoToTema(e.funcao)
+            const empenhadoDif = e.valor_empenhado > e.valor_pago + 1
+            return (
+              <div key={e.id} className="border border-gray-200 rounded-xl p-4 hover:border-gray-300 transition-colors">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  <span className="text-[10px] font-semibold uppercase tracking-wide rounded px-1.5 py-0.5" style={{ background: `${tc}14`, color: tc }}>{tipoGrupoLabel(e.tipo_grupo)}</span>
+                  <span className="text-[11px] text-gray-400">{e.ano}</span>
+                  {e.funcao && (tema
+                    ? <Link href={`/proposicoes/tema/${tema}`} className="text-[10px] font-medium text-gray-600 bg-gray-50 border border-gray-200 rounded-full px-2 py-0.5 hover:border-gray-400">{e.funcao}</Link>
+                    : <span className="text-[10px] text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">{e.funcao}</span>)}
+                  <span className="ml-auto">
+                    <span className="text-base font-bold text-verde-600">{formatMoney(e.valor_pago)}</span>
+                    <span className="text-[10px] text-gray-400 font-normal"> pago</span>
+                  </span>
+                </div>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm mb-1">
+                  {e.politician?.slug
+                    ? <Link href={`/politico/${e.politician.slug}`} className="font-semibold text-gray-900 hover:text-verde-600 inline-flex items-center gap-1.5">
+                        {e.autor_nome}
+                        {e.politician.party?.abbr && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded" style={{ background: `${e.politician.party.color_hex ?? '#9ca3af'}1a`, color: e.politician.party.color_hex ?? '#6b7280' }}>{e.politician.party.abbr}</span>}
+                      </Link>
+                    : <span className="font-semibold text-gray-900">{e.autor_nome ?? '—'}</span>}
+                  <span className="text-gray-300">→</span>
+                  {e.municipality?.slug && e.municipality.state?.slug
+                    ? <Link href={`/${e.municipality.state.slug}/${e.municipality.slug}`} className="text-gray-600 hover:text-verde-600">{e.municipality.name}{e.uf ? `-${e.uf}` : ''}</Link>
+                    : <span className="text-gray-500">{e.localidade_raw ?? 'destino não informado'}</span>}
+                </div>
+                {(e.subfuncao || empenhadoDif) && (
+                  <div className="flex flex-wrap items-center gap-x-2 text-[11px] text-gray-400">
+                    {e.subfuncao && <span>{e.subfuncao}</span>}
+                    {empenhadoDif && <span>· empenhado {formatMoney(e.valor_empenhado)}</span>}
+                  </div>
+                )}
               </div>
-              <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-sm">
-                <span className="font-medium text-gray-900">{e.autor_nome ?? '—'}</span>
-                <span className="text-gray-400">→</span>
-                <span className="text-gray-600">{e.localidade_raw ?? 'destino não informado'}</span>
-              </div>
-            </div>
-          ))}
+            )
+          })}
           {items.length === 0 && <p className="text-sm text-gray-400">Nenhuma emenda encontrada com esses filtros.</p>}
         </div>
 
