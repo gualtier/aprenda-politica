@@ -7,6 +7,7 @@ import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { SpectrumBar } from '@/components/ui/SpectrumBar'
 import { formatMandate } from '@/lib/utils'
 import { propositionsByPolitician, formatPropositionLabel } from '@/lib/propositions'
+import { emendasByPolitician, formatMoney } from '@/lib/emendas'
 import type { Politician } from '@/types'
 
 interface PageProps { params: { slug: string } }
@@ -69,6 +70,7 @@ export default async function PoliticoPage({ params }: PageProps) {
   const politician = p as Politician
 
   const propositions = await propositionsByPolitician(politician.id, 5)
+  const emendas = await emendasByPolitician(politician.id)
 
   const stateHref = politician.state ? `/${politician.state.slug}` : '/estados'
   const muniHref = politician.state && politician.municipality
@@ -290,6 +292,43 @@ export default async function PoliticoPage({ params }: PageProps) {
             </section>
           )
         })()}
+
+        {emendas && emendas.totalPago > 0 && (
+          <section className="mb-8">
+            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Emendas parlamentares</h2>
+            <div className="border border-gray-200 rounded-2xl p-5">
+              <div className="flex flex-wrap items-end gap-x-8 gap-y-2 mb-4">
+                <div>
+                  <div className="text-2xl font-bold text-verde-600 tabular-nums">{formatMoney(emendas.totalPago)}</div>
+                  <div className="text-xs text-gray-500">destinado e pago ({emendas.count} emendas)</div>
+                </div>
+              </div>
+              {emendas.topMunicipios.length > 0 && (
+                <div className="mb-3">
+                  <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-1.5">Principais destinos</div>
+                  <div className="flex flex-wrap gap-2">
+                    {emendas.topMunicipios.map(m => (
+                      <Link key={m.slug} href={`/emendas?municipio=${m.slug}`} className="text-xs border border-gray-200 rounded-full px-2.5 py-1 text-gray-600 hover:border-gray-400">
+                        {m.name}{m.uf ? `-${m.uf}` : ''} · {formatMoney(m.pago)}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {emendas.topFuncoes.length > 0 && (
+                <div>
+                  <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-1.5">Por função</div>
+                  <div className="flex flex-wrap gap-2">
+                    {emendas.topFuncoes.map(f => (
+                      <span key={f.funcao} className="text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded-full px-2.5 py-1">{f.funcao} · {formatMoney(f.pago)}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              <Link href={`/emendas?autor=${politician.slug}`} className="inline-block mt-4 text-sm text-verde-600 font-medium hover:underline">Ver todas as emendas →</Link>
+            </div>
+          </section>
+        )}
 
         {/* Proposições (autoria) */}
         {propositions.length > 0 && (
