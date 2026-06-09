@@ -7,6 +7,7 @@ import {
   SOURCE_LABELS, SOURCE_COLORS, statusTone,
 } from '@/lib/propositions'
 import { SITE_URL } from '@/lib/site'
+import { classifyTopics, getTopic } from '@/lib/topics'
 import type { PropositionAuthor } from '@/types'
 
 export const revalidate = 3600
@@ -76,6 +77,7 @@ export default async function PropositionPage({ params }: { params: { slug: stri
 
   const label = formatPropositionLabel(p)
   const info = typeInfo(p.type)
+  const topics = classifyTopics(p.title ?? '', p.summary ?? '', p.themes ?? []).map(getTopic).filter(Boolean)
   const authors = p.authors ?? []
   const autores = authors.filter(a => a.role === 'autor')
   const coautores = authors.filter(a => a.role !== 'autor')
@@ -158,12 +160,13 @@ export default async function PropositionPage({ params }: { params: { slug: stri
         </div>
 
         {/* Temas como chips */}
-        {(p.themes ?? []).length > 0 && (
+        {topics.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-8">
-            {(p.themes ?? []).map(t => (
-              <Link key={t} href={`/proposicoes?tema=${encodeURIComponent(t)}`}
-                className="text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded-full px-3 py-1 hover:border-gray-400">
-                {t}
+            {topics.map(tp => tp && (
+              <Link key={tp.slug} href={`/proposicoes/tema/${tp.slug}`}
+                className="inline-flex items-center gap-1 text-xs font-medium rounded-full px-3 py-1 border hover:opacity-80"
+                style={{ background: `${tp.accent}14`, color: tp.accent, borderColor: `${tp.accent}40` }}>
+                {tp.emoji} {tp.label}
               </Link>
             ))}
           </div>
