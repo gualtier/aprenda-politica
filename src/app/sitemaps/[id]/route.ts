@@ -1,9 +1,15 @@
-import { chunkUrls, urlsetXml } from '@/lib/sitemap'
+import { chunkCount, chunkUrls, urlsetXml } from '@/lib/sitemap'
 
 export const revalidate = 86400
-export const maxDuration = 60 // folga p/ a 1ª geração (cold start)
+export const maxDuration = 60
 
-// Cache na CDN da Vercel: Googlebot passa a ler do edge, não regera por fetch
+// Pré-gera todos os chunks no BUILD → arquivos estáticos servidos pela CDN
+// (sem geração em runtime). Faixas novas (id além do build) caem em ISR sob demanda.
+export async function generateStaticParams() {
+  const n = await chunkCount()
+  return Array.from({ length: n }, (_, i) => ({ id: `${i}.xml` }))
+}
+
 const CACHE = 'public, max-age=0, s-maxage=86400, stale-while-revalidate=86400'
 
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
