@@ -152,7 +152,7 @@ export default function HomePage() {
       </section>
 
       {/* ---------- Mapa (secundário) ---------- */}
-      <section className={`${WRAP} pb-16`}>
+      <section className={`${WRAP} pt-16 pb-16`}>
         <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-7 items-center">
           <div>
             <Eyebrow>Explorar visualmente</Eyebrow>
