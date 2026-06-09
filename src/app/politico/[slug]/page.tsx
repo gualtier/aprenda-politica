@@ -260,15 +260,33 @@ export default async function PoliticoPage({ params }: PageProps) {
           </section>
         )}
 
-        {/* Bio */}
-        {politician.bio && (
-          <section className="mb-8">
-            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
-              Biografia
-            </h2>
-            <p className="text-sm text-gray-600 leading-relaxed">{politician.bio}</p>
-          </section>
-        )}
+        {/* Perfil — dados estruturados (TSE / Câmara / Senado) */}
+        {(() => {
+          const age = politician.birth_date
+            ? Math.floor((Date.now() - new Date(politician.birth_date).getTime()) / 31_557_600_000)
+            : null
+          const items = [
+            age != null && age > 0 && age < 120 && { label: 'Idade', value: `${age} anos` },
+            politician.education && { label: 'Escolaridade', value: politician.education },
+            politician.race && { label: 'Cor/raça', value: politician.race },
+            politician.marital_status && { label: 'Estado civil', value: politician.marital_status },
+            politician.birth_state && { label: 'Naturalidade', value: politician.birth_state },
+          ].filter(Boolean) as Array<{ label: string; value: string }>
+          if (items.length === 0) return null
+          return (
+            <section className="mb-8">
+              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Perfil</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {items.map(it => (
+                  <div key={it.label} className="bg-gray-50 rounded-xl p-3">
+                    <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide">{it.label}</div>
+                    <div className="text-sm font-bold text-gray-800 mt-1">{it.value}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        })()}
 
         {/* Proposta de governo (executive) */}
         {politician.government_plan_url && (

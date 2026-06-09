@@ -60,6 +60,13 @@ export interface Politician {
   occupation?: string | null
   social_links?: Array<{ platform: string; url: string }> | null
   government_plan_url?: string | null
+  birth_date?: string | null
+  gender?: string | null
+  education?: string | null
+  race?: string | null
+  marital_status?: string | null
+  birth_state?: string | null
+  email?: string | null
   party?: Party
   position?: Position
   state?: State
