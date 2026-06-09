@@ -64,7 +64,7 @@ export async function listPropositions(f: PropositionFilter): Promise<{ items: P
 
   if (f.tipo) q = q.eq('type', f.tipo)
   if (f.fonte) q = q.eq('source', f.fonte)
-  if (f.tema) q = q.contains('themes', [f.tema])
+  if (f.tema) q = q.contains('topics', [f.tema])
   if (f.q) q = q.or(`title.ilike.%${f.q}%,slug.ilike.%${f.q}%`)
   if (f.partido) {
     const { data: party } = await supabase.from('parties').select('id').eq('slug', f.partido).single()
@@ -142,4 +142,67 @@ export async function propositionFacets(): Promise<{ types: string[] }> {
   const { data } = await supabase.from('propositions').select('type')
   const types = Array.from(new Set((data ?? []).map(r => (r as { type: string }).type))).sort()
   return { types }
+}
+
+/** Proposições de um tema (paginado, com autor principal já enriquecido). */
+export async function propositionsByTopic(tema: string, page = 1, pageSize = 30): Promise<{ items: Proposition[]; total: number }> {
+  return listPropositions({ tema, page, pageSize })
+}
+
+export interface TopicStats {
+  total: number
+  bySource: { camara: number; senado: number }
+  topTypes: { type: string; n: number }[]
+  topParties: { id: number; abbr: string; color: string | null; slug: string | null; logo: string | null; n: number }[]
+  topAuthors: { id: number; name: string; slug: string; photo_url: string | null; party_abbr: string | null; party_color: string | null; n: number }[]
+}
+
+/** Agregados (BI) de um tema. */
+export async function topicStats(tema: string): Promise<TopicStats> {
+  const supabase = createServerSupabaseClient()
+  const { data: props } = await supabase.from('propositions')
+    .select('id, type, source, party_ids').contains('topics', [tema]).limit(20000)
+  const rows = (props ?? []) as { id: number; type: string; source: string; party_ids: number[] | null }[]
+
+  const bySource = { camara: 0, senado: 0 }
+  const typeCount = new Map<string, number>()
+  const partyCount = new Map<number, number>()
+  for (const r of rows) {
+    if (r.source === 'camara') bySource.camara++
+    else if (r.source === 'senado') bySource.senado++
+    typeCount.set(r.type, (typeCount.get(r.type) ?? 0) + 1)
+    for (const pid of r.party_ids ?? []) partyCount.set(pid, (partyCount.get(pid) ?? 0) + 1)
+  }
+  const topTypes = Array.from(typeCount).map(([type, n]) => ({ type, n })).sort((a, b) => b.n - a.n).slice(0, 5)
+
+  const topPartyIds = Array.from(partyCount).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([id]) => id)
+  let topParties: TopicStats['topParties'] = []
+  if (topPartyIds.length) {
+    const { data: parties } = await supabase.from('parties').select('id, abbr, color_hex, slug, logo_url').in('id', topPartyIds)
+    topParties = (parties ?? []).map((p: { id: number; abbr: string; color_hex: string | null; slug: string | null; logo_url: string | null }) => ({
+      id: p.id, abbr: p.abbr, color: p.color_hex, slug: p.slug, logo: p.logo_url, n: partyCount.get(p.id) ?? 0,
+    })).sort((a, b) => b.n - a.n)
+  }
+
+  const ids = rows.map(r => r.id)
+  const authorCount = new Map<number, number>()
+  for (let i = 0; i < ids.length; i += 300) {
+    const slice = ids.slice(i, i + 300)
+    const { data: pa } = await supabase.from('proposition_authors')
+      .select('politician_id').in('proposition_id', slice).eq('role', 'autor').not('politician_id', 'is', null)
+    for (const a of (pa ?? []) as { politician_id: number }[]) authorCount.set(a.politician_id, (authorCount.get(a.politician_id) ?? 0) + 1)
+  }
+  const topAuthorIds = Array.from(authorCount).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([id]) => id)
+  let topAuthors: TopicStats['topAuthors'] = []
+  if (topAuthorIds.length) {
+    const { data: pols } = await supabase.from('politicians')
+      .select('id, name, slug, photo_url, party:parties(abbr, color_hex)').in('id', topAuthorIds)
+    type PR = { id: number; name: string; slug: string; photo_url: string | null; party: { abbr: string; color_hex: string | null } | null }
+    topAuthors = ((pols as unknown as PR[]) ?? []).map(p => ({
+      id: p.id, name: p.name, slug: p.slug, photo_url: p.photo_url,
+      party_abbr: p.party?.abbr ?? null, party_color: p.party?.color_hex ?? null, n: authorCount.get(p.id) ?? 0,
+    })).sort((a, b) => b.n - a.n)
+  }
+
+  return { total: rows.length, bySource, topTypes, topParties, topAuthors }
 }
