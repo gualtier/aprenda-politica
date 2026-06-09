@@ -78,7 +78,7 @@ export interface PropositionAuthor {
   politician_id: number | null
   role: string | null
   ordem: number | null
-  politician?: { name: string; slug: string } | null
+  politician?: { name: string; slug: string; party?: { abbr: string; color_hex: string | null } | null } | null
 }
 
 export interface Proposition {
@@ -97,6 +97,7 @@ export interface Proposition {
   party_ids: number[] | null
   slug: string
   authors?: PropositionAuthor[]
+  primary_author?: { name: string; slug: string | null; party_abbr: string | null; party_color: string | null } | null
 }
 
 export interface OrganogramData {

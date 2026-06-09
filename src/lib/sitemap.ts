@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { SITE_URL } from './site'
 
 export const POL_CHUNK = 20_000 // teto do protocolo é 50k; 20k mantém a geração ~4s (longe do timeout)
+export const PROP_CHUNK = 20_000 // proposições por arquivo de sitemap
 
 export type SUrl = { loc: string; changefreq?: string; priority?: number }
 
@@ -11,7 +12,7 @@ function db() {
 }
 
 const STATIC_PATHS = [
-  '', '/estados', '/partidos', '/politicos', '/aprenda',
+  '', '/estados', '/partidos', '/politicos', '/proposicoes', '/aprenda',
   '/aprenda/poderes', '/aprenda/poderes/executivo', '/aprenda/poderes/legislativo', '/aprenda/poderes/judiciario',
   '/aprenda/esferas', '/aprenda/esferas/federal', '/aprenda/esferas/estadual', '/aprenda/esferas/municipal',
   '/aprenda/cargos', '/aprenda/cargos/presidente', '/aprenda/cargos/senador', '/aprenda/cargos/deputado-federal',
@@ -24,7 +25,7 @@ const STATIC_PATHS = [
 ]
 
 // Supabase limita 1000 linhas/request — paginamos para cobrir um intervalo maior
-async function paginate(table: 'politicians' | 'municipalities', select: string, from: number, size: number) {
+async function paginate(table: 'politicians' | 'municipalities' | 'propositions', select: string, from: number, size: number) {
   const supabase = db()
   const rows: Record<string, unknown>[] = []
   let offset = from
@@ -40,11 +41,23 @@ async function paginate(table: 'politicians' | 'municipalities', select: string,
   return rows
 }
 
-/** Nº total de arquivos de sitemap: 0 (estático) + 1 (municípios) + N (políticos). */
+/** Quantos arquivos de cada faixa: políticos e proposições (contagem viva). */
+async function chunkLayout(): Promise<{ polChunks: number; propChunks: number }> {
+  const supabase = db()
+  const [{ count: pol }, { count: prop }] = await Promise.all([
+    supabase.from('politicians').select('id', { count: 'exact', head: true }),
+    supabase.from('propositions').select('id', { count: 'exact', head: true }),
+  ])
+  return {
+    polChunks: Math.max(1, Math.ceil((pol ?? 0) / POL_CHUNK)),
+    propChunks: Math.max(0, Math.ceil((prop ?? 0) / PROP_CHUNK)),
+  }
+}
+
+/** Nº total de arquivos: 0 (estático) + 1 (municípios) + N (políticos) + M (proposições). */
 export async function chunkCount(): Promise<number> {
-  const { count } = await db().from('politicians').select('id', { count: 'exact', head: true })
-  const polChunks = Math.max(1, Math.ceil((count ?? 0) / POL_CHUNK))
-  return 2 + polChunks
+  const { polChunks, propChunks } = await chunkLayout()
+  return 2 + polChunks + propChunks
 }
 
 /** URLs de um arquivo de sitemap pelo índice. */
@@ -82,10 +95,19 @@ export async function chunkUrls(id: number): Promise<SUrl[]> {
       .filter(u => !u.loc.includes('/undefined/'))
   }
 
-  // id 2.. — políticos (chunked)
-  const chunk = id - 2
-  const rows = await paginate('politicians', 'slug', chunk * POL_CHUNK, POL_CHUNK)
-  return rows.map(p => ({ loc: `${SITE_URL}/politico/${p.slug as string}`, changefreq: 'monthly', priority: 0.6 }))
+  // id 2.. — políticos, depois proposições (faixas calculadas pela contagem viva)
+  const { polChunks } = await chunkLayout()
+  const polEnd = 2 + polChunks
+  if (id < polEnd) {
+    const chunk = id - 2
+    const rows = await paginate('politicians', 'slug', chunk * POL_CHUNK, POL_CHUNK)
+    return rows.map(p => ({ loc: `${SITE_URL}/politico/${p.slug as string}`, changefreq: 'monthly', priority: 0.6 }))
+  }
+
+  // proposições
+  const propChunk = id - polEnd
+  const rows = await paginate('propositions', 'slug', propChunk * PROP_CHUNK, PROP_CHUNK)
+  return rows.map(p => ({ loc: `${SITE_URL}/proposicoes/${p.slug as string}`, changefreq: 'monthly', priority: 0.5 }))
 }
 
 const escapeXml = (s: string) => s.replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&apos;', '"': '&quot;' }[c]!))
