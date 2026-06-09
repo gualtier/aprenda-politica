@@ -143,7 +143,7 @@ export function urlsetXml(urls: SUrl[]): string {
 export function indexXml(count: number): string {
   const now = new Date().toISOString()
   const items = Array.from({ length: count }, (_, i) =>
-    `<sitemap><loc>${SITE_URL}/sitemaps/${i}.xml</loc><lastmod>${now}</lastmod></sitemap>`
+    `<sitemap><loc>${SITE_URL}/sitemaps-v2/${i}.xml</loc><lastmod>${now}</lastmod></sitemap>`
   ).join('')
   return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${items}</sitemapindex>`
 }
