@@ -1,4 +1,5 @@
 import { SITE_URL } from './site'
+import { TOPICS } from './topics'
 
 export const POL_CHUNK = 20_000 // teto do protocolo é 50k URLs por arquivo
 export const PROP_CHUNK = 20_000
@@ -31,7 +32,7 @@ async function rest<T = Record<string, unknown>>(
 }
 
 const STATIC_PATHS = [
-  '', '/estados', '/partidos', '/politicos', '/proposicoes', '/aprenda',
+  '', '/estados', '/partidos', '/politicos', '/proposicoes', '/temas', '/aprenda',
   '/aprenda/poderes', '/aprenda/poderes/executivo', '/aprenda/poderes/legislativo', '/aprenda/poderes/judiciario',
   '/aprenda/esferas', '/aprenda/esferas/federal', '/aprenda/esferas/estadual', '/aprenda/esferas/municipal',
   '/aprenda/cargos', '/aprenda/cargos/presidente', '/aprenda/cargos/senador', '/aprenda/cargos/deputado-federal',
@@ -41,6 +42,7 @@ const STATIC_PATHS = [
   '/aprenda/processo-legislativo/publicacao',
   '/aprenda/impostos', '/aprenda/impostos/ir', '/aprenda/impostos/ipi', '/aprenda/impostos/iof', '/aprenda/impostos/icms',
   '/aprenda/impostos/ipva', '/aprenda/impostos/itcmd', '/aprenda/impostos/iptu', '/aprenda/impostos/iss', '/aprenda/impostos/itbi',
+  ...TOPICS.map(t => `/proposicoes/tema/${t.slug}`),
 ]
 
 // Supabase limita 1000 linhas/request — paginamos para cobrir um intervalo maior
