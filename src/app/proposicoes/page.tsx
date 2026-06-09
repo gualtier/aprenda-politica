@@ -38,7 +38,27 @@ export default async function ProposicoesPage({ searchParams }: PageProps) {
     <main className="min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-4 py-10">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Proposições</h1>
-        <p className="text-gray-500 mb-8">{total.toLocaleString('pt-BR')} proposições do mandato atual.</p>
+        <p className="text-gray-500 mb-5">{total.toLocaleString('pt-BR')} proposições do mandato atual.</p>
+
+        {/* Quick-filtros por tema */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          <Link href={qs({ tema: undefined, pagina: undefined })}
+            className={`text-xs font-medium rounded-full px-3 py-1.5 border transition ${searchParams.tema ? 'border-gray-200 text-gray-600 hover:border-gray-400' : 'bg-gray-900 text-white border-gray-900'}`}>
+            Todos
+          </Link>
+          {TOPICS.map(t => {
+            const active = searchParams.tema === t.slug
+            return (
+              <Link key={t.slug} href={qs({ tema: t.slug, pagina: undefined })}
+                className="text-xs font-medium rounded-full px-3 py-1.5 border hover:opacity-80 transition"
+                style={active
+                  ? { background: t.accent, color: '#fff', borderColor: t.accent }
+                  : { background: `${t.accent}14`, color: t.accent, borderColor: `${t.accent}33` }}>
+                {t.emoji} {t.label}
+              </Link>
+            )
+          })}
+        </div>
 
         <form className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8" action="/proposicoes" method="get">
           <input name="q" defaultValue={searchParams.q} placeholder="Buscar por texto ou número"
@@ -57,10 +77,7 @@ export default async function ProposicoesPage({ searchParams }: PageProps) {
             <option value="senado">Senado</option>
             <option value="ales">Assembleia ES</option>
           </select>
-          <select name="tema" defaultValue={searchParams.tema ?? ''} className="border border-gray-200 rounded-lg px-3 py-2 text-sm">
-            <option value="">Todos os temas</option>
-            {TOPICS.map(t => <option key={t.slug} value={t.slug}>{t.label}</option>)}
-          </select>
+          <input type="hidden" name="tema" value={searchParams.tema ?? ''} />
           <button type="submit" className="bg-verde-500 text-white rounded-lg px-3 py-2 text-sm font-medium">Filtrar</button>
         </form>
 
