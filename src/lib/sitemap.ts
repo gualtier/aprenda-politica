@@ -32,7 +32,7 @@ async function rest<T = Record<string, unknown>>(
 }
 
 const STATIC_PATHS = [
-  '', '/estados', '/partidos', '/politicos', '/proposicoes', '/temas', '/aprenda',
+  '', '/estados', '/partidos', '/politicos', '/proposicoes', '/temas', '/emendas', '/aprenda',
   '/aprenda/poderes', '/aprenda/poderes/executivo', '/aprenda/poderes/legislativo', '/aprenda/poderes/judiciario',
   '/aprenda/esferas', '/aprenda/esferas/federal', '/aprenda/esferas/estadual', '/aprenda/esferas/municipal',
   '/aprenda/cargos', '/aprenda/cargos/presidente', '/aprenda/cargos/senador', '/aprenda/cargos/deputado-federal',
@@ -42,6 +42,7 @@ const STATIC_PATHS = [
   '/aprenda/processo-legislativo/publicacao',
   '/aprenda/impostos', '/aprenda/impostos/ir', '/aprenda/impostos/ipi', '/aprenda/impostos/iof', '/aprenda/impostos/icms',
   '/aprenda/impostos/ipva', '/aprenda/impostos/itcmd', '/aprenda/impostos/iptu', '/aprenda/impostos/iss', '/aprenda/impostos/itbi',
+  '/aprenda/emendas',
   ...TOPICS.map(t => `/proposicoes/tema/${t.slug}`),
 ]
 

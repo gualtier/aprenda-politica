@@ -64,6 +64,15 @@ const topics: Topic[] = [
     tag: 'bg-teal-100 text-teal-700',
     iconWrap: 'bg-teal-100 text-teal-700',
   },
+  {
+    href: '/aprenda/emendas',
+    Icon: IconBank,
+    title: 'Emendas Parlamentares',
+    description: 'Como deputados e senadores destinam verba do orçamento para os municípios — e como fiscalizar.',
+    color: 'bg-teal-50 border-teal-200 hover:border-teal-400',
+    tag: 'bg-teal-100 text-teal-700',
+    iconWrap: 'bg-teal-100 text-teal-700',
+  },
 ]
 
 export default function AprendaPage() {

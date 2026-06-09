@@ -6,6 +6,7 @@ import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { Avatar } from '@/components/ui/Avatar'
 import { SpectrumBar } from '@/components/ui/SpectrumBar'
 import { propositionsByParty, formatPropositionLabel } from '@/lib/propositions'
+import { formatMoney } from '@/lib/emendas'
 
 interface PageProps { params: { slug: string } }
 
@@ -69,6 +70,14 @@ export default async function PartidoPage({ params }: PageProps) {
     .map(slug => ({ slug, label: POSITION_LABEL[slug], pols: byPosition[slug] }))
 
   const partyPropositions = await propositionsByParty(party.id, 5)
+
+  const { data: partyPolIds } = await supabase.from('politicians').select('id').eq('party_id', party.id)
+  const pids = (partyPolIds ?? []).map(p => p.id)
+  let emendasPartidoTotal = 0
+  if (pids.length) {
+    const { data: em } = await supabase.from('emendas').select('valor_pago').in('politician_id', pids).limit(20000)
+    emendasPartidoTotal = (em ?? []).reduce((s, e) => s + ((e as { valor_pago: number }).valor_pago || 0), 0)
+  }
 
   return (
     <main className="min-h-screen bg-white">
@@ -219,6 +228,14 @@ export default async function PartidoPage({ params }: PageProps) {
             <Link href={`/proposicoes?partido=${params.slug}`} className="inline-block mt-3 text-sm text-verde-500 font-medium hover:underline">
               Ver todas →
             </Link>
+          </section>
+        )}
+
+        {emendasPartidoTotal > 0 && (
+          <section className="mb-8 border border-gray-200 rounded-2xl p-5">
+            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">Emendas dos filiados</h2>
+            <div className="text-2xl font-bold text-verde-600 tabular-nums">{formatMoney(emendasPartidoTotal)}</div>
+            <div className="text-xs text-gray-500">destinados em emendas por parlamentares do partido</div>
           </section>
         )}
       </div>

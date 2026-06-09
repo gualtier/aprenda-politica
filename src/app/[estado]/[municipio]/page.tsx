@@ -1,6 +1,8 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { getOrganogramData } from '@/lib/supabase/queries'
+import { emendasByMunicipality, formatMoney } from '@/lib/emendas'
 import { Organogram } from '@/components/organogram/Organogram'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
 
@@ -24,6 +26,8 @@ export default async function MunicipioPage({ params }: PageProps) {
 
   const municipioName = data.municipality?.name ?? data.state.name
   const population = data.municipality?.population
+
+  const muniEmendas = data.municipality?.id ? await emendasByMunicipality(data.municipality.id) : null
 
   const prefeito = data.municipal?.executive[0] ?? null
   const governador = data.estadual?.executive[0] ?? null
@@ -82,6 +86,33 @@ export default async function MunicipioPage({ params }: PageProps) {
               )
             })}
           </div>
+        )}
+
+        {muniEmendas && muniEmendas.totalPago > 0 && (
+          <section className="mb-6 border border-gray-200 rounded-2xl p-5">
+            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Emendas recebidas</h2>
+            <div className="flex flex-wrap items-end gap-x-8 gap-y-2 mb-4">
+              <div>
+                <div className="text-2xl font-bold text-verde-600 tabular-nums">{formatMoney(muniEmendas.totalPago)}</div>
+                <div className="text-xs text-gray-500">em emendas pagas ({muniEmendas.count} linhas)</div>
+              </div>
+            </div>
+            <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Quem destinou</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {muniEmendas.topAutores.map((a, i) => {
+                const inner = (
+                  <div className="flex items-center justify-between gap-2 border border-gray-200 rounded-xl p-2.5">
+                    <span className="flex items-center gap-2 min-w-0">
+                      <span className="font-medium text-sm text-gray-900 truncate">{a.name}</span>
+                      {a.party_abbr && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded" style={{ background: `${a.party_color ?? '#9ca3af'}1a`, color: a.party_color ?? '#6b7280' }}>{a.party_abbr}</span>}
+                    </span>
+                    <span className="text-sm font-semibold text-verde-600 shrink-0">{formatMoney(a.pago)}</span>
+                  </div>
+                )
+                return a.slug ? <Link key={i} href={`/politico/${a.slug}`} className="block hover:opacity-90">{inner}</Link> : <div key={i}>{inner}</div>
+              })}
+            </div>
+          </section>
         )}
 
         {/* Key executives */}
