@@ -137,7 +137,7 @@ export default async function PartidoPage({ params }: PageProps) {
             href={party.website}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm text-[#00A859] hover:underline mb-8"
+            className="inline-flex items-center gap-1.5 text-sm text-verde-500 hover:underline mb-8"
           >
             {party.website.replace('https://', '')}
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -211,12 +211,12 @@ export default async function PartidoPage({ params }: PageProps) {
             <div className="space-y-2">
               {partyPropositions.map(pr => (
                 <Link key={pr.id} href={`/proposicoes/${pr.slug}`} className="block border border-gray-200 rounded-xl p-3 hover:border-gray-400 transition-colors">
-                  <span className="text-xs font-bold text-[#00A859]">{formatPropositionLabel(pr)}</span>
+                  <span className="text-xs font-bold text-verde-500">{formatPropositionLabel(pr)}</span>
                   <p className="text-sm text-gray-700 line-clamp-2 mt-0.5">{pr.title}</p>
                 </Link>
               ))}
             </div>
-            <Link href={`/proposicoes?partido=${params.slug}`} className="inline-block mt-3 text-sm text-[#00A859] font-medium hover:underline">
+            <Link href={`/proposicoes?partido=${params.slug}`} className="inline-block mt-3 text-sm text-verde-500 font-medium hover:underline">
               Ver todas →
             </Link>
           </section>

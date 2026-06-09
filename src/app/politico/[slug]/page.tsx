@@ -183,7 +183,7 @@ export default async function PoliticoPage({ params }: PageProps) {
                 href={extLink.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 inline-flex items-center gap-1.5 text-xs text-[#00A859] hover:underline"
+                className="mt-3 inline-flex items-center gap-1.5 text-xs text-verde-500 hover:underline"
               >
                 {extLink.label}
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -298,12 +298,12 @@ export default async function PoliticoPage({ params }: PageProps) {
             <div className="space-y-2">
               {propositions.map(pr => (
                 <Link key={pr.id} href={`/proposicoes/${pr.slug}`} className="block border border-gray-200 rounded-xl p-3 hover:border-gray-400 transition-colors">
-                  <span className="text-xs font-bold text-[#00A859]">{formatPropositionLabel(pr)}</span>
+                  <span className="text-xs font-bold text-verde-500">{formatPropositionLabel(pr)}</span>
                   <p className="text-sm text-gray-700 line-clamp-2 mt-0.5">{pr.title}</p>
                 </Link>
               ))}
             </div>
-            <Link href={`/proposicoes?autor=${politician.slug}`} className="inline-block mt-3 text-sm text-[#00A859] font-medium hover:underline">
+            <Link href={`/proposicoes?autor=${politician.slug}`} className="inline-block mt-3 text-sm text-verde-500 font-medium hover:underline">
               Ver todas as proposições →
             </Link>
           </section>
@@ -319,7 +319,7 @@ export default async function PoliticoPage({ params }: PageProps) {
               href={politician.government_plan_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-4 py-3 rounded-xl border border-[#00A859]/30 bg-[#00A859]/5 text-[#00A859] hover:bg-[#00A859]/10 transition-colors text-sm font-medium"
+              className="inline-flex items-center gap-2.5 px-4 py-3 rounded-xl border border-[#00A859]/30 bg-[#00A859]/5 text-verde-500 hover:bg-[#00A859]/10 transition-colors text-sm font-medium"
             >
               <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />

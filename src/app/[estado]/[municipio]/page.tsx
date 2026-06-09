@@ -32,13 +32,20 @@ export default async function MunicipioPage({ params }: PageProps) {
   const depEstaduaisCount = data.estadual.legislative.length
   const senadoresCount = data.federal.legislative.senado.length
 
+  // Ordem por esfera: municipal → estadual → federal
   const stats = [
-    population ? { label: 'Habitantes', value: population.toLocaleString('pt-BR') } : null,
-    vereadoresCount > 0 ? { label: 'Vereadores', value: vereadoresCount.toLocaleString('pt-BR') } : null,
-    depFederaisCount > 0 ? { label: 'Dep. Federais', value: depFederaisCount.toLocaleString('pt-BR') } : null,
-    depEstaduaisCount > 0 ? { label: 'Dep. Estaduais', value: depEstaduaisCount.toLocaleString('pt-BR') } : null,
-    senadoresCount > 0 ? { label: 'Senadores', value: senadoresCount.toLocaleString('pt-BR') } : null,
-  ].filter(Boolean) as { label: string; value: string }[]
+    population ? { label: 'Habitantes', value: population.toLocaleString('pt-BR'), esfera: null } : null,
+    vereadoresCount > 0 ? { label: 'Vereadores', value: vereadoresCount.toLocaleString('pt-BR'), esfera: 'municipal' } : null,
+    depEstaduaisCount > 0 ? { label: 'Dep. Estaduais', value: depEstaduaisCount.toLocaleString('pt-BR'), esfera: 'estadual' } : null,
+    depFederaisCount > 0 ? { label: 'Dep. Federais', value: depFederaisCount.toLocaleString('pt-BR'), esfera: 'federal' } : null,
+    senadoresCount > 0 ? { label: 'Senadores', value: senadoresCount.toLocaleString('pt-BR'), esfera: 'federal' } : null,
+  ].filter(Boolean) as { label: string; value: string; esfera: string | null }[]
+
+  const ESF_STYLE: Record<string, { text: string; border: string }> = {
+    municipal: { text: 'text-esfera-municipal', border: 'border-l-esfera-municipal' },
+    estadual:  { text: 'text-esfera-estadual',  border: 'border-l-esfera-estadual' },
+    federal:   { text: 'text-esfera-federal',   border: 'border-l-esfera-federal' },
+  }
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -62,15 +69,18 @@ export default async function MunicipioPage({ params }: PageProps) {
           <p className="text-sm text-gray-500 mt-0.5">{data.state.name}</p>
         </div>
 
-        {/* Stats strip */}
+        {/* Stats strip — cor por esfera (municipal → federal) */}
         {stats.length > 0 && (
           <div className="flex flex-wrap gap-3 mb-5">
-            {stats.map(s => (
-              <div key={s.label} className="border border-gray-100 rounded-xl px-4 py-2.5 bg-gray-50 min-w-[90px]">
-                <div className="text-xl font-bold text-gray-900 tabular-nums">{s.value}</div>
-                <div className="text-xs text-gray-500">{s.label}</div>
-              </div>
-            ))}
+            {stats.map(s => {
+              const esf = s.esfera ? ESF_STYLE[s.esfera] : null
+              return (
+                <div key={s.label} className={`border border-gray-100 rounded-xl px-4 py-2.5 bg-gray-50 min-w-[90px] ${esf ? `border-l-4 ${esf.border}` : ''}`}>
+                  <div className={`text-xl font-bold tabular-nums ${esf ? esf.text : 'text-gray-900'}`}>{s.value}</div>
+                  <div className="text-xs text-gray-500">{s.label}</div>
+                </div>
+              )
+            })}
           </div>
         )}
 
