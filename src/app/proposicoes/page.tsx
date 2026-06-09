@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { listPropositions, propositionFacets, formatPropositionLabel, SOURCE_SHORT, SOURCE_COLORS, typeInfo, statusTone } from '@/lib/propositions'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
+import { TOPICS } from '@/lib/topics'
 
 const fmtDate = (d: string | null) =>
   d ? new Date(d).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : null
@@ -55,6 +56,10 @@ export default async function ProposicoesPage({ searchParams }: PageProps) {
             <option value="camara">Câmara</option>
             <option value="senado">Senado</option>
             <option value="ales">Assembleia ES</option>
+          </select>
+          <select name="tema" defaultValue={searchParams.tema ?? ''} className="border border-gray-200 rounded-lg px-3 py-2 text-sm">
+            <option value="">Todos os temas</option>
+            {TOPICS.map(t => <option key={t.slug} value={t.slug}>{t.label}</option>)}
           </select>
           <button type="submit" className="bg-verde-500 text-white rounded-lg px-3 py-2 text-sm font-medium">Filtrar</button>
         </form>
