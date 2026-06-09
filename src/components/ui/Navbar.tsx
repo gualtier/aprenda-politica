@@ -62,6 +62,12 @@ const APRENDA_GROUPS: Group[] = [
       { href: '/aprenda/impostos/itbi', label: 'ITBI — Compra de imóvel' },
     ],
   },
+  {
+    href: '/aprenda/emendas', label: 'Emendas Parlamentares',
+    children: [
+      { href: '/aprenda/emendas', label: 'Emendas Parlamentares' },
+    ],
+  },
 ]
 
 const links: NavLink[] = [
