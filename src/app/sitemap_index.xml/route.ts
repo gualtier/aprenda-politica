@@ -1,0 +1,15 @@
+import { chunkCount, indexXml } from '@/lib/sitemap'
+
+// Índice novo (URL fresca) — escapa de qualquer estado em cache do GSC para
+// /sitemap.xml. Mesmo conteúdo, servido estático/ISR.
+export const revalidate = 86400
+export const maxDuration = 60
+
+const CACHE = 'public, max-age=0, s-maxage=86400, stale-while-revalidate=86400'
+
+export async function GET() {
+  const count = await chunkCount()
+  return new Response(indexXml(count), {
+    headers: { 'Content-Type': 'application/xml; charset=utf-8', 'Cache-Control': CACHE },
+  })
+}
