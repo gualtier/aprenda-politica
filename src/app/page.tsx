@@ -116,6 +116,41 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ---------- Aprenda (guias) ---------- */}
+      <section className="bg-gray-50 border-y border-gray-100">
+        <div className={`${WRAP} py-14`}>
+          <div className="text-center mb-7">
+            <Eyebrow className="text-verde-600">Educação política</Eyebrow>
+            <h2 className="text-[30px] font-bold tracking-[-0.02em] text-gray-900 mt-2.5 mb-2">
+              Como funciona o poder <span className="text-verde-500">no Brasil?</span>
+            </h2>
+            <p className="text-[15px] text-gray-500 m-0">Guias visuais, sem juridiquês, para entender o sistema político brasileiro.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {GUIAS.map(g => (
+              <Link
+                key={g.href}
+                href={g.href}
+                className="guide-card flex gap-[18px] items-start bg-white rounded-2xl p-[22px]"
+                style={{ '--tone': g.tone } as CSSProperties}
+              >
+                <span className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: g.soft, color: g.tone }}>
+                  <g.Icon className="w-6 h-6" />
+                </span>
+                <div className="flex-1">
+                  <h3 className="text-[17px] font-bold text-gray-900 mt-0.5 mb-1.5">{g.title}</h3>
+                  <p className="text-[13.5px] text-gray-500 m-0 leading-[1.55]">{g.desc}</p>
+                  <span className="inline-flex items-center gap-1.5 mt-3 text-[13px] font-semibold whitespace-nowrap" style={{ color: g.tone }}>
+                    Ler guia <IconArrow className="w-3.5 h-3.5" />
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ---------- Mapa (secundário) ---------- */}
       <section className={`${WRAP} pb-16`}>
         <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.15fr] gap-7 items-center">
@@ -173,41 +208,6 @@ export default function HomePage() {
               <div className="text-xs text-gray-400 mt-0.5">{s.munis.toLocaleString('pt-BR')} municípios</div>
             </Link>
           ))}
-        </div>
-      </section>
-
-      {/* ---------- Aprenda (guias) ---------- */}
-      <section className="bg-gray-50 border-y border-gray-100">
-        <div className={`${WRAP} py-14`}>
-          <div className="text-center mb-7">
-            <Eyebrow className="text-verde-600">Educação política</Eyebrow>
-            <h2 className="text-[30px] font-bold tracking-[-0.02em] text-gray-900 mt-2.5 mb-2">
-              Como funciona o poder <span className="text-verde-500">no Brasil?</span>
-            </h2>
-            <p className="text-[15px] text-gray-500 m-0">Guias visuais, sem juridiquês, para entender o sistema político brasileiro.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {GUIAS.map(g => (
-              <Link
-                key={g.href}
-                href={g.href}
-                className="guide-card flex gap-[18px] items-start bg-white rounded-2xl p-[22px]"
-                style={{ '--tone': g.tone } as CSSProperties}
-              >
-                <span className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: g.soft, color: g.tone }}>
-                  <g.Icon className="w-6 h-6" />
-                </span>
-                <div className="flex-1">
-                  <h3 className="text-[17px] font-bold text-gray-900 mt-0.5 mb-1.5">{g.title}</h3>
-                  <p className="text-[13.5px] text-gray-500 m-0 leading-[1.55]">{g.desc}</p>
-                  <span className="inline-flex items-center gap-1.5 mt-3 text-[13px] font-semibold whitespace-nowrap" style={{ color: g.tone }}>
-                    Ler guia <IconArrow className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 
