@@ -70,6 +70,7 @@ const links: NavLink[] = [
   { href: '/estados', label: 'Estados' },
   { href: '/partidos', label: 'Partidos' },
   { href: '/politicos', label: 'Políticos' },
+  { href: '/proposicoes', label: 'Proposições' },
 ]
 
 function isActive(pathname: string, href: string) {

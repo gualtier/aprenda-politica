@@ -5,6 +5,7 @@ import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { Avatar } from '@/components/ui/Avatar'
 import { SpectrumBar } from '@/components/ui/SpectrumBar'
+import { propositionsByParty, formatPropositionLabel } from '@/lib/propositions'
 
 interface PageProps { params: { slug: string } }
 
@@ -66,6 +67,8 @@ export default async function PartidoPage({ params }: PageProps) {
   const sections = POSITION_ORDER
     .filter(slug => byPosition[slug]?.length > 0)
     .map(slug => ({ slug, label: POSITION_LABEL[slug], pols: byPosition[slug] }))
+
+  const partyPropositions = await propositionsByParty(party.id, 5)
 
   return (
     <main className="min-h-screen bg-white">
@@ -200,6 +203,23 @@ export default async function PartidoPage({ params }: PageProps) {
           </div>
         ) : (
           <p className="text-gray-400 text-sm">Nenhum político cadastrado ainda para este partido.</p>
+        )}
+
+        {partyPropositions.length > 0 && (
+          <section className="mt-8 mb-8">
+            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Proposições do partido</h2>
+            <div className="space-y-2">
+              {partyPropositions.map(pr => (
+                <Link key={pr.id} href={`/proposicoes/${pr.slug}`} className="block border border-gray-200 rounded-xl p-3 hover:border-gray-400 transition-colors">
+                  <span className="text-xs font-bold text-[#00A859]">{formatPropositionLabel(pr)}</span>
+                  <p className="text-sm text-gray-700 line-clamp-2 mt-0.5">{pr.title}</p>
+                </Link>
+              ))}
+            </div>
+            <Link href={`/proposicoes?partido=${params.slug}`} className="inline-block mt-3 text-sm text-[#00A859] font-medium hover:underline">
+              Ver todas →
+            </Link>
+          </section>
         )}
       </div>
     </main>

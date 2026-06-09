@@ -6,6 +6,7 @@ import { Avatar } from '@/components/ui/Avatar'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { SpectrumBar } from '@/components/ui/SpectrumBar'
 import { formatMandate } from '@/lib/utils'
+import { propositionsByPolitician, formatPropositionLabel } from '@/lib/propositions'
 import type { Politician } from '@/types'
 
 interface PageProps { params: { slug: string } }
@@ -66,6 +67,8 @@ export default async function PoliticoPage({ params }: PageProps) {
 
   if (!p) notFound()
   const politician = p as Politician
+
+  const propositions = await propositionsByPolitician(politician.id, 5)
 
   const stateHref = politician.state ? `/${politician.state.slug}` : '/estados'
   const muniHref = politician.state && politician.municipality
@@ -287,6 +290,24 @@ export default async function PoliticoPage({ params }: PageProps) {
             </section>
           )
         })()}
+
+        {/* Proposições (autoria) */}
+        {propositions.length > 0 && (
+          <section className="mb-8">
+            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Proposições</h2>
+            <div className="space-y-2">
+              {propositions.map(pr => (
+                <Link key={pr.id} href={`/proposicoes/${pr.slug}`} className="block border border-gray-200 rounded-xl p-3 hover:border-gray-400 transition-colors">
+                  <span className="text-xs font-bold text-[#00A859]">{formatPropositionLabel(pr)}</span>
+                  <p className="text-sm text-gray-700 line-clamp-2 mt-0.5">{pr.title}</p>
+                </Link>
+              ))}
+            </div>
+            <Link href={`/proposicoes?autor=${politician.slug}`} className="inline-block mt-3 text-sm text-[#00A859] font-medium hover:underline">
+              Ver todas as proposições →
+            </Link>
+          </section>
+        )}
 
         {/* Proposta de governo (executive) */}
         {politician.government_plan_url && (
