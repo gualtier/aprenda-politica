@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { listPropositions, propositionFacets, formatPropositionLabel, SOURCE_SHORT, typeInfo } from '@/lib/propositions'
+import { listPropositions, propositionFacets, formatPropositionLabel, SOURCE_SHORT, SOURCE_COLORS, typeInfo, statusTone } from '@/lib/propositions'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 
 const fmtDate = (d: string | null) =>
@@ -56,17 +56,20 @@ export default async function ProposicoesPage({ searchParams }: PageProps) {
             <option value="senado">Senado</option>
             <option value="ales">Assembleia ES</option>
           </select>
-          <button type="submit" className="bg-[#00A859] text-white rounded-lg px-3 py-2 text-sm font-medium">Filtrar</button>
+          <button type="submit" className="bg-verde-500 text-white rounded-lg px-3 py-2 text-sm font-medium">Filtrar</button>
         </form>
 
         <div className="space-y-3">
           {items.map(p => (
             <Link key={p.id} href={`/proposicoes/${p.slug}`} className="block border border-gray-200 rounded-xl p-4 hover:border-gray-400 hover:shadow-sm transition">
               <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-500 bg-gray-100 rounded px-1.5 py-0.5">{SOURCE_SHORT[p.source] ?? p.source}</span>
-                <span className="text-xs font-bold text-[#00A859]">{formatPropositionLabel(p)}</span>
+                <span className="text-[10px] font-semibold uppercase tracking-wide rounded px-1.5 py-0.5"
+                  style={{ background: `${SOURCE_COLORS[p.source] ?? '#6b7280'}14`, color: SOURCE_COLORS[p.source] ?? '#6b7280' }}>
+                  {SOURCE_SHORT[p.source] ?? p.source}
+                </span>
+                <span className="text-xs font-bold text-verde-500">{formatPropositionLabel(p)}</span>
                 <span className="text-[11px] text-gray-400 hidden sm:inline">· {typeInfo(p.type).name}</span>
-                {p.status && <span className="ml-auto text-[10px] text-gray-500 bg-gray-100 rounded-full px-2 py-0.5 truncate max-w-[45%]">{p.status}</span>}
+                {p.status && <span className={`ml-auto text-[10px] border rounded-full px-2 py-0.5 truncate max-w-[45%] ${statusTone(p.status)}`}>{p.status}</span>}
               </div>
               <p className="text-sm text-gray-700 line-clamp-2 mb-2.5">{p.title}</p>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-gray-500">

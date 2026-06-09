@@ -1,7 +1,11 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getPropositionBySlug, formatPropositionLabel, typeInfo, SOURCE_LABELS } from '@/lib/propositions'
+import { Avatar } from '@/components/ui/Avatar'
+import {
+  getPropositionBySlug, formatPropositionLabel, typeInfo,
+  SOURCE_LABELS, SOURCE_COLORS, statusTone,
+} from '@/lib/propositions'
 import { SITE_URL } from '@/lib/site'
 import type { PropositionAuthor } from '@/types'
 
@@ -23,29 +27,47 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 const fmtDate = (d: string | null) =>
   d ? new Date(d).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : null
 
-function statusTone(status: string | null): string {
-  const s = (status ?? '').toLowerCase()
-  if (/sancion|promulg|aprovad|transformad.* em norma|publicad/.test(s)) return 'bg-green-50 text-green-700 border-green-200'
-  if (/arquivad|rejeitad|retirad|devolvid|prejudicad/.test(s)) return 'bg-red-50 text-red-700 border-red-200'
-  return 'bg-gray-100 text-gray-600 border-gray-200'
-}
-
-function AuthorChip({ a }: { a: PropositionAuthor }) {
-  const party = a.politician?.party
-  const inner = (
-    <span className="inline-flex items-center gap-2">
-      <span className="font-medium text-gray-800">{a.politician?.name ?? a.author_name}</span>
-      {party?.abbr && (
-        <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded"
-          style={{ background: `${party.color_hex ?? '#9ca3af'}1a`, color: party.color_hex ?? '#6b7280' }}>
-          {party.abbr}
-        </span>
-      )}
+function PartyTag({ abbr, color }: { abbr: string; color: string | null }) {
+  const c = color ?? '#6b7280'
+  return (
+    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded" style={{ background: `${c}1a`, color: c }}>
+      {abbr}
     </span>
   )
-  return a.politician?.slug
-    ? <Link href={`/politico/${a.politician.slug}`} className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 hover:border-gray-400 transition-colors">{inner}</Link>
-    : <span className="text-sm border border-gray-100 rounded-lg px-3 py-1.5 text-gray-500">{a.author_name}</span>
+}
+
+/** Card de conexão do autor: foto + nome + cargo·UF + partido. */
+function AuthorCard({ a }: { a: PropositionAuthor }) {
+  const pol = a.politician
+  const party = pol?.party
+  const sub = [pol?.position?.name, pol?.state?.abbr].filter(Boolean).join(' · ')
+  const body = (
+    <div className="flex items-center gap-3 border border-gray-200 rounded-xl p-3 hover:border-gray-400 transition-colors h-full">
+      <Avatar name={pol?.name ?? a.author_name} photoUrl={pol?.photo_url ?? null} size={44} />
+      <div className="min-w-0">
+        <div className="flex items-center gap-2">
+          <span className="font-semibold text-gray-900 text-sm truncate">{pol?.name ?? a.author_name}</span>
+          {party?.abbr && <PartyTag abbr={party.abbr} color={party.color_hex} />}
+        </div>
+        {sub && <div className="text-xs text-gray-500 mt-0.5 truncate">{sub}</div>}
+      </div>
+    </div>
+  )
+  return pol?.slug ? <Link href={`/politico/${pol.slug}`} className="block">{body}</Link> : body
+}
+
+/** Chip compacto p/ coautores. */
+function CoauthorChip({ a }: { a: PropositionAuthor }) {
+  const pol = a.politician
+  const inner = (
+    <span className="inline-flex items-center gap-1.5">
+      <span className="text-gray-700">{pol?.name ?? a.author_name}</span>
+      {pol?.party?.abbr && <PartyTag abbr={pol.party.abbr} color={pol.party.color_hex} />}
+    </span>
+  )
+  return pol?.slug
+    ? <Link href={`/politico/${pol.slug}`} className="text-sm border border-gray-200 rounded-lg px-2.5 py-1 hover:border-gray-400 transition-colors">{inner}</Link>
+    : <span className="text-sm border border-gray-100 rounded-lg px-2.5 py-1 text-gray-500">{a.author_name}</span>
 }
 
 export default async function PropositionPage({ params }: { params: { slug: string } }) {
@@ -57,12 +79,14 @@ export default async function PropositionPage({ params }: { params: { slug: stri
   const authors = p.authors ?? []
   const autores = authors.filter(a => a.role === 'autor')
   const coautores = authors.filter(a => a.role !== 'autor')
+  const coautoresShown = coautores.slice(0, 40)
+  const sourceColor = SOURCE_COLORS[p.source] ?? '#6b7280'
 
-  // Partidos envolvidos (distintos), a partir dos autores casados
-  const parties = new Map<string, string>()
+  // Partidos envolvidos (distintos) — logo + cor + slug, a partir dos autores casados
+  const parties = new Map<string, { color: string | null; logo: string | null; slug: string }>()
   for (const a of authors) {
     const pt = a.politician?.party
-    if (pt?.abbr && !parties.has(pt.abbr)) parties.set(pt.abbr, pt.color_hex ?? '#6b7280')
+    if (pt?.abbr && !parties.has(pt.abbr)) parties.set(pt.abbr, { color: pt.color_hex, logo: pt.logo_url ?? null, slug: pt.slug ?? pt.abbr.toLowerCase() })
   }
 
   const jsonLd = {
@@ -90,11 +114,13 @@ export default async function PropositionPage({ params }: { params: { slug: stri
           <span className="text-gray-600">{label}</span>
         </nav>
 
-        {/* Header */}
+        {/* Header: badges coloridas (casa = link) */}
         <div className="flex flex-wrap items-center gap-2 mb-2">
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-500 bg-gray-100 rounded px-1.5 py-0.5">
+          <Link href={`/proposicoes?fonte=${p.source}`}
+            className="text-[10px] font-semibold uppercase tracking-wide rounded px-1.5 py-0.5 hover:opacity-80 transition-opacity"
+            style={{ background: `${sourceColor}14`, color: sourceColor }}>
             {SOURCE_LABELS[p.source] ?? p.source}
-          </span>
+          </Link>
           {p.status && <span className={`text-[11px] border rounded-full px-2 py-0.5 ${statusTone(p.status)}`}>{p.status}</span>}
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1">{label}</h1>
@@ -102,7 +128,7 @@ export default async function PropositionPage({ params }: { params: { slug: stri
 
         {/* Ementa */}
         {p.summary && (
-          <div className="border-l-4 border-[#00A859]/30 pl-4 mb-6">
+          <div className="border-l-4 border-verde-100 pl-4 mb-6">
             <p className="text-gray-700 leading-relaxed">{p.summary}</p>
           </div>
         )}
@@ -143,14 +169,14 @@ export default async function PropositionPage({ params }: { params: { slug: stri
           </div>
         )}
 
-        {/* Autoria */}
+        {/* Autoria — cards de conexão */}
         {autores.length > 0 && (
           <section className="mb-6">
             <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
               {autores.length > 1 ? 'Autores' : 'Autor'}
             </h2>
-            <div className="flex flex-wrap gap-2">
-              {autores.map((a, i) => <AuthorChip key={i} a={a} />)}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {autores.map((a, i) => <AuthorCard key={i} a={a} />)}
             </div>
           </section>
         )}
@@ -159,23 +185,30 @@ export default async function PropositionPage({ params }: { params: { slug: stri
           <section className="mb-6">
             <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Coautores ({coautores.length})</h2>
             <div className="flex flex-wrap gap-2">
-              {coautores.map((a, i) => <AuthorChip key={i} a={a} />)}
+              {coautoresShown.map((a, i) => <CoauthorChip key={i} a={a} />)}
+              {coautores.length > coautoresShown.length && (
+                <span className="text-sm text-gray-400 px-2.5 py-1">+{coautores.length - coautoresShown.length} outros</span>
+              )}
             </div>
           </section>
         )}
 
-        {/* Partidos envolvidos */}
+        {/* Partidos envolvidos — com logo */}
         {parties.size > 0 && (
           <section className="mb-8">
             <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Partidos envolvidos</h2>
             <div className="flex flex-wrap gap-2">
-              {Array.from(parties).map(([abbr, color]) => (
-                <Link key={abbr} href={`/proposicoes?partido=${abbr.toLowerCase()}`}
-                  className="text-xs font-semibold px-2.5 py-1 rounded-full border hover:opacity-80"
-                  style={{ background: `${color}14`, color, borderColor: `${color}40` }}>
-                  {abbr}
-                </Link>
-              ))}
+              {Array.from(parties).map(([abbr, info2]) => {
+                const c = info2.color ?? '#6b7280'
+                return (
+                  <Link key={abbr} href={`/proposicoes?partido=${info2.slug}`}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border hover:opacity-80"
+                    style={{ background: `${c}14`, color: c, borderColor: `${c}40` }}>
+                    {info2.logo && <img src={info2.logo} alt={abbr} className="w-4 h-4 object-contain" />}
+                    {abbr}
+                  </Link>
+                )
+              })}
             </div>
           </section>
         )}
@@ -183,7 +216,7 @@ export default async function PropositionPage({ params }: { params: { slug: stri
         {/* Ações */}
         <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-gray-100">
           {p.url && (
-            <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-sm text-[#00A859] font-medium hover:underline">
+            <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-sm text-verde-600 font-medium hover:underline">
               Ver no portal oficial →
             </a>
           )}

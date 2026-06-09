@@ -78,7 +78,14 @@ export interface PropositionAuthor {
   politician_id: number | null
   role: string | null
   ordem: number | null
-  politician?: { name: string; slug: string; party?: { abbr: string; color_hex: string | null } | null } | null
+  politician?: {
+    name: string
+    slug: string
+    photo_url?: string | null
+    position?: { name: string } | null
+    state?: { abbr: string } | null
+    party?: { abbr: string; color_hex: string | null; logo_url?: string | null; slug?: string | null } | null
+  } | null
 }
 
 export interface Proposition {

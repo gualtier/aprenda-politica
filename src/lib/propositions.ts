@@ -34,6 +34,22 @@ export const PROPOSITION_TYPES: Record<string, { name: string; desc: string }> =
 }
 export const typeInfo = (t: string) => PROPOSITION_TYPES[t] ?? { name: t, desc: '' }
 
+/** Cor de acento por casa legislativa (tokens de marca). */
+export const SOURCE_COLORS: Record<string, string> = {
+  camara: '#009C3B', // verde-600
+  senado: '#2255AA', // esfera-federal
+  ales: '#CC9900',   // amarelo-600 / esfera-municipal
+}
+
+/** Classe Tailwind do badge de status, por situação (tokens de marca). */
+export function statusTone(status: string | null): string {
+  const s = (status ?? '').toLowerCase()
+  if (/sancion|promulg|aprovad|transformad.* em norma|publicad|conclu/.test(s)) return 'bg-verde-50 text-verde-700 border-verde-100'
+  if (/arquivad|rejeitad|retirad|devolvid|prejudicad|veto/.test(s)) return 'bg-red-50 text-red-700 border-red-200'
+  if (/tramit|aguard|pronta|an[áa]lise|comiss|despacho|designad|apresentad|pauta|distribu|relator/.test(s)) return 'bg-amarelo-50 text-amarelo-600 border-amarelo-500/40'
+  return 'bg-gray-100 text-gray-600 border-gray-200'
+}
+
 export interface PropositionFilter {
   tipo?: string; tema?: string; partido?: string; fonte?: string; autor?: string; q?: string
   page?: number; pageSize?: number
@@ -94,7 +110,7 @@ export async function getPropositionBySlug(slug: string): Promise<Proposition | 
   if (!data) return null
   const { data: authors } = await supabase
     .from('proposition_authors')
-    .select('author_name, politician_id, role, ordem, politician:politicians(name, slug, party:parties(abbr, color_hex))')
+    .select('author_name, politician_id, role, ordem, politician:politicians(name, slug, photo_url, position:positions(name), state:states(abbr), party:parties(abbr, color_hex, logo_url, slug))')
     .eq('proposition_id', (data as { id: number }).id)
     .order('ordem', { ascending: true })
   return { ...(data as unknown as Proposition), authors: (authors as unknown as Proposition['authors']) ?? [] }
