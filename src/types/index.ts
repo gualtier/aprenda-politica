@@ -73,6 +73,32 @@ export interface Politician {
   municipality?: Municipality
 }
 
+export interface PropositionAuthor {
+  author_name: string
+  politician_id: number | null
+  role: string | null
+  ordem: number | null
+  politician?: { name: string; slug: string } | null
+}
+
+export interface Proposition {
+  id: number
+  source: string
+  external_id: string
+  type: string
+  number: number | null
+  year: number | null
+  title: string | null
+  summary: string | null
+  presented_on: string | null
+  status: string | null
+  themes: string[] | null
+  url: string | null
+  party_ids: number[] | null
+  slug: string
+  authors?: PropositionAuthor[]
+}
+
 export interface OrganogramData {
   state: State
   municipality: Municipality | null
