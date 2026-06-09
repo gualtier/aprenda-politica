@@ -79,6 +79,28 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ---------- Como funciona ---------- */}
+      <section className={`${WRAP} pt-8 pb-14`}>
+        <div className="text-center mb-9">
+          <Eyebrow>Como funciona</Eyebrow>
+          <h2 className="text-[28px] font-bold tracking-[-0.02em] text-gray-900 mt-2.5">Do clique ao entendimento, em três passos</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {PASSOS.map(p => (
+            <div key={p.n} className="text-center flex flex-col items-center">
+              <div className="w-[120px] h-[120px] rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-[18px]">
+                <img src={p.img} alt="" className="w-[92px] h-[92px] object-contain" />
+              </div>
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-[22px] h-[22px] rounded-full bg-verde-500 text-white text-xs font-bold flex items-center justify-center">{p.n}</span>
+                <h3 className="text-[17px] font-bold text-gray-900 m-0">{p.title}</h3>
+              </div>
+              <p className="text-sm text-gray-500 m-0 leading-[1.6] max-w-[280px]">{p.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ---------- Faixa de estatísticas ---------- */}
       <section className={`${WRAP} pt-2 pb-14`}>
         <div className="flex justify-center flex-wrap border border-gray-200 rounded-2xl bg-gray-50 overflow-hidden">
@@ -186,28 +208,6 @@ export default function HomePage() {
               </Link>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ---------- Como funciona ---------- */}
-      <section className={`${WRAP} pt-[60px] pb-16`}>
-        <div className="text-center mb-9">
-          <Eyebrow>Como funciona</Eyebrow>
-          <h2 className="text-[28px] font-bold tracking-[-0.02em] text-gray-900 mt-2.5">Do clique ao entendimento, em três passos</h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {PASSOS.map(p => (
-            <div key={p.n} className="text-center flex flex-col items-center">
-              <div className="w-[120px] h-[120px] rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-[18px]">
-                <img src={p.img} alt="" className="w-[92px] h-[92px] object-contain" />
-              </div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="w-[22px] h-[22px] rounded-full bg-verde-500 text-white text-xs font-bold flex items-center justify-center">{p.n}</span>
-                <h3 className="text-[17px] font-bold text-gray-900 m-0">{p.title}</h3>
-              </div>
-              <p className="text-sm text-gray-500 m-0 leading-[1.6] max-w-[280px]">{p.desc}</p>
-            </div>
-          ))}
         </div>
       </section>
 
