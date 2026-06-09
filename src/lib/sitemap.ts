@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { SITE_URL } from './site'
 
-export const POL_CHUNK = 40_000 // teto do protocolo é 50k URLs por arquivo
+export const POL_CHUNK = 20_000 // teto do protocolo é 50k; 20k mantém a geração ~4s (longe do timeout)
 
 export type SUrl = { loc: string; changefreq?: string; priority?: number }
 
