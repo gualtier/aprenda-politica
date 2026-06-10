@@ -132,6 +132,7 @@ const TEMAS_GROUPS: Group[] = [{
 const links: NavLink[] = [
   { href: '/', label: 'Início' },
   { href: '/aprenda', label: 'Aprenda Política', groups: APRENDA_GROUPS },
+  { href: '/noticias', label: 'Notícias' },
   { href: '/politicos', label: 'Políticos', groups: POLITICOS_GROUPS },
   { href: '/partidos', label: 'Partidos', groups: PARTIDOS_GROUPS },
   { href: '/estados', label: 'Estados', groups: ESTADOS_GROUPS },
