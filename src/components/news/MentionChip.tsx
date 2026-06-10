@@ -12,6 +12,14 @@ function Chevron() {
 const rowCls = 'group flex items-center gap-3 border border-gray-200 rounded-xl p-2.5 hover:border-verde-500 transition-colors'
 const tile = 'w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0'
 
+// Órgãos não têm página própria → linkam pro destino mais relevante.
+const ORGAO_HREF: Record<string, string> = {
+  'Câmara dos Deputados': '/politicos?cargo=deputado-federal',
+  'Senado Federal': '/politicos?cargo=senador',
+  'STF': '/noticias?cat=justica',
+  'TSE': '/noticias?cat=eleicoes',
+}
+
 /** Linha de "Mencionados nesta notícia" — entidade do sistema, linkada. */
 export function MentionChip({ e }: { e: NewsEntity }) {
   if (e.politician?.slug) return (
@@ -44,14 +52,21 @@ export function MentionChip({ e }: { e: NewsEntity }) {
       <Chevron />
     </Link>
   )
-  if (e.orgao) return (
-    <div className="flex items-center gap-3 border border-gray-200 rounded-xl p-2.5">
-      <span className={`${tile} bg-gray-100 text-gray-500`}>🏛️</span>
-      <div className="min-w-0 flex-1">
-        <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-0.5">Órgão</div>
-        <div className="text-sm font-semibold text-gray-900 truncate">{e.orgao}</div>
-      </div>
-    </div>
-  )
+  if (e.orgao) {
+    const href = ORGAO_HREF[e.orgao]
+    const body = (
+      <>
+        <span className={`${tile} bg-gray-100 text-gray-500`}>🏛️</span>
+        <div className="min-w-0 flex-1">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-0.5">Órgão</div>
+          <div className="text-sm font-semibold text-gray-900 truncate">{e.orgao}</div>
+        </div>
+        {href && <Chevron />}
+      </>
+    )
+    return href
+      ? <Link href={href} className={rowCls}>{body}</Link>
+      : <div className="flex items-center gap-3 border border-gray-200 rounded-xl p-2.5">{body}</div>
+  }
   return null
 }
