@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { getTopic } from '@/lib/topics'
 
 type Leaf = { href: string; label: string }
 type Group = { href: string; label: string; children: Leaf[] }
@@ -70,27 +71,72 @@ const APRENDA_GROUPS: Group[] = [
   },
 ]
 
-const EXPLORAR_GROUPS: Group[] = [
-  {
-    href: '/politicos', label: 'Políticos',
-    children: [
-      { href: '/partidos', label: 'Partidos' },
-      { href: '/estados', label: 'Estados e municípios' },
-    ],
-  },
-  {
-    href: '/proposicoes', label: 'Proposições',
-    children: [
-      { href: '/temas', label: 'Proposições por tema' },
-      { href: '/emendas', label: 'Emendas parlamentares' },
-    ],
-  },
-]
+const POLITICOS_GROUPS: Group[] = [{
+  href: '/politicos', label: 'Por cargo',
+  children: [
+    { href: '/politicos?cargo=presidente', label: 'Presidente' },
+    { href: '/politicos?cargo=governador', label: 'Governadores' },
+    { href: '/politicos?cargo=senador', label: 'Senadores' },
+    { href: '/politicos?cargo=deputado-federal', label: 'Deputados Federais' },
+    { href: '/politicos?cargo=deputado-estadual', label: 'Deputados Estaduais' },
+    { href: '/politicos?cargo=prefeito', label: 'Prefeitos' },
+    { href: '/politicos?cargo=vereador', label: 'Vereadores' },
+  ],
+}]
+
+const PARTIDOS_GROUPS: Group[] = [{
+  href: '/partidos', label: 'Maiores partidos',
+  children: [
+    { href: '/partidos/pt', label: 'PT' },
+    { href: '/partidos/pl', label: 'PL' },
+    { href: '/partidos/uniao', label: 'União Brasil' },
+    { href: '/partidos/pp', label: 'PP' },
+    { href: '/partidos/mdb', label: 'MDB' },
+    { href: '/partidos/psd', label: 'PSD' },
+    { href: '/partidos/republicanos', label: 'Republicanos' },
+    { href: '/partidos/psb', label: 'PSB' },
+  ],
+}]
+
+const ESTADOS_GROUPS: Group[] = [{
+  href: '/estados', label: 'Estados em destaque',
+  children: [
+    { href: '/sao-paulo', label: 'São Paulo' },
+    { href: '/rio-de-janeiro', label: 'Rio de Janeiro' },
+    { href: '/minas-gerais', label: 'Minas Gerais' },
+    { href: '/bahia', label: 'Bahia' },
+    { href: '/parana', label: 'Paraná' },
+    { href: '/rio-grande-do-sul', label: 'Rio Grande do Sul' },
+    { href: '/pernambuco', label: 'Pernambuco' },
+    { href: '/espirito-santo', label: 'Espírito Santo' },
+  ],
+}]
+
+const PROPOSICOES_GROUPS: Group[] = [{
+  href: '/proposicoes', label: 'Proposições & gastos',
+  children: [
+    { href: '/proposicoes', label: 'Todas as proposições' },
+    { href: '/emendas', label: 'Emendas parlamentares' },
+  ],
+}]
+
+const POPULAR_TEMAS = ['saude', 'educacao', 'seguranca', 'meio-ambiente', 'economia-impostos', 'trabalho', 'transporte', 'mulher']
+const TEMAS_GROUPS: Group[] = [{
+  href: '/temas', label: 'Todos os temas',
+  children: POPULAR_TEMAS.map(s => {
+    const t = getTopic(s)
+    return { href: `/proposicoes/tema/${s}`, label: t ? `${t.emoji} ${t.label}` : s }
+  }),
+}]
 
 const links: NavLink[] = [
   { href: '/', label: 'Início' },
   { href: '/aprenda', label: 'Aprenda Política', groups: APRENDA_GROUPS },
-  { href: '/politicos', label: 'Explorar', groups: EXPLORAR_GROUPS },
+  { href: '/politicos', label: 'Políticos', groups: POLITICOS_GROUPS },
+  { href: '/partidos', label: 'Partidos', groups: PARTIDOS_GROUPS },
+  { href: '/estados', label: 'Estados', groups: ESTADOS_GROUPS },
+  { href: '/proposicoes', label: 'Proposições', groups: PROPOSICOES_GROUPS },
+  { href: '/temas', label: 'Temas', groups: TEMAS_GROUPS },
 ]
 
 function isActive(pathname: string, href: string) {
@@ -171,7 +217,7 @@ export function Navbar() {
                   </Link>
 
                   <div className={`absolute top-full left-0 pt-2 ${openMenu === item.href ? 'block' : 'hidden'}`}>
-                    <div className={`gap-7 bg-white border border-gray-100 rounded-2xl shadow-lg p-5 ${item.groups.length >= 3 ? 'columns-3 w-[620px]' : 'columns-2 w-[460px]'}`}>
+                    <div className={`gap-7 bg-white border border-gray-100 rounded-2xl shadow-lg p-5 ${item.groups.length >= 3 ? 'columns-3 w-[620px]' : item.groups.length === 2 ? 'columns-2 w-[460px]' : 'w-[260px]'}`}>
                       {item.groups.map(g => (
                         <div key={g.href} className="break-inside-avoid mb-5">
                           <Link href={g.href} className={`block text-sm font-bold mb-1.5 transition-colors ${pathname.startsWith(g.href) ? 'text-verde-500' : 'text-gray-900 hover:text-verde-500'}`}>
