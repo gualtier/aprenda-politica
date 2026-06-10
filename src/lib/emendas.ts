@@ -74,6 +74,22 @@ export const temaFuncoes = (tema: string): string[] => TEMA_FUNCOES[tema] ?? []
 /** Slugs de tema que têm emendas (têm função mapeada). */
 export const emendaTemaSlugs = (): string[] => Object.keys(TEMA_FUNCOES)
 
+/** Total pago e nº de emendas por tema (via RPC emendas_por_funcao). Vazio se a RPC não existir. */
+export async function emendasTotaisPorTema(): Promise<Record<string, { pago: number; n: number }>> {
+  const supabase = createServerSupabaseClient()
+  const { data } = await supabase.rpc('emendas_por_funcao')
+  const out: Record<string, { pago: number; n: number }> = {}
+  for (const r of (data ?? []) as { funcao: string; total_pago: number; n: number }[]) {
+    const tema = funcaoToTema(r.funcao)
+    if (!tema) continue
+    const cur = out[tema] ?? { pago: 0, n: 0 }
+    cur.pago += Number(r.total_pago)
+    cur.n += Number(r.n)
+    out[tema] = cur
+  }
+  return out
+}
+
 export interface EmendaFilter {
   ano?: string; uf?: string; municipio?: string; funcao?: string; tipo?: string; autor?: string; q?: string; tema?: string
   page?: number; pageSize?: number
