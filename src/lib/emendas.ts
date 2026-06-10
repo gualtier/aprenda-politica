@@ -43,17 +43,39 @@ const TIPO_GRUPO_COLOR: Record<string, string> = {
 }
 export const tipoGrupoColor = (g: string | null) => TIPO_GRUPO_COLOR[g ?? 'outro'] ?? '#6b7280'
 
-/** funcao do orçamento → slug de tema (cross-link). */
+/** funcao do orçamento → slug de tema (cross-link). Casing exato como vem do Portal. */
 const FUNCAO_TEMA: Record<string, string> = {
-  'Saúde': 'saude', 'Educação': 'educacao', 'Segurança pública': 'seguranca',
-  'Gestão ambiental': 'meio-ambiente', 'Trabalho': 'trabalho', 'Agricultura': 'agro',
-  'Transporte': 'transporte', 'Urbanismo': 'transporte', 'Assistência social': 'mulher',
-  'Desporto e lazer': 'cultura-esporte', 'Cultura': 'cultura-esporte',
+  'Saúde': 'saude',
+  'Educação': 'educacao',
+  'Segurança pública': 'seguranca',
+  'Gestão ambiental': 'meio-ambiente',
+  'Saneamento': 'meio-ambiente',
+  'Trabalho': 'trabalho',
+  'Agricultura': 'agro',
+  'Organização agrária': 'agro',
+  'Transporte': 'transporte',
+  'Urbanismo': 'transporte',
+  'Cultura': 'cultura-esporte',
+  'Desporto e lazer': 'cultura-esporte',
+  'Ciência e Tecnologia': 'tecnologia',
+  'Comunicações': 'tecnologia',
+  'Comércio e serviços': 'economia-impostos',
+  'Indústria': 'economia-impostos',
 }
 export const funcaoToTema = (funcao: string | null): string | null => FUNCAO_TEMA[funcao ?? ''] ?? null
 
+/** Reverso: tema → funções (strings exatas), para filtrar emendas por tema. */
+const TEMA_FUNCOES: Record<string, string[]> = (() => {
+  const m: Record<string, string[]> = {}
+  for (const [funcao, tema] of Object.entries(FUNCAO_TEMA)) (m[tema] ??= []).push(funcao)
+  return m
+})()
+export const temaFuncoes = (tema: string): string[] => TEMA_FUNCOES[tema] ?? []
+/** Slugs de tema que têm emendas (têm função mapeada). */
+export const emendaTemaSlugs = (): string[] => Object.keys(TEMA_FUNCOES)
+
 export interface EmendaFilter {
-  ano?: string; uf?: string; municipio?: string; funcao?: string; tipo?: string; autor?: string; q?: string
+  ano?: string; uf?: string; municipio?: string; funcao?: string; tipo?: string; autor?: string; q?: string; tema?: string
   page?: number; pageSize?: number
 }
 
@@ -66,6 +88,10 @@ export async function listEmendas(f: EmendaFilter): Promise<{ items: Emenda[]; t
   if (f.ano) q = q.eq('ano', Number(f.ano))
   if (f.uf) q = q.eq('uf', f.uf)
   if (f.funcao) q = q.eq('funcao', f.funcao)
+  if (f.tema) {
+    const funcoes = temaFuncoes(f.tema)
+    q = funcoes.length ? q.in('funcao', funcoes) : q.eq('id', -1)
+  }
   if (f.tipo) q = q.eq('tipo_grupo', f.tipo)
   if (f.q) q = q.ilike('autor_nome', `%${f.q}%`)
   if (f.municipio) {

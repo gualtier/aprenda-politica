@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { listEmendas, emendaFacets, formatMoney, tipoGrupoLabel, tipoGrupoColor, funcaoToTema } from '@/lib/emendas'
+import { listEmendas, emendaFacets, formatMoney, tipoGrupoLabel, tipoGrupoColor, funcaoToTema, emendaTemaSlugs } from '@/lib/emendas'
+import { getTopic } from '@/lib/topics'
 import { STATES } from '@/lib/states'
 import { Avatar } from '@/components/ui/Avatar'
 
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 }
 export const revalidate = 3600
 
-type PageProps = { searchParams: { ano?: string; uf?: string; funcao?: string; tipo?: string; q?: string; pagina?: string } }
+type PageProps = { searchParams: { ano?: string; uf?: string; funcao?: string; tipo?: string; q?: string; tema?: string; pagina?: string } }
 
 export default async function EmendasPage({ searchParams }: PageProps) {
   const page = Math.max(1, parseInt(searchParams.pagina ?? '1', 10) || 1)
@@ -20,13 +21,43 @@ export default async function EmendasPage({ searchParams }: PageProps) {
   ])
   const pages = Math.ceil(total / 30)
 
+  const qs = (patch: Record<string, string | undefined>) => {
+    const sp = new URLSearchParams()
+    const merged = { ...searchParams, ...patch }
+    for (const [k, v] of Object.entries(merged)) if (v) sp.set(k, String(v))
+    return `/emendas?${sp.toString()}`
+  }
+
   return (
     <main className="min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-4 py-10">
         <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Emendas Parlamentares</h1>
-        <p className="text-gray-500 mb-6">{total.toLocaleString('pt-BR')} linhas de emenda — quem destinou verba do orçamento, para onde e quanto.</p>
+        <p className="text-gray-500 mb-5">{total.toLocaleString('pt-BR')} linhas de emenda — quem destinou verba do orçamento, para onde e quanto.</p>
+
+        {/* Quick-filtros por tema (a partir da função orçamentária) */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          <Link href={qs({ tema: undefined, pagina: undefined })}
+            className={`text-xs font-medium rounded-full px-3 py-1.5 border transition ${searchParams.tema ? 'border-gray-200 text-gray-600 hover:border-gray-400' : 'bg-gray-900 text-white border-gray-900'}`}>
+            Todos
+          </Link>
+          {emendaTemaSlugs().map(slug => {
+            const t = getTopic(slug)
+            if (!t) return null
+            const active = searchParams.tema === slug
+            return (
+              <Link key={slug} href={qs({ tema: slug, pagina: undefined })}
+                className="text-xs font-medium rounded-full px-3 py-1.5 border hover:opacity-80 transition"
+                style={active
+                  ? { background: t.accent, color: '#fff', borderColor: t.accent }
+                  : { background: `${t.accent}14`, color: t.accent, borderColor: `${t.accent}33` }}>
+                {t.emoji} {t.label}
+              </Link>
+            )
+          })}
+        </div>
 
         <form className="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8" action="/emendas" method="get">
+          <input type="hidden" name="tema" value={searchParams.tema ?? ''} />
           <input name="q" defaultValue={searchParams.q} placeholder="Autor" className="col-span-2 sm:col-span-2 border border-gray-200 rounded-lg px-3 py-2 text-sm" />
           <select name="ano" defaultValue={searchParams.ano ?? ''} className="border border-gray-200 rounded-lg px-3 py-2 text-sm">
             <option value="">Todo ano</option>
