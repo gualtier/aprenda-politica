@@ -89,32 +89,6 @@ export default async function MunicipioPage({ params }: PageProps) {
           </div>
         )}
 
-        {muniEmendas && muniEmendas.totalPago > 0 && (
-          <section className="mb-6 border border-gray-200 rounded-2xl p-5">
-            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Emendas recebidas</h2>
-            <div className="mb-4">
-              <div className="text-2xl font-bold text-verde-600 tabular-nums">{formatMoney(muniEmendas.totalPago)}</div>
-              <div className="text-xs text-gray-500 mb-3">em emendas pagas ({muniEmendas.count} linhas)</div>
-              <ExecBar empenhado={muniEmendas.totalEmpenhado} pago={muniEmendas.totalPago} />
-            </div>
-            <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Quem destinou</div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {muniEmendas.topAutores.map((a, i) => {
-                const inner = (
-                  <div className="flex items-center justify-between gap-2 border border-gray-200 rounded-xl p-2.5">
-                    <span className="flex items-center gap-2 min-w-0">
-                      <span className="font-medium text-sm text-gray-900 truncate">{a.name}</span>
-                      {a.party_abbr && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded" style={{ background: `${a.party_color ?? '#9ca3af'}1a`, color: a.party_color ?? '#6b7280' }}>{a.party_abbr}</span>}
-                    </span>
-                    <span className="text-sm font-semibold text-verde-600 shrink-0">{formatMoney(a.pago)}</span>
-                  </div>
-                )
-                return a.slug ? <Link key={i} href={`/politico/${a.slug}`} className="block hover:opacity-90">{inner}</Link> : <div key={i}>{inner}</div>
-              })}
-            </div>
-          </section>
-        )}
-
         {/* Key executives */}
         {(prefeito || governador) && (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
@@ -158,6 +132,32 @@ export default async function MunicipioPage({ params }: PageProps) {
         )}
 
         <Organogram data={data} />
+
+        {muniEmendas && muniEmendas.totalPago > 0 && (
+          <section className="mt-8 border border-gray-200 rounded-2xl p-5">
+            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Emendas recebidas</h2>
+            <div className="mb-4">
+              <div className="text-2xl font-bold text-verde-600 tabular-nums">{formatMoney(muniEmendas.totalPago)}</div>
+              <div className="text-xs text-gray-500 mb-3">em emendas pagas ({muniEmendas.count} linhas)</div>
+              <ExecBar empenhado={muniEmendas.totalEmpenhado} pago={muniEmendas.totalPago} />
+            </div>
+            <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Quem destinou</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {muniEmendas.topAutores.map((a, i) => {
+                const inner = (
+                  <div className="flex items-center justify-between gap-2 border border-gray-200 rounded-xl p-2.5">
+                    <span className="flex items-center gap-2 min-w-0">
+                      <span className="font-medium text-sm text-gray-900 truncate">{a.name}</span>
+                      {a.party_abbr && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded" style={{ background: `${a.party_color ?? '#9ca3af'}1a`, color: a.party_color ?? '#6b7280' }}>{a.party_abbr}</span>}
+                    </span>
+                    <span className="text-sm font-semibold text-verde-600 shrink-0">{formatMoney(a.pago)}</span>
+                  </div>
+                )
+                return a.slug ? <Link key={i} href={`/politico/${a.slug}`} className="block hover:opacity-90">{inner}</Link> : <div key={i}>{inner}</div>
+              })}
+            </div>
+          </section>
+        )}
       </div>
       <script
         type="application/ld+json"
