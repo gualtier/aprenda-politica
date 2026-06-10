@@ -32,7 +32,7 @@ export default async function NoticiaPage({ params }: PageProps) {
     <main className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-8">
         <Breadcrumb items={[{ label: 'Brasil', href: '/' }, { label: 'Notícias', href: '/noticias' }, { label: n.title.slice(0, 40) + '…' }]} />
-        <NewsCover motif={n.cover_motif} sphere={n.sphere} className="h-52 w-full rounded-2xl mt-4 mb-5" />
+        <NewsCover motif={n.cover_motif} sphere={n.sphere} imageUrl={n.image_url} className="h-52 w-full rounded-2xl mt-4 mb-5" />
         <div className="flex items-center gap-2 mb-2">
           <SourceTag name={n.source_name} domain={n.source_domain} />
           <span className="text-xs text-gray-400">· {timeAgo(n.published_at)}</span>

@@ -12,7 +12,7 @@ export interface News {
   id: number; slug: string; title: string; summary: string | null
   source_name: string | null; source_domain: string | null; source_url: string
   published_at: string | null; category: string | null; sphere: string | null
-  topics: string[]; cover_motif: string | null
+  topics: string[]; cover_motif: string | null; image_url: string | null
   entities?: NewsEntity[]
 }
 
@@ -42,7 +42,7 @@ export function timeAgo(iso: string | null): string {
 export const sourceLogo = (domain: string | null): string | null =>
   domain ? `https://www.google.com/s2/favicons?domain=${domain}&sz=64` : null
 
-const SELECT = 'id, slug, title, summary, source_name, source_domain, source_url, published_at, category, sphere, topics, cover_motif'
+const SELECT = 'id, slug, title, summary, source_name, source_domain, source_url, published_at, category, sphere, topics, cover_motif, image_url'
 
 export async function listNews(opts: { category?: string; tema?: string; q?: string; page?: number; pageSize?: number } = {}) {
   const supabase = createServerSupabaseClient()
