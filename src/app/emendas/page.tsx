@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { listEmendas, emendaFacets, formatMoney, tipoGrupoLabel, tipoGrupoColor, funcaoToTema } from '@/lib/emendas'
 import { STATES } from '@/lib/states'
+import { Avatar } from '@/components/ui/Avatar'
 
 export const metadata: Metadata = {
   title: 'Emendas Parlamentares — quem destinou e para onde — Aprenda Política',
@@ -70,10 +71,14 @@ export default async function EmendasPage({ searchParams }: PageProps) {
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm mb-1">
                   {e.politician?.slug
                     ? <Link href={`/politico/${e.politician.slug}`} className="font-semibold text-gray-900 hover:text-verde-600 inline-flex items-center gap-1.5">
+                        <Avatar name={e.autor_nome ?? ''} photoUrl={e.politician.photo_url} size={26} />
                         {e.autor_nome}
                         {e.politician.party?.abbr && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded" style={{ background: `${e.politician.party.color_hex ?? '#9ca3af'}1a`, color: e.politician.party.color_hex ?? '#6b7280' }}>{e.politician.party.abbr}</span>}
                       </Link>
-                    : <span className="font-semibold text-gray-900">{e.autor_nome ?? '—'}</span>}
+                    : <span className="font-semibold text-gray-900 inline-flex items-center gap-1.5">
+                        <span className="w-[26px] h-[26px] rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-xs shrink-0">🏛️</span>
+                        {e.autor_nome ?? '—'}
+                      </span>}
                   <span className="text-gray-300">→</span>
                   {e.municipality?.slug && e.municipality.state?.slug
                     ? <Link href={`/${e.municipality.state.slug}/${e.municipality.slug}`} className="text-gray-600 hover:text-verde-600">{e.municipality.name}{e.uf ? `-${e.uf}` : ''}</Link>
