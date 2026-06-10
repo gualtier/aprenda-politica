@@ -3,6 +3,7 @@ import { TOPICS } from './topics'
 
 export const POL_CHUNK = 20_000 // teto do protocolo é 50k URLs por arquivo
 export const PROP_CHUNK = 20_000
+export const NEWS_CHUNK = 20_000
 
 export type SUrl = { loc: string; changefreq?: string; priority?: number }
 
@@ -32,7 +33,7 @@ async function rest<T = Record<string, unknown>>(
 }
 
 const STATIC_PATHS = [
-  '', '/estados', '/partidos', '/politicos', '/proposicoes', '/temas', '/emendas', '/aprenda',
+  '', '/estados', '/partidos', '/politicos', '/proposicoes', '/temas', '/emendas', '/noticias', '/aprenda',
   '/aprenda/poderes', '/aprenda/poderes/executivo', '/aprenda/poderes/legislativo', '/aprenda/poderes/judiciario',
   '/aprenda/esferas', '/aprenda/esferas/federal', '/aprenda/esferas/estadual', '/aprenda/esferas/municipal',
   '/aprenda/cargos', '/aprenda/cargos/presidente', '/aprenda/cargos/senador', '/aprenda/cargos/deputado-federal',
@@ -67,19 +68,20 @@ async function countOf(table: string): Promise<number> {
   return total
 }
 
-/** Quantos arquivos de cada faixa: políticos e proposições (contagem viva). */
-async function chunkLayout(): Promise<{ polChunks: number; propChunks: number }> {
-  const [pol, prop] = await Promise.all([countOf('politicians'), countOf('propositions')])
+/** Quantos arquivos de cada faixa: políticos, proposições e notícias (contagem viva). */
+async function chunkLayout(): Promise<{ polChunks: number; propChunks: number; newsChunks: number }> {
+  const [pol, prop, news] = await Promise.all([countOf('politicians'), countOf('propositions'), countOf('news')])
   return {
     polChunks: Math.max(1, Math.ceil(pol / POL_CHUNK)),
     propChunks: Math.max(0, Math.ceil(prop / PROP_CHUNK)),
+    newsChunks: Math.max(0, Math.ceil(news / NEWS_CHUNK)),
   }
 }
 
-/** Nº total de arquivos: 0 (estático) + 1 (municípios) + N (políticos) + M (proposições). */
+/** Nº total de arquivos: 0 (estático) + 1 (municípios) + N (políticos) + M (proposições) + K (notícias). */
 export async function chunkCount(): Promise<number> {
-  const { polChunks, propChunks } = await chunkLayout()
-  return 2 + polChunks + propChunks
+  const { polChunks, propChunks, newsChunks } = await chunkLayout()
+  return 2 + polChunks + propChunks + newsChunks
 }
 
 /** URLs de um arquivo de sitemap pelo índice. */
@@ -116,8 +118,8 @@ export async function chunkUrls(id: number): Promise<SUrl[]> {
       .filter(u => !u.loc.includes('/undefined/'))
   }
 
-  // id 2.. — políticos, depois proposições (faixas calculadas pela contagem viva)
-  const { polChunks } = await chunkLayout()
+  // id 2.. — políticos, proposições e notícias (faixas calculadas pela contagem viva)
+  const { polChunks, propChunks } = await chunkLayout()
   const polEnd = 2 + polChunks
   if (id < polEnd) {
     const chunk = id - 2
@@ -126,9 +128,17 @@ export async function chunkUrls(id: number): Promise<SUrl[]> {
   }
 
   // proposições
-  const propChunk = id - polEnd
-  const rows = await paginate('propositions', 'slug', propChunk * PROP_CHUNK, PROP_CHUNK)
-  return rows.map(p => ({ loc: `${SITE_URL}/proposicoes/${p.slug as string}`, changefreq: 'monthly', priority: 0.5 }))
+  const propEnd = polEnd + propChunks
+  if (id < propEnd) {
+    const propChunk = id - polEnd
+    const rows = await paginate('propositions', 'slug', propChunk * PROP_CHUNK, PROP_CHUNK)
+    return rows.map(p => ({ loc: `${SITE_URL}/proposicoes/${p.slug as string}`, changefreq: 'monthly', priority: 0.5 }))
+  }
+
+  // notícias
+  const newsChunk = id - propEnd
+  const rows = await paginate('news', 'slug', newsChunk * NEWS_CHUNK, NEWS_CHUNK)
+  return rows.map(p => ({ loc: `${SITE_URL}/noticias/${p.slug as string}`, changefreq: 'weekly', priority: 0.6 }))
 }
 
 const escapeXml = (s: string) => s.replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&apos;', '"': '&quot;' }[c]!))
