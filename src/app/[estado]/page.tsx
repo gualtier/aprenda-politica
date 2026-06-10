@@ -3,6 +3,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
+import { emendasByState, formatMoney } from '@/lib/emendas'
+import { ExecBar } from '@/components/ui/ExecBar'
 
 interface PageProps { params: { estado: string } }
 
@@ -51,12 +53,13 @@ export default async function EstadoPage({ params }: PageProps) {
     .from('states').select('*').eq('slug', params.estado).single()
   if (!state) notFound()
 
-  const [{ data: municipalities }, { data: politicians }, govPositionResult] = await Promise.all([
+  const [{ data: municipalities }, { data: politicians }, govPositionResult, emendas] = await Promise.all([
     supabase.from('municipalities').select('name, slug').eq('state_id', state.id).order('name'),
     supabase.from('politicians')
       .select('name, position:positions(name, slug), party:parties(abbr)')
       .eq('state_id', state.id),
     supabase.from('positions').select('id').eq('slug', 'governador').single(),
+    emendasByState(state.abbr),
   ])
 
   // Count by position slug
@@ -151,6 +154,54 @@ export default async function EstadoPage({ params }: PageProps) {
               </div>
             </div>
           </div>
+        )}
+
+        {/* Emendas no estado */}
+        {emendas && emendas.totalPago > 0 && (
+          <section className="mb-8 border border-gray-200 rounded-2xl p-5">
+            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Emendas no estado</h2>
+            <div className="mb-4">
+              <div className="text-2xl font-bold text-verde-600 tabular-nums">{formatMoney(emendas.totalPago)}</div>
+              <div className="text-xs text-gray-500 mb-3">recebidos em emendas ({emendas.count.toLocaleString('pt-BR')} linhas)</div>
+              <ExecBar empenhado={emendas.totalEmpenhado} pago={emendas.totalPago} />
+            </div>
+
+            {emendas.topMunicipios.length > 0 && (
+              <div className="mb-4">
+                <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Municípios que mais receberam</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {emendas.topMunicipios.map(m => (
+                    <Link key={m.slug} href={`/${params.estado}/${m.slug}`} className="flex items-center justify-between gap-2 border border-gray-200 rounded-xl p-2.5 hover:border-gray-400 transition-colors">
+                      <span className="text-sm text-gray-800 truncate">{m.name}</span>
+                      <span className="text-sm font-semibold text-verde-600 shrink-0">{formatMoney(m.pago)}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {emendas.topAutores.length > 0 && (
+              <div>
+                <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Quem mais destinou</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {emendas.topAutores.map((a, i) => {
+                    const inner = (
+                      <div className="flex items-center justify-between gap-2 border border-gray-200 rounded-xl p-2.5">
+                        <span className="flex items-center gap-2 min-w-0">
+                          <span className="font-medium text-sm text-gray-900 truncate">{a.name}</span>
+                          {a.party_abbr && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded shrink-0" style={{ background: `${a.party_color ?? '#9ca3af'}1a`, color: a.party_color ?? '#6b7280' }}>{a.party_abbr}</span>}
+                        </span>
+                        <span className="text-sm font-semibold text-verde-600 shrink-0">{formatMoney(a.pago)}</span>
+                      </div>
+                    )
+                    return a.slug ? <Link key={i} href={`/politico/${a.slug}`} className="block hover:opacity-90">{inner}</Link> : <div key={i}>{inner}</div>
+                  })}
+                </div>
+              </div>
+            )}
+
+            <Link href={`/emendas?uf=${state.abbr}`} className="inline-block mt-4 text-sm text-verde-600 font-medium hover:underline">Ver todas as emendas de {state.abbr} →</Link>
+          </section>
         )}
 
         {/* Municipality list */}

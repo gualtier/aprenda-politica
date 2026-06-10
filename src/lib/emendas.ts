@@ -187,6 +187,46 @@ export async function emendasByMunicipality(municipalityId: number): Promise<Mun
   return { totalPago, totalEmpenhado, count: rows.length, topAutores }
 }
 
+export interface StateEmendas {
+  totalPago: number
+  totalEmpenhado: number
+  count: number
+  topMunicipios: { name: string; slug: string; pago: number }[]
+  topAutores: { name: string; slug: string | null; party_abbr: string | null; party_color: string | null; pago: number }[]
+}
+
+/** Agregado de emendas de um estado (uf): inclui estaduais + municipais. Pagina pra somar certo. */
+export async function emendasByState(uf: string): Promise<StateEmendas | null> {
+  const supabase = createServerSupabaseClient()
+  type Row = { valor_pago: number; valor_empenhado: number; municipality_id: number | null; municipality: { name: string; slug: string } | null; politician_id: number | null; autor_nome: string | null; politician: { name: string; slug: string; party: { abbr: string; color_hex: string | null } | null } | null }
+  const rows: Row[] = []
+  for (let from = 0; ; from += 1000) {
+    const { data } = await supabase.from('emendas')
+      .select('valor_pago, valor_empenhado, municipality_id, municipality:municipalities(name, slug), politician_id, autor_nome, politician:politicians(name, slug, party:parties(abbr, color_hex))')
+      .eq('uf', uf).range(from, from + 999)
+    const batch = (data as unknown as Row[]) ?? []
+    rows.push(...batch)
+    if (batch.length < 1000) break
+  }
+  if (!rows.length) return null
+  let totalPago = 0, totalEmpenhado = 0
+  const muni = new Map<number, { name: string; slug: string; pago: number }>()
+  const aut = new Map<string, { name: string; slug: string | null; party_abbr: string | null; party_color: string | null; pago: number }>()
+  for (const r of rows) {
+    totalPago += r.valor_pago; totalEmpenhado += r.valor_empenhado
+    if (r.municipality_id && r.municipality) {
+      const cur = muni.get(r.municipality_id) ?? { name: r.municipality.name, slug: r.municipality.slug, pago: 0 }
+      cur.pago += r.valor_pago; muni.set(r.municipality_id, cur)
+    }
+    const key = r.politician_id ? `p${r.politician_id}` : `n${r.autor_nome}`
+    const ca = aut.get(key) ?? { name: r.politician?.name ?? r.autor_nome ?? '—', slug: r.politician?.slug ?? null, party_abbr: r.politician?.party?.abbr ?? null, party_color: r.politician?.party?.color_hex ?? null, pago: 0 }
+    ca.pago += r.valor_pago; aut.set(key, ca)
+  }
+  const topMunicipios = Array.from(muni.values()).sort((a, b) => b.pago - a.pago).slice(0, 6)
+  const topAutores = Array.from(aut.values()).sort((a, b) => b.pago - a.pago).slice(0, 6)
+  return { totalPago, totalEmpenhado, count: rows.length, topMunicipios, topAutores }
+}
+
 /** Facetas pros filtros (anos e funções distintas). */
 export async function emendaFacets(): Promise<{ anos: number[]; funcoes: string[] }> {
   const supabase = createServerSupabaseClient()
