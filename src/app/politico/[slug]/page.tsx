@@ -8,6 +8,8 @@ import { SpectrumBar } from '@/components/ui/SpectrumBar'
 import { formatMandate } from '@/lib/utils'
 import { propositionsByPolitician, formatPropositionLabel } from '@/lib/propositions'
 import { emendasByPolitician, formatMoney } from '@/lib/emendas'
+import { newsByPolitician } from '@/lib/news'
+import { NewsCard } from '@/components/news/NewsCard'
 import { ExecBar } from '@/components/ui/ExecBar'
 import type { Politician } from '@/types'
 
@@ -72,6 +74,7 @@ export default async function PoliticoPage({ params }: PageProps) {
 
   const propositions = await propositionsByPolitician(politician.id, 5)
   const emendas = await emendasByPolitician(politician.id)
+  const naMidia = await newsByPolitician(politician.id, 4)
 
   const stateHref = politician.state ? `/${politician.state.slug}` : '/estados'
   const muniHref = politician.state && politician.municipality
@@ -293,6 +296,16 @@ export default async function PoliticoPage({ params }: PageProps) {
             </section>
           )
         })()}
+
+        {naMidia.length > 0 && (
+          <section className="mb-8">
+            <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Na mídia</h2>
+            <div className="space-y-1">
+              {naMidia.map(n => <NewsCard key={n.id} n={n} variant="compacto" />)}
+            </div>
+            <a href="/noticias" className="inline-block mt-3 text-sm text-verde-600 font-medium hover:underline">Ver mais notícias →</a>
+          </section>
+        )}
 
         {emendas && emendas.totalPago > 0 && (
           <section className="mb-8">
