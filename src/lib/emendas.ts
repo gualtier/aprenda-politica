@@ -158,6 +158,7 @@ export async function emendasByPolitician(politicianId: number): Promise<Politic
 
 export interface MunicipalityEmendas {
   totalPago: number
+  totalEmpenhado: number
   count: number
   topAutores: { name: string; slug: string | null; party_abbr: string | null; party_color: string | null; pago: number }[]
 }
@@ -166,15 +167,15 @@ export interface MunicipalityEmendas {
 export async function emendasByMunicipality(municipalityId: number): Promise<MunicipalityEmendas | null> {
   const supabase = createServerSupabaseClient()
   const { data } = await supabase.from('emendas')
-    .select('valor_pago, autor_nome, politician_id, politician:politicians(name, slug, party:parties(abbr, color_hex))')
+    .select('valor_pago, valor_empenhado, autor_nome, politician_id, politician:politicians(name, slug, party:parties(abbr, color_hex))')
     .eq('municipality_id', municipalityId).limit(10000)
-  type Row = { valor_pago: number; autor_nome: string | null; politician_id: number | null; politician: { name: string; slug: string; party: { abbr: string; color_hex: string | null } | null } | null }
+  type Row = { valor_pago: number; valor_empenhado: number; autor_nome: string | null; politician_id: number | null; politician: { name: string; slug: string; party: { abbr: string; color_hex: string | null } | null } | null }
   const rows = (data as unknown as Row[]) ?? []
   if (!rows.length) return null
-  let totalPago = 0
+  let totalPago = 0, totalEmpenhado = 0
   const aut = new Map<string, { name: string; slug: string | null; party_abbr: string | null; party_color: string | null; pago: number }>()
   for (const r of rows) {
-    totalPago += r.valor_pago
+    totalPago += r.valor_pago; totalEmpenhado += r.valor_empenhado
     const key = r.politician_id ? `p${r.politician_id}` : `n${r.autor_nome}`
     const cur = aut.get(key) ?? {
       name: r.politician?.name ?? r.autor_nome ?? '—', slug: r.politician?.slug ?? null,
@@ -183,7 +184,7 @@ export async function emendasByMunicipality(municipalityId: number): Promise<Mun
     cur.pago += r.valor_pago; aut.set(key, cur)
   }
   const topAutores = Array.from(aut.values()).sort((a, b) => b.pago - a.pago).slice(0, 6)
-  return { totalPago, count: rows.length, topAutores }
+  return { totalPago, totalEmpenhado, count: rows.length, topAutores }
 }
 
 /** Facetas pros filtros (anos e funções distintas). */

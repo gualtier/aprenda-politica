@@ -8,6 +8,7 @@ import { SpectrumBar } from '@/components/ui/SpectrumBar'
 import { formatMandate } from '@/lib/utils'
 import { propositionsByPolitician, formatPropositionLabel } from '@/lib/propositions'
 import { emendasByPolitician, formatMoney } from '@/lib/emendas'
+import { ExecBar } from '@/components/ui/ExecBar'
 import type { Politician } from '@/types'
 
 interface PageProps { params: { slug: string } }
@@ -297,11 +298,10 @@ export default async function PoliticoPage({ params }: PageProps) {
           <section className="mb-8">
             <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Emendas parlamentares</h2>
             <div className="border border-gray-200 rounded-2xl p-5">
-              <div className="flex flex-wrap items-end gap-x-8 gap-y-2 mb-4">
-                <div>
-                  <div className="text-2xl font-bold text-verde-600 tabular-nums">{formatMoney(emendas.totalPago)}</div>
-                  <div className="text-xs text-gray-500">destinado e pago ({emendas.count} emendas)</div>
-                </div>
+              <div className="mb-4">
+                <div className="text-2xl font-bold text-verde-600 tabular-nums">{formatMoney(emendas.totalPago)}</div>
+                <div className="text-xs text-gray-500 mb-3">destinado e pago ({emendas.count} emendas)</div>
+                <ExecBar empenhado={emendas.totalEmpenhado} pago={emendas.totalPago} />
               </div>
               {emendas.topMunicipios.length > 0 && (
                 <div className="mb-3">

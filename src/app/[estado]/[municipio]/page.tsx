@@ -5,6 +5,7 @@ import { getOrganogramData } from '@/lib/supabase/queries'
 import { emendasByMunicipality, formatMoney } from '@/lib/emendas'
 import { Organogram } from '@/components/organogram/Organogram'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
+import { ExecBar } from '@/components/ui/ExecBar'
 
 interface PageProps {
   params: { estado: string; municipio: string }
@@ -91,11 +92,10 @@ export default async function MunicipioPage({ params }: PageProps) {
         {muniEmendas && muniEmendas.totalPago > 0 && (
           <section className="mb-6 border border-gray-200 rounded-2xl p-5">
             <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">Emendas recebidas</h2>
-            <div className="flex flex-wrap items-end gap-x-8 gap-y-2 mb-4">
-              <div>
-                <div className="text-2xl font-bold text-verde-600 tabular-nums">{formatMoney(muniEmendas.totalPago)}</div>
-                <div className="text-xs text-gray-500">em emendas pagas ({muniEmendas.count} linhas)</div>
-              </div>
+            <div className="mb-4">
+              <div className="text-2xl font-bold text-verde-600 tabular-nums">{formatMoney(muniEmendas.totalPago)}</div>
+              <div className="text-xs text-gray-500 mb-3">em emendas pagas ({muniEmendas.count} linhas)</div>
+              <ExecBar empenhado={muniEmendas.totalEmpenhado} pago={muniEmendas.totalPago} />
             </div>
             <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide mb-2">Quem destinou</div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
