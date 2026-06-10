@@ -4,6 +4,7 @@ export interface Emenda {
   id: number
   codigo: string
   ano: number | null
+  numero: string | null
   tipo: string | null
   tipo_grupo: string | null
   autor_nome: string | null
@@ -14,12 +15,13 @@ export interface Emenda {
   municipality_id: number | null
   uf: string | null
   valor_empenhado: number
+  valor_liquidado: number
   valor_pago: number
   politician?: { slug: string; photo_url: string | null; party: { abbr: string; color_hex: string | null } | null } | null
   municipality?: { slug: string; name: string; state: { slug: string } | null } | null
 }
 
-const SELECT = 'id, codigo, ano, tipo, tipo_grupo, autor_nome, politician_id, funcao, subfuncao, localidade_raw, municipality_id, uf, valor_empenhado, valor_pago, politician:politicians(slug, photo_url, party:parties(abbr, color_hex)), municipality:municipalities(slug, name, state:states(slug))'
+const SELECT = 'id, codigo, ano, numero, tipo, tipo_grupo, autor_nome, politician_id, funcao, subfuncao, localidade_raw, municipality_id, uf, valor_empenhado, valor_liquidado, valor_pago, politician:politicians(slug, photo_url, party:parties(abbr, color_hex)), municipality:municipalities(slug, name, state:states(slug))'
 
 /** Valor em reais → "R$ 1,2 mi" / "R$ 10 mil" / "R$ 500". */
 export function formatMoney(reais: number): string {

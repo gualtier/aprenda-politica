@@ -54,21 +54,23 @@ export default async function EmendasPage({ searchParams }: PageProps) {
           {items.map(e => {
             const tc = tipoGrupoColor(e.tipo_grupo)
             const tema = funcaoToTema(e.funcao)
-            const empenhadoDif = e.valor_empenhado > e.valor_pago + 1
+            const pct = e.valor_empenhado > 0 ? Math.min(100, Math.round((e.valor_pago / e.valor_empenhado) * 100)) : null
+            const tipoDesc = e.tipo?.includes(' - ') ? e.tipo.split(' - ').slice(1).join(' - ') : null
             return (
               <div key={e.id} className="border border-gray-200 rounded-xl p-4 hover:border-gray-300 transition-colors">
-                <div className="flex flex-wrap items-center gap-2 mb-2">
+                <div className="flex flex-wrap items-center gap-1.5 mb-2">
                   <span className="text-[10px] font-semibold uppercase tracking-wide rounded px-1.5 py-0.5" style={{ background: `${tc}14`, color: tc }}>{tipoGrupoLabel(e.tipo_grupo)}</span>
-                  <span className="text-[11px] text-gray-400">{e.ano}</span>
+                  <span className="text-[11px] text-gray-400">{e.ano}{e.numero ? ` · nº ${e.numero}` : ''}</span>
                   {e.funcao && (tema
                     ? <Link href={`/proposicoes/tema/${tema}`} className="text-[10px] font-medium text-gray-600 bg-gray-50 border border-gray-200 rounded-full px-2 py-0.5 hover:border-gray-400">{e.funcao}</Link>
                     : <span className="text-[10px] text-gray-500 bg-gray-100 rounded-full px-2 py-0.5">{e.funcao}</span>)}
-                  <span className="ml-auto">
+                  {e.subfuncao && <span className="text-[10px] text-gray-400 bg-gray-50 border border-gray-100 rounded-full px-2 py-0.5">{e.subfuncao}</span>}
+                  <span className="ml-auto text-right">
                     <span className="text-base font-bold text-verde-600">{formatMoney(e.valor_pago)}</span>
                     <span className="text-[10px] text-gray-400 font-normal"> pago</span>
                   </span>
                 </div>
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm mb-1">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm mb-2">
                   {e.politician?.slug
                     ? <Link href={`/politico/${e.politician.slug}`} className="font-semibold text-gray-900 hover:text-verde-600 inline-flex items-center gap-1.5">
                         <Avatar name={e.autor_nome ?? ''} photoUrl={e.politician.photo_url} size={26} />
@@ -81,15 +83,23 @@ export default async function EmendasPage({ searchParams }: PageProps) {
                       </span>}
                   <span className="text-gray-300">→</span>
                   {e.municipality?.slug && e.municipality.state?.slug
-                    ? <Link href={`/${e.municipality.state.slug}/${e.municipality.slug}`} className="text-gray-600 hover:text-verde-600">{e.municipality.name}{e.uf ? `-${e.uf}` : ''}</Link>
+                    ? <Link href={`/${e.municipality.state.slug}/${e.municipality.slug}`} className="text-gray-600 hover:text-verde-600 font-medium">{e.municipality.name}-{e.uf}</Link>
                     : <span className="text-gray-500">{e.localidade_raw ?? 'destino não informado'}</span>}
+                  {tipoDesc && <span className="text-[11px] text-gray-400 basis-full sm:basis-auto">· {tipoDesc}</span>}
                 </div>
-                {(e.subfuncao || empenhadoDif) && (
-                  <div className="flex flex-wrap items-center gap-x-2 text-[11px] text-gray-400">
-                    {e.subfuncao && <span>{e.subfuncao}</span>}
-                    {empenhadoDif && <span>· empenhado {formatMoney(e.valor_empenhado)}</span>}
+                <div>
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-0.5 text-[11px] mb-1">
+                    <span className="text-gray-400">Empenhado <b className="text-gray-700 font-semibold">{formatMoney(e.valor_empenhado)}</b></span>
+                    <span className="text-gray-400">Liquidado <b className="text-gray-700 font-semibold">{formatMoney(e.valor_liquidado)}</b></span>
+                    <span className="text-gray-400">Pago <b className="text-verde-600 font-semibold">{formatMoney(e.valor_pago)}</b></span>
+                    {pct !== null && <span className="ml-auto text-gray-400 font-medium">{pct}% executado</span>}
                   </div>
-                )}
+                  {pct !== null && (
+                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full rounded-full" style={{ width: `${pct}%`, background: pct >= 100 ? '#009C3B' : '#00A859' }} />
+                    </div>
+                  )}
+                </div>
               </div>
             )
           })}
