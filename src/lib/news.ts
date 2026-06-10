@@ -28,6 +28,14 @@ export const NEWS_CATEGORIES: { id: string; label: string; sphere: 'federal' | '
 ]
 export const categorySphere = (id: string | null): 'federal' | 'estadual' | 'municipal' | null =>
   NEWS_CATEGORIES.find(c => c.id === id)?.sphere ?? null
+export const categoryLabel = (id: string | null): string =>
+  NEWS_CATEGORIES.find(c => c.id === id)?.label ?? 'Notícia'
+
+const SPHERE_BG: Record<string, string> = { federal: 'bg-esfera-federal', estadual: 'bg-esfera-estadual', municipal: 'bg-amarelo-600' }
+const SPHERE_TEXT: Record<string, string> = { federal: 'text-esfera-federal', estadual: 'text-esfera-estadual', municipal: 'text-amarelo-600' }
+/** classe de cor (token) por esfera, para pill (bg) e kicker (text). */
+export const sphereBg = (s: string | null): string => SPHERE_BG[s ?? ''] ?? 'bg-gray-500'
+export const sphereText = (s: string | null): string => SPHERE_TEXT[s ?? ''] ?? 'text-gray-500'
 
 export function timeAgo(iso: string | null): string {
   if (!iso) return ''

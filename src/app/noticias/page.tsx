@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
-import { listNews, featuredNews } from '@/lib/news'
+import { listNews, featuredNews, categoryLabel } from '@/lib/news'
 import { NewsCard } from '@/components/news/NewsCard'
 import { CategoryBar } from '@/components/news/CategoryBar'
 
@@ -27,7 +27,8 @@ export default async function NoticiasPage({ searchParams }: PageProps) {
         <div className="mb-6"><CategoryBar active={cat} /></div>
 
         {featured.length > 0 && (
-          <section className="mb-8">
+          <section className="mb-9">
+            <h2 className="text-xl font-bold text-gray-900 mb-3 tracking-tight">Em destaque</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {featured.map(n => <NewsCard key={n.id} n={n} variant="destaque" />)}
             </div>
@@ -35,9 +36,10 @@ export default async function NoticiasPage({ searchParams }: PageProps) {
         )}
 
         <section>
+          <h2 className="text-xl font-bold text-gray-900 mb-1 tracking-tight">{cat === 'todos' ? 'Recomendados' : categoryLabel(cat)}</h2>
           {items.length === 0
-            ? <p className="text-sm text-gray-400">Sem notícias nesta categoria ainda.</p>
-            : items.map(n => <NewsCard key={n.id} n={n} variant="feed" />)}
+            ? <p className="text-sm text-gray-400 mt-3">Sem notícias nesta categoria ainda.</p>
+            : <div>{items.map(n => <NewsCard key={n.id} n={n} variant="feed" />)}</div>}
         </section>
       </div>
     </main>

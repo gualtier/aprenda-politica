@@ -5,6 +5,7 @@ import { newsBySlug, timeAgo } from '@/lib/news'
 import { NewsCover } from '@/components/news/NewsCover'
 import { SourceTag } from '@/components/news/SourceTag'
 import { MentionChip } from '@/components/news/MentionChip'
+import { CatPill } from '@/components/news/CatPill'
 
 interface PageProps { params: { slug: string } }
 
@@ -32,12 +33,20 @@ export default async function NoticiaPage({ params }: PageProps) {
     <main className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-8">
         <Breadcrumb items={[{ label: 'Brasil', href: '/' }, { label: 'Notícias', href: '/noticias' }, { label: n.title.slice(0, 40) + '…' }]} />
-        <NewsCover motif={n.cover_motif} sphere={n.sphere} imageUrl={n.image_url} className="h-52 w-full rounded-2xl mt-4 mb-5" />
-        <div className="flex items-center gap-2 mb-2">
-          <SourceTag name={n.source_name} domain={n.source_domain} />
-          <span className="text-xs text-gray-400">· {timeAgo(n.published_at)}</span>
+        {/* hero — capa full-bleed com título sobreposto */}
+        <div className="relative rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[2/1] mt-4 mb-6">
+          <NewsCover motif={n.cover_motif} sphere={n.sphere} imageUrl={n.image_url} className="absolute inset-0 w-full h-full" />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,12,20,0.86) 0%, rgba(8,12,20,0.30) 45%, rgba(8,12,20,0.05) 75%)' }} />
+          <CatPill category={n.category} className="absolute top-4 left-4" />
+          <div className="absolute left-5 right-5 bottom-5">
+            <div className="flex items-center gap-2 mb-2">
+              <SourceTag name={n.source_name} domain={n.source_domain} light />
+              <span className="text-xs text-white/70">· {timeAgo(n.published_at)}</span>
+            </div>
+            <h1 className="text-white text-2xl sm:text-3xl font-bold leading-tight">{n.title}</h1>
+          </div>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight mb-4">{n.title}</h1>
+
         {n.summary && <p className="text-lg text-gray-700 leading-relaxed mb-6">{n.summary}</p>}
 
         <a href={n.source_url} target="_blank" rel="noopener noreferrer"
@@ -48,8 +57,9 @@ export default async function NoticiaPage({ params }: PageProps) {
 
         {mentioned.length > 0 && (
           <section className="border-t border-gray-100 pt-6">
-            <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-3">Mencionados nesta notícia</h2>
-            <div className="flex flex-wrap gap-2">
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">Mencionados nesta notícia</h2>
+            <p className="text-sm text-gray-400 mb-4">Objetos do sistema citados — clique para abrir o perfil.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {mentioned.map((e, i) => <MentionChip key={i} e={e} />)}
             </div>
           </section>
