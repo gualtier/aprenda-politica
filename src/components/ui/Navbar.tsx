@@ -70,13 +70,27 @@ const APRENDA_GROUPS: Group[] = [
   },
 ]
 
+const EXPLORAR_GROUPS: Group[] = [
+  {
+    href: '/politicos', label: 'Políticos',
+    children: [
+      { href: '/partidos', label: 'Partidos' },
+      { href: '/estados', label: 'Estados e municípios' },
+    ],
+  },
+  {
+    href: '/proposicoes', label: 'Proposições',
+    children: [
+      { href: '/temas', label: 'Proposições por tema' },
+      { href: '/emendas', label: 'Emendas parlamentares' },
+    ],
+  },
+]
+
 const links: NavLink[] = [
   { href: '/', label: 'Início' },
   { href: '/aprenda', label: 'Aprenda Política', groups: APRENDA_GROUPS },
-  { href: '/estados', label: 'Estados' },
-  { href: '/partidos', label: 'Partidos' },
-  { href: '/politicos', label: 'Políticos' },
-  { href: '/proposicoes', label: 'Proposições' },
+  { href: '/politicos', label: 'Explorar', groups: EXPLORAR_GROUPS },
 ]
 
 function isActive(pathname: string, href: string) {
@@ -94,12 +108,12 @@ function ChevronDown({ className }: { className?: string }) {
 export function Navbar() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)          // off-canvas mobile
-  const [menuOpen, setMenuOpen] = useState(false)  // mega-menu desktop
+  const [openMenu, setOpenMenu] = useState<string | null>(null)  // mega-menu desktop (href do aberto)
   const [expanded, setExpanded] = useState<string | null>(null) // acordeão mobile
 
   useEffect(() => {
     setOpen(false)
-    setMenuOpen(false)
+    setOpenMenu(null)
     setExpanded(null)
   }, [pathname])
 
@@ -133,7 +147,9 @@ export function Navbar() {
           {/* Nav inline — desktop */}
           <nav className="hidden sm:flex items-center gap-1">
             {links.map(item => {
-              const active = isActive(pathname, item.href)
+              const active = item.groups
+              ? item.groups.some(g => pathname.startsWith(g.href) || g.children.some(c => pathname.startsWith(c.href)))
+              : isActive(pathname, item.href)
               if (!item.groups) {
                 return (
                   <Link key={item.href} href={item.href} className={`${linkBase} ${active ? 'bg-verde-500/10 text-verde-500' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}>
@@ -143,19 +159,19 @@ export function Navbar() {
               }
               // Mega-menu (Aprenda Política)
               return (
-                <div key={item.href} className="relative" onMouseEnter={() => setMenuOpen(true)} onMouseLeave={() => setMenuOpen(false)}>
+                <div key={item.href} className="relative" onMouseEnter={() => setOpenMenu(item.href)} onMouseLeave={() => setOpenMenu(null)}>
                   <Link
                     href={item.href}
                     aria-haspopup="true"
-                    aria-expanded={menuOpen}
+                    aria-expanded={openMenu === item.href}
                     className={`${linkBase} inline-flex items-center gap-1 ${active ? 'bg-verde-500/10 text-verde-500' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}
                   >
                     {item.label}
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${menuOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform ${openMenu === item.href ? 'rotate-180' : ''}`} />
                   </Link>
 
-                  <div className={`absolute top-full left-0 pt-2 ${menuOpen ? 'block' : 'hidden'}`}>
-                    <div className="columns-3 gap-7 bg-white border border-gray-100 rounded-2xl shadow-lg p-5 w-[620px]">
+                  <div className={`absolute top-full left-0 pt-2 ${openMenu === item.href ? 'block' : 'hidden'}`}>
+                    <div className={`gap-7 bg-white border border-gray-100 rounded-2xl shadow-lg p-5 ${item.groups.length >= 3 ? 'columns-3 w-[620px]' : 'columns-2 w-[460px]'}`}>
                       {item.groups.map(g => (
                         <div key={g.href} className="break-inside-avoid mb-5">
                           <Link href={g.href} className={`block text-sm font-bold mb-1.5 transition-colors ${pathname.startsWith(g.href) ? 'text-verde-500' : 'text-gray-900 hover:text-verde-500'}`}>
@@ -227,7 +243,9 @@ export function Navbar() {
 
         <nav className="flex flex-col p-2 gap-0.5 overflow-y-auto">
           {links.map(item => {
-            const active = isActive(pathname, item.href)
+            const active = item.groups
+              ? item.groups.some(g => pathname.startsWith(g.href) || g.children.some(c => pathname.startsWith(c.href)))
+              : isActive(pathname, item.href)
             const itemCls = `px-3 py-2.5 rounded-lg text-[15px] font-medium transition-colors ${active ? 'bg-verde-500/10 text-verde-500' : 'text-gray-700 hover:bg-gray-50'}`
             if (!item.groups) {
               return (
