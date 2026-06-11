@@ -63,9 +63,10 @@ function BrazilGeoJSON({ onEachFeature, style }: any) {
   const [geoData, setGeoData] = useState<any>(null)
 
   useEffect(() => {
-    fetch('https://servicodados.ibge.gov.br/api/v3/malhas/paises/BR?formato=application/vnd.geo+json&qualidade=minima&divisao=UF')
+    fetch('/geo/br-states.json')
       .then((r) => r.json())
       .then(setGeoData)
+      .catch(() => {})
   }, [])
 
   if (!geoData) return null
