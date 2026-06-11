@@ -141,6 +141,19 @@ const TEMAS_GROUPS: Group[] = [{
   }),
 }]
 
+const NOTICIAS_GROUPS: Group[] = [{
+  href: '/noticias', label: 'Por categoria',
+  children: [
+    { href: '/noticias?cat=camara', label: 'Câmara' },
+    { href: '/noticias?cat=senado', label: 'Senado' },
+    { href: '/noticias?cat=governo', label: 'Governo' },
+    { href: '/noticias?cat=eleicoes', label: 'Eleições' },
+    { href: '/noticias?cat=economia', label: 'Economia' },
+    { href: '/noticias?cat=cidades', label: 'Cidades' },
+    { href: '/noticias?cat=justica', label: 'Justiça' },
+  ],
+}]
+
 const links: NavLink[] = [
   { href: '/', label: 'Início' },
   { href: '/aprenda', label: 'Aprenda Política', groups: APRENDA_GROUPS },
@@ -149,7 +162,7 @@ const links: NavLink[] = [
   { href: '/estados', label: 'Estados', groups: ESTADOS_GROUPS },
   { href: '/proposicoes', label: 'Proposições', groups: PROPOSICOES_GROUPS },
   { href: '/temas', label: 'Temas', groups: TEMAS_GROUPS },
-  { href: '/noticias', label: 'Notícias' },
+  { href: '/noticias', label: 'Notícias', groups: NOTICIAS_GROUPS },
 ]
 
 function isActive(pathname: string, href: string) {
