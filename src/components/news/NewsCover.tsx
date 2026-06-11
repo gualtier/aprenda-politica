@@ -11,7 +11,7 @@ export function NewsCover({ motif, sphere, imageUrl, className = '' }: { motif: 
   if (imageUrl) {
     return (
       <div className={`relative overflow-hidden bg-gray-100 ${className}`}>
-        <img src={imageUrl} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+        <img src={imageUrl} alt="" referrerPolicy="no-referrer" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
       </div>
     )
   }
