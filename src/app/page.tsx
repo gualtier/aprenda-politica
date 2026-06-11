@@ -7,6 +7,8 @@ import {
   IconScale, IconBank, IconChair, IconScroll,
   IconArrow, IconSpark,
 } from '@/components/ui/icons'
+import { featuredNews } from '@/lib/news'
+import { NewsCard } from '@/components/news/NewsCard'
 
 const WRAP = 'max-w-6xl mx-auto px-6 sm:px-10'
 
@@ -37,11 +39,28 @@ const PASSOS = [
 const FEATURED = ['ES', 'SP', 'RJ', 'MG', 'BA', 'CE', 'PE', 'PR', 'RS', 'DF']
   .map(abbr => STATES.find(s => s.abbr === abbr)!)
 
+// Termos do glossário em destaque na home
+const GLOSSARIO_DESTAQUE = [
+  { slug: 'pec', termo: 'PEC' },
+  { slug: 'medida-provisoria', termo: 'Medida Provisória' },
+  { slug: 'cpi', termo: 'CPI' },
+  { slug: 'quorum', termo: 'Quórum' },
+  { slug: 'emenda-parlamentar', termo: 'Emenda parlamentar' },
+  { slug: 'sancao', termo: 'Sanção' },
+  { slug: 'veto', termo: 'Veto' },
+  { slug: 'coeficiente-eleitoral', termo: 'Coeficiente eleitoral' },
+  { slug: 'foro-privilegiado', termo: 'Foro privilegiado' },
+  { slug: 'stf', termo: 'STF' },
+  { slug: 'plebiscito', termo: 'Plebiscito' },
+  { slug: 'lai', termo: 'LAI' },
+]
+
 function Eyebrow({ children, className = 'text-gray-400' }: { children: React.ReactNode; className?: string }) {
   return <span className={`text-xs font-semibold uppercase tracking-[0.12em] ${className}`}>{children}</span>
 }
 
-export default function HomePage() {
+export default async function HomePage() {
+  const noticias = await featuredNews(3)
   return (
     <main className="bg-white text-gray-900">
       {/* ---------- Hero ---------- */}
@@ -211,6 +230,47 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ---------- Notícias ---------- */}
+      {noticias.length > 0 && (
+        <section className={`${WRAP} pb-16`}>
+          <div className="flex items-baseline justify-between mb-[18px] gap-4">
+            <div>
+              <Eyebrow>Na imprensa</Eyebrow>
+              <h2 className="text-2xl font-bold text-gray-900 mt-2">Notícias que cruzam com o portal</h2>
+            </div>
+            <Link href="/noticias" className="text-sm font-medium text-verde-600 inline-flex items-center gap-1 whitespace-nowrap hover:underline">
+              Ver todas <IconArrow className="w-[15px] h-[15px]" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {noticias.map(n => <NewsCard key={n.id} n={n} variant="destaque" />)}
+          </div>
+        </section>
+      )}
+
+      {/* ---------- Glossário ---------- */}
+      <section className={`${WRAP} pb-20`}>
+        <div className="rounded-2xl border border-gray-200 bg-gray-50 p-7 sm:p-9">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-5">
+            <div>
+              <Eyebrow>Educação política</Eyebrow>
+              <h2 className="text-2xl font-bold text-gray-900 mt-2">Glossário da política</h2>
+              <p className="text-[15px] text-gray-500 mt-1.5 leading-[1.6] max-w-[440px]">PEC, quórum, emenda, sanção… os termos da política explicados em linguagem simples, sem juridiquês.</p>
+            </div>
+            <Link href="/glossario" className="text-sm font-medium text-verde-600 inline-flex items-center gap-1 whitespace-nowrap hover:underline shrink-0 mt-1">
+              Ver o glossário <IconArrow className="w-[15px] h-[15px]" />
+            </Link>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {GLOSSARIO_DESTAQUE.map(t => (
+              <Link key={t.slug} href={`/glossario/${t.slug}`} className="text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-full px-3.5 py-1.5 hover:border-verde-500 hover:text-verde-600 transition-colors">{t.termo}</Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
     </main>
   )
 }
+
+export const revalidate = 900
