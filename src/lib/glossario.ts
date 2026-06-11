@@ -139,7 +139,7 @@ export const TERMOS: Termo[] = [
     definicaoCurta: 'Rejeição total ou parcial, pelo presidente da República, de um projeto aprovado pelo Congresso — por inconstitucionalidade ou contrariedade ao interesse público.',
     definicao: [
       'O presidente pode vetar um projeto por dois motivos: inconstitucionalidade (o texto viola a Constituição) ou contrariedade ao interesse público (razão política ou administrativa). O veto pode ser total ou parcial.',
-      'O veto é informado ao Congresso em 48 horas com justificativa. Os parlamentares têm prazo para apreciá-lo. Se o Congresso votar pela derrubada do veto — com maioria absoluta em sessão conjunta —, o projeto é promulgado mesmo assim.',
+      'O veto é informado ao Congresso em 48 horas com justificativa. Os parlamentares têm prazo para apreciá-lo. Se o Congresso votar pela derrubada do veto — com maioria absoluta dos membros de cada Casa, em sessão conjunta —, o projeto é promulgado mesmo assim.',
       'Enquanto o veto não é apreciado pelo Congresso, ele fica pendente na pauta. Há casos históricos de vetos que aguardaram anos pela votação.',
     ],
     exemplo: 'O presidente vetou um artigo de projeto de lei sobre precatórios alegando impacto fiscal não previsto. O Congresso incluiu a votação desse veto em sua pauta meses depois para decidir se derrubava ou mantinha a decisão.',
@@ -151,7 +151,7 @@ export const TERMOS: Termo[] = [
   {
     slug: 'derrubada-de-veto', termo: 'Derrubada de veto',
     categoria: 'processo-legislativo',
-    definicaoCurta: 'Votação do Congresso Nacional que rejeita o veto presidencial e promulga a parte vetada — exige maioria absoluta em sessão conjunta.',
+    definicaoCurta: 'Votação do Congresso Nacional que rejeita o veto presidencial e promulga a parte vetada — exige maioria absoluta dos membros de cada Casa.',
     definicao: [
       'Quando o presidente veta um projeto, o Congresso pode discordar e derrubar o veto. A votação ocorre em sessão conjunta (deputados e senadores votando juntos) e exige maioria absoluta dos membros de cada Casa.',
       'Se o veto for derrubado, a parte vetada é promulgada pelo próprio Congresso, passando a integrar a lei como se o veto nunca tivesse existido.',
@@ -169,7 +169,7 @@ export const TERMOS: Termo[] = [
     definicaoCurta: 'Número mínimo de parlamentares necessário para que uma votação seja válida — varia conforme o tipo de matéria.',
     definicao: [
       'Quórum é o número mínimo de membros que precisa estar presente (ou votar a favor) para que uma decisão seja válida. Na Câmara, há diferentes tipos: maioria simples (mais votos a favor do que contra, entre os presentes), maioria absoluta (257 deputados — metade mais um do total) e maioria qualificada.',
-      'Para PEC, exige-se 3/5 dos membros: 308 na Câmara e 49 no Senado. Para lei complementar, maioria absoluta. Já para matérias rotineiras, basta maioria simples dos presentes, desde que haja pelo menos maioria absoluta na sessão.',
+      'Para PEC, exige-se 3/5 dos membros: 308 na Câmara e 49 no Senado. Para lei complementar, maioria absoluta. Já para matérias rotineiras, basta a maioria simples dos votos entre os presentes — desde que a sessão tenha sido aberta com o quórum mínimo de presença (maioria absoluta dos membros).',
       'O não atingimento do quórum pode travar votações importantes e é frequentemente usado como estratégia de obstrução parlamentar.',
     ],
     exemplo: 'Uma PEC sobre reforma tributária precisou ser reagendada várias vezes na Câmara porque os líderes não conseguiam reunir os 308 votos necessários (3/5 dos 513 deputados) para sua aprovação.',
@@ -214,7 +214,7 @@ export const TERMOS: Termo[] = [
     definicaoCurta: 'Comissão criada para investigar fatos determinados de interesse público — tem poderes de investigação próprios de autoridade judicial e prazo para concluir trabalhos.',
     definicao: [
       'A CPI é uma ferramenta de fiscalização do Congresso sobre o Executivo e a sociedade. Para ser criada, basta a assinatura de um terço dos membros da Casa (171 deputados ou 27 senadores). Ela deve ter objeto determinado (não pode ser genérica) e prazo definido.',
-      'Suas competências incluem intimar testemunhas, determinar quebras de sigilo bancário e fiscal, requisitar documentos e realizar buscas e apreensões — todos poderes equiparados aos de um juiz de instrução. Mas não pode prender nem condenar.',
+      'Suas competências incluem intimar testemunhas, determinar quebras de sigilo bancário e fiscal, requisitar documentos e determinar buscas e apreensões, cumpridas com apoio do Judiciário e da polícia — poderes equiparados aos de um juiz de instrução. Mas não pode prender nem condenar.',
       'Ao final, a CPI elabora um relatório com suas conclusões e eventuais indicações ao Ministério Público. As investigações e indiciamentos ficam a cargo das autoridades competentes.',
     ],
     exemplo: 'A CPI da Covid, instalada em 2021 no Senado, ouviu dezenas de autoridades e empresários ao longo de meses, investigando a gestão da pandemia e a compra de vacinas. Ao final, seu relatório foi encaminhado ao STF e ao Ministério Público.',
@@ -539,7 +539,7 @@ export const TERMOS: Termo[] = [
     definicao: [
       'O Fundo Especial de Financiamento de Campanha (FEFC), popularmente chamado de fundo eleitoral, é dinheiro do Tesouro Nacional destinado às campanhas. Foi criado após a proibição do financiamento por empresas, que ocorreu por decisão do STF em 2015.',
       'A distribuição entre os partidos segue critérios definidos na legislação eleitoral: parte vai igualmente para todos os partidos com registro, e outra parte é proporcional à representação na Câmara e ao desempenho nas últimas eleições.',
-      'O valor total do fundo eleitoral é fixado pelo Congresso para cada eleição. Nas eleições gerais de 2022, foram destinados cerca de R$ 4,96 bilhões.',
+      'O valor total do fundo eleitoral é fixado pelo Congresso para cada eleição e tem ficado na casa dos bilhões de reais — nas eleições gerais de 2022, por exemplo, foram cerca de R$ 4,96 bilhões.',
     ],
     exemplo: 'Um partido com grande bancada na Câmara recebeu fatia maior do fundo eleitoral, podendo investir mais em horário de TV, materiais e estrutura de campanha do que um partido pequeno que recebeu apenas o valor mínimo.',
     relacionados: ['fundo-partidario', 'federacao-partidaria', 'inelegibilidade'],
