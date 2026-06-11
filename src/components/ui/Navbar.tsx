@@ -69,6 +69,18 @@ const APRENDA_GROUPS: Group[] = [
       { href: '/aprenda/emendas', label: 'Emendas Parlamentares' },
     ],
   },
+  {
+    href: '/glossario', label: 'Glossário',
+    children: [
+      { href: '/glossario/pec', label: 'PEC' },
+      { href: '/glossario/medida-provisoria', label: 'Medida Provisória' },
+      { href: '/glossario/cpi', label: 'CPI' },
+      { href: '/glossario/quorum', label: 'Quórum' },
+      { href: '/glossario/emenda-parlamentar', label: 'Emenda Parlamentar' },
+      { href: '/glossario/sancao', label: 'Sanção' },
+      { href: '/glossario/coeficiente-eleitoral', label: 'Coeficiente Eleitoral' },
+    ],
+  },
 ]
 
 const POLITICOS_GROUPS: Group[] = [{

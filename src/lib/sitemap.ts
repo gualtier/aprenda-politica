@@ -1,5 +1,6 @@
 import { SITE_URL } from './site'
 import { TOPICS } from './topics'
+import { TERMOS } from '@/lib/glossario'
 
 export const POL_CHUNK = 20_000 // teto do protocolo é 50k URLs por arquivo
 export const PROP_CHUNK = 20_000
@@ -45,6 +46,8 @@ const STATIC_PATHS = [
   '/aprenda/impostos/ipva', '/aprenda/impostos/itcmd', '/aprenda/impostos/iptu', '/aprenda/impostos/iss', '/aprenda/impostos/itbi',
   '/aprenda/emendas',
   ...TOPICS.map(t => `/proposicoes/tema/${t.slug}`),
+  '/glossario',
+  ...TERMOS.map(t => `/glossario/${t.slug}`),
 ]
 
 // Supabase limita 1000 linhas/request — paginamos para cobrir um intervalo maior
