@@ -5,6 +5,7 @@ import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { emendasByState, formatMoney } from '@/lib/emendas'
 import { ExecBar } from '@/components/ui/ExecBar'
+import { Fonte } from '@/components/ui/Fonte'
 
 interface PageProps { params: { estado: string } }
 
@@ -227,6 +228,8 @@ export default async function EstadoPage({ params }: PageProps) {
             <Link href={`/emendas?uf=${state.abbr}`} className="inline-block mt-4 text-sm text-verde-600 font-medium hover:underline">Ver todas as emendas de {state.abbr} →</Link>
           </section>
         )}
+
+        <Fonte variant="bloco" className="mb-8" sources={[{ fonte: 'ibge' }, { fonte: 'tse' }]} />
       </div>
     </main>
   )

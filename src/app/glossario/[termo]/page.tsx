@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { TERMOS, getTermo, getCategoria, afins, vizinhos } from '@/lib/glossario'
+import { Fonte } from '@/components/ui/Fonte'
 import { getTopic } from '@/lib/topics'
 
 interface PageProps { params: { termo: string } }
@@ -95,6 +96,8 @@ export default function TermoPage({ params }: PageProps) {
             </div>
           </section>
         )}
+
+        <Fonte variant="bloco" className="mb-8" sources={[{ fonte: 'editorial' }]} />
 
         <div className="flex items-center justify-between text-sm border-t border-gray-100 pt-5">
           {prev ? <Link href={`/glossario/${prev.slug}`} className="text-gray-500 hover:text-gray-900">← {prev.termo}</Link> : <span />}

@@ -6,6 +6,7 @@ import { emendasByMunicipality, formatMoney } from '@/lib/emendas'
 import { Organogram } from '@/components/organogram/Organogram'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { ExecBar } from '@/components/ui/ExecBar'
+import { Fonte } from '@/components/ui/Fonte'
 
 interface PageProps {
   params: { estado: string; municipio: string }
@@ -158,6 +159,7 @@ export default async function MunicipioPage({ params }: PageProps) {
             </div>
           </section>
         )}
+        <Fonte variant="bloco" className="mt-8 mb-4" sources={[{ fonte: 'ibge' }, { fonte: 'tse' }]} />
       </div>
       <script
         type="application/ld+json"

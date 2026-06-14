@@ -42,20 +42,23 @@ export default function LeafletMapClient({ onStateClick }: BrazilMapClientProps)
   }
 
   return (
-    <MapContainer
-      center={[-14.235, -51.925]}
-      zoom={4}
-      scrollWheelZoom={false}
-      style={{ height: '400px', width: '100%', borderRadius: '12px' }}
-      className="z-0"
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        opacity={0.3}
-      />
-      <BrazilGeoJSON onEachFeature={onEachFeature} style={() => stateStyle} />
-    </MapContainer>
+    <>
+      <MapContainer
+        center={[-14.235, -51.925]}
+        zoom={4}
+        scrollWheelZoom={false}
+        style={{ height: '400px', width: '100%', borderRadius: '12px' }}
+        className="z-0"
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          opacity={0.3}
+        />
+        <BrazilGeoJSON onEachFeature={onEachFeature} style={() => stateStyle} />
+      </MapContainer>
+      <p className="text-[11px] text-gray-400 mt-2">Malha: IBGE · Mapa base: OpenStreetMap</p>
+    </>
   )
 }
 

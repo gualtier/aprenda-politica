@@ -7,6 +7,7 @@ import { Avatar } from '@/components/ui/Avatar'
 import { SpectrumBar } from '@/components/ui/SpectrumBar'
 import { propositionsByParty, formatPropositionLabel } from '@/lib/propositions'
 import { formatMoney } from '@/lib/emendas'
+import { Fonte } from '@/components/ui/Fonte'
 
 interface PageProps { params: { slug: string } }
 
@@ -238,6 +239,8 @@ export default async function PartidoPage({ params }: PageProps) {
             <div className="text-xs text-gray-500">destinados em emendas por parlamentares do partido</div>
           </section>
         )}
+
+        <Fonte variant="bloco" className="mb-8" sources={[{ fonte: 'tse' }, { fonte: 'editorial' }]} />
       </div>
     </main>
   )
