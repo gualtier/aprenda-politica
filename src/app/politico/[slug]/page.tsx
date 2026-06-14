@@ -11,6 +11,8 @@ import { emendasByPolitician, formatMoney } from '@/lib/emendas'
 import { newsByPolitician } from '@/lib/news'
 import { NewsCard } from '@/components/news/NewsCard'
 import { ExecBar } from '@/components/ui/ExecBar'
+import { Fonte } from '@/components/ui/Fonte'
+import { getFonte, type FonteId } from '@/lib/fontes'
 import type { Politician } from '@/types'
 
 interface PageProps { params: { slug: string } }
@@ -120,6 +122,8 @@ export default async function PoliticoPage({ params }: PageProps) {
   const positionColleagues = (positionColleaguesResult.data ?? []) as unknown as ColleagueRow[]
 
   const extLink = externalLink(politician.source, politician.external_id)
+  const fonteId: FonteId = politician.source === 'camara' ? 'camara'
+    : politician.source === 'senado' ? 'senado' : 'tse'
   const positionLevel = politician.position?.level === 'federal' ? 'Federal'
     : politician.position?.level === 'state' ? 'Estadual' : 'Municipal'
 
@@ -402,6 +406,13 @@ export default async function PoliticoPage({ params }: PageProps) {
             </div>
           </section>
         )}
+
+        <Fonte
+          variant="bloco"
+          className="mb-8"
+          sources={[{ fonte: fonteId, href: getFonte(fonteId).hrefFor?.(politician.external_id) ?? null }]}
+          updatedAt={politician.updated_at}
+        />
 
         {/* Position colleagues */}
         {positionColleagues.length > 0 && (

@@ -67,6 +67,7 @@ export interface Politician {
   marital_status?: string | null
   birth_state?: string | null
   email?: string | null
+  updated_at?: string | null
   party?: Party
   position?: Position
   state?: State
