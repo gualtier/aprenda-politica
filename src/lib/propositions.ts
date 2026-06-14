@@ -2,7 +2,7 @@ import { createServerSupabaseClient } from '@/lib/supabase/server'
 import type { Proposition } from '@/types'
 
 const SELECT =
-  'id, source, external_id, type, number, year, title, summary, presented_on, status, themes, url, party_ids, slug'
+  'id, source, external_id, type, number, year, title, summary, presented_on, status, themes, url, updated_at, party_ids, slug'
 
 export function formatPropositionLabel(p: { type: string; number: number | null; year: number | null }): string {
   if (p.number && p.year) return `${p.type} ${p.number}/${p.year}`

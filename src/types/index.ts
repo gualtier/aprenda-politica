@@ -102,6 +102,7 @@ export interface Proposition {
   status: string | null
   themes: string[] | null
   url: string | null
+  updated_at?: string | null
   party_ids: number[] | null
   slug: string
   authors?: PropositionAuthor[]

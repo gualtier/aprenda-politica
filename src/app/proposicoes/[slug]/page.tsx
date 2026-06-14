@@ -9,6 +9,8 @@ import {
 import { SITE_URL } from '@/lib/site'
 import { classifyTopics, getTopic } from '@/lib/topics'
 import type { PropositionAuthor } from '@/types'
+import { Fonte } from '@/components/ui/Fonte'
+import type { FonteId } from '@/lib/fontes'
 
 export const revalidate = 3600
 
@@ -215,6 +217,13 @@ export default async function PropositionPage({ params }: { params: { slug: stri
             </div>
           </section>
         )}
+
+        <Fonte
+          variant="bloco"
+          className="mb-8"
+          sources={[{ fonte: (p.source === 'senado' ? 'senado' : 'camara') as FonteId, href: p.url ?? null }]}
+          updatedAt={p.updated_at}
+        />
 
         {/* Ações */}
         <div className="flex flex-wrap items-center gap-4 pt-2 border-t border-gray-100">
