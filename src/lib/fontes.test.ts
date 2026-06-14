@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { FONTES, getFonte, fonteLogo, type FonteId } from './fontes'
+import { FONTES, getFonte, fonteLogo } from './fontes'
 
 describe('fontes', () => {
   it('toda fonte tem nome e licenca', () => {
