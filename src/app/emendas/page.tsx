@@ -4,6 +4,7 @@ import { listEmendas, emendaFacets, formatMoney, tipoGrupoLabel, tipoGrupoColor,
 import { getTopic } from '@/lib/topics'
 import { STATES } from '@/lib/states'
 import { Avatar } from '@/components/ui/Avatar'
+import { Fonte } from '@/components/ui/Fonte'
 
 export const metadata: Metadata = {
   title: 'Emendas Parlamentares — quem destinou e para onde — Aprenda Política',
@@ -144,6 +145,8 @@ export default async function EmendasPage({ searchParams }: PageProps) {
             {page < pages ? <Link href={`/emendas?${new URLSearchParams({ ...searchParams, pagina: String(page + 1) } as Record<string, string>)}`} className="text-gray-600 hover:text-gray-900">Próxima →</Link> : <span />}
           </div>
         )}
+
+        <Fonte variant="bloco" className="mt-8" sources={[{ fonte: 'transparencia' }]} />
       </div>
     </main>
   )
